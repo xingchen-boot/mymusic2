@@ -51,6 +51,15 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***currentMusic?.id***REMOVED***===***REMOVED***music.id***REMOVED***&&***REMOVED***isPlaying***REMOVED***?***REMOVED***'⏸️'***REMOVED***:***REMOVED***'▶️'***REMOVED***}}
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="success"***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***circle
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click.stop="handleDownloadMusic(music)"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***style="margin-left:***REMOVED***8px;"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***⬇️
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
@@ -92,6 +101,23 @@ const***REMOVED***isLoadingMore***REMOVED***=***REMOVED***computed(()***REMOVED*
 //***REMOVED***方法
 const***REMOVED***handlePlayMusic***REMOVED***=***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***musicStore.playMusic(music)
+}
+
+const***REMOVED***handleDownloadMusic***REMOVED***=***REMOVED***async***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***try***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***显示下载提示
+***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
+***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.info(`开始下载:***REMOVED***${music.song}***REMOVED***-***REMOVED***${music.singer}`)
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.downloadMusic(music)
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***下载成功提示
+***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success(`下载完成:***REMOVED***${music.song}`)
+***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***console.error('下载音乐失败:',***REMOVED***error)
+***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
+***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error(`下载失败:***REMOVED***${error.message***REMOVED***||***REMOVED***'未知错误'}`)
+***REMOVED******REMOVED***}
 }
 
 const***REMOVED***performSearch***REMOVED***=***REMOVED***async***REMOVED***(keyword:***REMOVED***string)***REMOVED***=>***REMOVED***{
@@ -363,5 +389,14 @@ onUnmounted(()***REMOVED***=>***REMOVED***{
 
 :deep(.el-button--primary:hover)***REMOVED***{
 ***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#764ba2,***REMOVED***#667eea);
+}
+
+:deep(.el-button--success)***REMOVED***{
+***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#56ab2f,***REMOVED***#a8e6cf);
+***REMOVED******REMOVED***border:***REMOVED***none;
+}
+
+:deep(.el-button--success:hover)***REMOVED***{
+***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#a8e6cf,***REMOVED***#56ab2f);
 }
 </style>
