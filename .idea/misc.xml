@@ -1,0 +1,14 @@
+<?xml***REMOVED***version="1.0"***REMOVED***encoding="UTF-8"?>
+<project***REMOVED***version="4">
+***REMOVED******REMOVED***<component***REMOVED***name="ExternalStorageConfigurationManager"***REMOVED***enabled="true"***REMOVED***/>
+***REMOVED******REMOVED***<component***REMOVED***name="MavenProjectsManager">
+***REMOVED******REMOVED******REMOVED******REMOVED***<option***REMOVED***name="originalFiles">
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<list>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<option***REMOVED***value="$PROJECT_DIR$/springboot/pom.xml"***REMOVED***/>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</list>
+***REMOVED******REMOVED******REMOVED******REMOVED***</option>
+***REMOVED******REMOVED***</component>
+***REMOVED******REMOVED***<component***REMOVED***name="ProjectRootManager"***REMOVED***version="2"***REMOVED***languageLevel="JDK_21"***REMOVED***default="true"***REMOVED***project-jdk-name="21"***REMOVED***project-jdk-type="JavaSDK">
+***REMOVED******REMOVED******REMOVED******REMOVED***<output***REMOVED***url="file://$PROJECT_DIR$/out"***REMOVED***/>
+***REMOVED******REMOVED***</component>
+</project>
