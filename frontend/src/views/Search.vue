@@ -52,6 +52,16 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***currentMusic?.id***REMOVED***===***REMOVED***music.id***REMOVED***&&***REMOVED***isPlaying***REMOVED***?***REMOVED***'⏸️'***REMOVED***:***REMOVED***'▶️'***REMOVED***}}
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:type="isMusicInQueue(music.id)***REMOVED***?***REMOVED***'success'***REMOVED***:***REMOVED***'warning'"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***circle
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click.stop="handleAddToQueue(music)"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***style="margin-left:***REMOVED***8px;"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:title="isMusicInQueue(music.id)***REMOVED***?***REMOVED***'已在队列中，点击移到最前面'***REMOVED***:***REMOVED***'加入播放队列'"
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***isMusicInQueue(music.id)***REMOVED***?***REMOVED***'⬆️'***REMOVED***:***REMOVED***'➕'***REMOVED***}}
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="success"***REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***circle
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"
@@ -97,10 +107,29 @@ const***REMOVED***isLoading***REMOVED***=***REMOVED***computed(()***REMOVED***=>
 const***REMOVED***musicList***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.musicList)
 const***REMOVED***hasMoreData***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.hasMoreData)
 const***REMOVED***isLoadingMore***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isLoadingMore)
+const***REMOVED***playQueue***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.playQueue)
 
 //***REMOVED***方法
 const***REMOVED***handlePlayMusic***REMOVED***=***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***musicStore.playMusic(music)
+}
+
+const***REMOVED***isMusicInQueue***REMOVED***=***REMOVED***(musicId:***REMOVED***number)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***return***REMOVED***playQueue.value.some(item***REMOVED***=>***REMOVED***item.id***REMOVED***===***REMOVED***musicId)
+}
+
+const***REMOVED***handleAddToQueue***REMOVED***=***REMOVED***async***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***//***REMOVED***检查歌曲是否已经在队列中
+***REMOVED******REMOVED***const***REMOVED***isAlreadyInQueue***REMOVED***=***REMOVED***isMusicInQueue(music.id)
+***REMOVED******REMOVED***
+***REMOVED******REMOVED***musicStore.addToQueue(music)
+***REMOVED******REMOVED***
+***REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
+***REMOVED******REMOVED***if***REMOVED***(isAlreadyInQueue)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success(`已移到队列最前面:***REMOVED***${music.song}`)
+***REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success(`已添加到播放队列:***REMOVED***${music.song}`)
+***REMOVED******REMOVED***}
 }
 
 const***REMOVED***handleDownloadMusic***REMOVED***=***REMOVED***async***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
