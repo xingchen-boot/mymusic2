@@ -426,6 +426,35 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***playMusic(music)
 ***REMOVED******REMOVED***}
 
+***REMOVED******REMOVED***//***REMOVED***移动音乐到当前播放歌曲下面（用于搜索页面的🔄按钮）
+***REMOVED******REMOVED***const***REMOVED***moveToCurrentPosition***REMOVED***=***REMOVED***(music:***REMOVED***Music)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查是否已经在队列中
+***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***existingIndex***REMOVED***=***REMOVED***playQueue.value.findIndex(item***REMOVED***=>***REMOVED***item.id***REMOVED***===***REMOVED***music.id)
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(existingIndex***REMOVED***===***REMOVED***-1)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果不在队列中，直接添加到当前播放歌曲下面
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***addToQueue(music)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return
+***REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果已在队列中，先移除
+***REMOVED******REMOVED******REMOVED******REMOVED***playQueue.value.splice(existingIndex,***REMOVED***1)
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***找到当前播放歌曲的位置，插入到其下面
+***REMOVED******REMOVED******REMOVED******REMOVED***let***REMOVED***insertIndex***REMOVED***=***REMOVED***playQueue.value.length***REMOVED***//***REMOVED***默认插入到队尾
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(currentMusic.value)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***currentIndex***REMOVED***=***REMOVED***playQueue.value.findIndex(item***REMOVED***=>***REMOVED***item.id***REMOVED***===***REMOVED***currentMusic.value?.id)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(currentIndex***REMOVED***>***REMOVED***-1)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***insertIndex***REMOVED***=***REMOVED***currentIndex***REMOVED***+***REMOVED***1***REMOVED***//***REMOVED***插入到当前播放歌曲的下面
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***插入歌曲
+***REMOVED******REMOVED******REMOVED******REMOVED***playQueue.value.splice(insertIndex,***REMOVED***0,***REMOVED***music)
+***REMOVED******REMOVED******REMOVED******REMOVED***console.log('🔄***REMOVED***移动音乐到当前播放歌曲下面:',***REMOVED***music.song)
+***REMOVED******REMOVED***}
+
 
 ***REMOVED******REMOVED***return***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***状态
@@ -469,6 +498,7 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED***togglePlayQueue,
 ***REMOVED******REMOVED******REMOVED******REMOVED***reorderQueue,
 ***REMOVED******REMOVED******REMOVED******REMOVED***playMusicFromQueue,
+***REMOVED******REMOVED******REMOVED******REMOVED***moveToCurrentPosition,
 ***REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***下载方法
 ***REMOVED******REMOVED******REMOVED******REMOVED***downloadMusic

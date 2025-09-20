@@ -122,7 +122,8 @@ const***REMOVED***handleAddToQueue***REMOVED***=***REMOVED***async***REMOVED***(
 ***REMOVED******REMOVED***//***REMOVED***检查歌曲是否已经在队列中
 ***REMOVED******REMOVED***const***REMOVED***isAlreadyInQueue***REMOVED***=***REMOVED***isMusicInQueue(music.id)
 ***REMOVED******REMOVED***
-***REMOVED******REMOVED***musicStore.addToQueue(music)
+***REMOVED******REMOVED***//***REMOVED***使用新的方法，无论是否在队列中都会移动到当前播放歌曲下面
+***REMOVED******REMOVED***musicStore.moveToCurrentPosition(music)
 ***REMOVED******REMOVED***
 ***REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
 ***REMOVED******REMOVED***if***REMOVED***(isAlreadyInQueue)***REMOVED***{
