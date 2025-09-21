@@ -69,6 +69,8 @@ export***REMOVED***const***REMOVED***useUserStore***REMOVED***=***REMOVED***defi
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***登录成功后加载用户播放队列
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlayQueue()
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***登录成功后加载用户播放设置
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaySettings()
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'登录失败')
@@ -123,9 +125,10 @@ export***REMOVED***const***REMOVED***useUserStore***REMOVED***=***REMOVED***defi
 ***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(savedUserInfo)***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userInfo.value***REMOVED***=***REMOVED***JSON.parse(savedUserInfo)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***同时加载用户播放列表和播放队列
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***同时加载用户播放列表、播放队列和播放设置
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlayQueue()
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaySettings()
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Failed***REMOVED***to***REMOVED***parse***REMOVED***saved***REMOVED***user***REMOVED***info:',***REMOVED***error)
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.removeItem('userInfo')
@@ -248,6 +251,20 @@ export***REMOVED***const***REMOVED***useUserStore***REMOVED***=***REMOVED***defi
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.loadPlayQueueFromDatabase()
 ***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Load***REMOVED***user***REMOVED***play***REMOVED***queue***REMOVED***error:',***REMOVED***error)
+***REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED***}
+
+***REMOVED******REMOVED***//***REMOVED***加载用户播放设置
+***REMOVED******REMOVED***const***REMOVED***loadUserPlaySettings***REMOVED***=***REMOVED***async***REMOVED***():***REMOVED***Promise<void>***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***return
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***动态导入音乐store以避免循环依赖
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('./music')
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.loadPlaySettingsFromDatabase()
+***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Load***REMOVED***user***REMOVED***play***REMOVED***settings***REMOVED***error:',***REMOVED***error)
 ***REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED***}
 
@@ -380,6 +397,9 @@ export***REMOVED***const***REMOVED***useUserStore***REMOVED***=***REMOVED***defi
 ***REMOVED******REMOVED******REMOVED******REMOVED***addMusicToPlaylist,
 ***REMOVED******REMOVED******REMOVED******REMOVED***removeMusicFromPlaylist,
 ***REMOVED******REMOVED******REMOVED******REMOVED***deletePlaylist,
+***REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放设置方法
+***REMOVED******REMOVED******REMOVED******REMOVED***loadUserPlaySettings,
 ***REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放队列方法
 ***REMOVED******REMOVED******REMOVED******REMOVED***loadUserPlayQueue

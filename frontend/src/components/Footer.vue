@@ -125,20 +125,20 @@ const***REMOVED***setProgress***REMOVED***=***REMOVED***(value:***REMOVED***numb
 ***REMOVED******REMOVED***musicStore.setProgress(value)
 }
 
-const***REMOVED***setVolume***REMOVED***=***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.setVolume(value)
+const***REMOVED***setVolume***REMOVED***=***REMOVED***async***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.setVolume(value)
 }
 
-const***REMOVED***toggleMute***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.toggleMute()
+const***REMOVED***toggleMute***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.toggleMute()
 }
 
 const***REMOVED***toggleLike***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***isLiked.value***REMOVED***=***REMOVED***!isLiked.value
 }
 
-const***REMOVED***togglePlayMode***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.togglePlayMode()
+const***REMOVED***togglePlayMode***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.togglePlayMode()
 }
 
 const***REMOVED***togglePlaylist***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
