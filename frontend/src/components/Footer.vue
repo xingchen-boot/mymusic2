@@ -89,8 +89,7 @@ import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***
 
 const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 
-//***REMOVED***响应式数据
-const***REMOVED***isLiked***REMOVED***=***REMOVED***ref(false)
+//***REMOVED***响应式数据***REMOVED***-***REMOVED***移除本地isLiked，使用store中的状态
 
 //***REMOVED***计算属性
 const***REMOVED***currentMusic***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentMusic)
@@ -107,6 +106,9 @@ const***REMOVED***isMuted***REMOVED***=***REMOVED***computed(()***REMOVED***=>**
 
 //***REMOVED***播放模式相关计算属性
 const***REMOVED***playModeIcon***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.playModeIcon)
+
+//***REMOVED***收藏相关计算属性
+const***REMOVED***isLiked***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isCurrentMusicLiked)
 
 //***REMOVED***方法
 const***REMOVED***togglePlay***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
@@ -133,8 +135,8 @@ const***REMOVED***toggleMute***REMOVED***=***REMOVED***async***REMOVED***()***RE
 ***REMOVED******REMOVED***await***REMOVED***musicStore.toggleMute()
 }
 
-const***REMOVED***toggleLike***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***isLiked.value***REMOVED***=***REMOVED***!isLiked.value
+const***REMOVED***toggleLike***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.toggleFavorite()
 }
 
 const***REMOVED***togglePlayMode***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
