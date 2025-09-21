@@ -91,7 +91,6 @@ const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 
 //***REMOVED***响应式数据
 const***REMOVED***isLiked***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***playMode***REMOVED***=***REMOVED***ref('list')***REMOVED***//***REMOVED***list,***REMOVED***single,***REMOVED***random
 
 //***REMOVED***计算属性
 const***REMOVED***currentMusic***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentMusic)
@@ -106,14 +105,8 @@ const***REMOVED***queueCount***REMOVED***=***REMOVED***computed(()***REMOVED***=
 const***REMOVED***volume***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.volume)
 const***REMOVED***isMuted***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isMuted)
 
-const***REMOVED***playModeIcon***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***switch***REMOVED***(playMode.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***case***REMOVED***'list':***REMOVED***return***REMOVED***'🔁'
-***REMOVED******REMOVED******REMOVED******REMOVED***case***REMOVED***'single':***REMOVED***return***REMOVED***'🔂'
-***REMOVED******REMOVED******REMOVED******REMOVED***case***REMOVED***'random':***REMOVED***return***REMOVED***'🔀'
-***REMOVED******REMOVED******REMOVED******REMOVED***default:***REMOVED***return***REMOVED***'🔁'
-***REMOVED******REMOVED***}
-})
+//***REMOVED***播放模式相关计算属性
+const***REMOVED***playModeIcon***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.playModeIcon)
 
 //***REMOVED***方法
 const***REMOVED***togglePlay***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
@@ -145,9 +138,7 @@ const***REMOVED***toggleLike***REMOVED***=***REMOVED***()***REMOVED***=>***REMOV
 }
 
 const***REMOVED***togglePlayMode***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***modes***REMOVED***=***REMOVED***['list',***REMOVED***'single',***REMOVED***'random']
-***REMOVED******REMOVED***const***REMOVED***currentIndex***REMOVED***=***REMOVED***modes.indexOf(playMode.value)
-***REMOVED******REMOVED***playMode.value***REMOVED***=***REMOVED***modes[(currentIndex***REMOVED***+***REMOVED***1)***REMOVED***%***REMOVED***modes.length]
+***REMOVED******REMOVED***musicStore.togglePlayMode()
 }
 
 const***REMOVED***togglePlaylist***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
