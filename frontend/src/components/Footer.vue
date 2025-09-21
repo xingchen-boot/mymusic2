@@ -91,8 +91,6 @@ const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 
 //***REMOVED***响应式数据
 const***REMOVED***isLiked***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***isMuted***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***volume***REMOVED***=***REMOVED***ref(70)
 const***REMOVED***playMode***REMOVED***=***REMOVED***ref('list')***REMOVED***//***REMOVED***list,***REMOVED***single,***REMOVED***random
 
 //***REMOVED***计算属性
@@ -103,6 +101,10 @@ const***REMOVED***currentTime***REMOVED***=***REMOVED***computed(()***REMOVED***
 const***REMOVED***duration***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.duration)
 const***REMOVED***progress***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.progress)
 const***REMOVED***queueCount***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.queueCount)
+
+//***REMOVED***音量控制相关计算属性
+const***REMOVED***volume***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.volume)
+const***REMOVED***isMuted***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isMuted)
 
 const***REMOVED***playModeIcon***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***switch***REMOVED***(playMode.value)***REMOVED***{
@@ -131,13 +133,11 @@ const***REMOVED***setProgress***REMOVED***=***REMOVED***(value:***REMOVED***numb
 }
 
 const***REMOVED***setVolume***REMOVED***=***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***volume.value***REMOVED***=***REMOVED***value
-***REMOVED******REMOVED***//***REMOVED***这里可以设置音频音量
+***REMOVED******REMOVED***musicStore.setVolume(value)
 }
 
 const***REMOVED***toggleMute***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***isMuted.value***REMOVED***=***REMOVED***!isMuted.value
-***REMOVED******REMOVED***//***REMOVED***这里可以静音/取消静音
+***REMOVED******REMOVED***musicStore.toggleMute()
 }
 
 const***REMOVED***toggleLike***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
