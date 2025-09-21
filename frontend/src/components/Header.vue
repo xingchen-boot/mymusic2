@@ -27,8 +27,8 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***用户区域***REMOVED***-->
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="user-area">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="!isLoggedIn"***REMOVED***class="login-section">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***@click="showLogin***REMOVED***=***REMOVED***true"***REMOVED***class="login-btn">
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="!userStore.isLoggedIn"***REMOVED***class="login-section">
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***@click="goToLogin"***REMOVED***class="login-btn">
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***登录
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
@@ -36,7 +36,7 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="user-info">
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-dropdown***REMOVED***@command="handleUserCommand">
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="user-avatar">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="userInfo.avatar"***REMOVED***:alt="userInfo.name"***REMOVED***/>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="userStore.currentUser?.avatar***REMOVED***||***REMOVED***'https://picsum.photos/40/40?random=1'"***REMOVED***:alt="userStore.currentUser?.nickname"***REMOVED***/>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<template***REMOVED***#dropdown>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-dropdown-menu>
@@ -50,52 +50,21 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
 ***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***登录弹窗***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED***<el-dialog
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="showLogin"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***title="登录"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***width="400px"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:before-close="handleCloseLogin"
-***REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form***REMOVED***:model="loginForm"***REMOVED***label-width="80px">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***label="用户名">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input***REMOVED***v-model="loginForm.username"***REMOVED***placeholder="请输入用户名"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***label="密码">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input***REMOVED***v-model="loginForm.password"***REMOVED***type="password"***REMOVED***placeholder="请输入密码"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<template***REMOVED***#footer>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***@click="showLogin***REMOVED***=***REMOVED***false">取消</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***@click="handleLogin">登录</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</template>
-***REMOVED******REMOVED******REMOVED******REMOVED***</el-dialog>
 ***REMOVED******REMOVED***</header>
 </template>
 
 <script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***ref,***REMOVED***computed***REMOVED***}***REMOVED***from***REMOVED***'vue'
+import***REMOVED***{***REMOVED***ref,***REMOVED***onMounted***REMOVED***}***REMOVED***from***REMOVED***'vue'
 import***REMOVED***{***REMOVED***useRouter***REMOVED***}***REMOVED***from***REMOVED***'vue-router'
 import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/music'
+import***REMOVED***{***REMOVED***useUserStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/user'
 
 const***REMOVED***router***REMOVED***=***REMOVED***useRouter()
 const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
+const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
 
 //***REMOVED***响应式数据
 const***REMOVED***searchKeyword***REMOVED***=***REMOVED***ref('')
-const***REMOVED***showLogin***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***loginForm***REMOVED***=***REMOVED***ref({
-***REMOVED******REMOVED***username:***REMOVED***'',
-***REMOVED******REMOVED***password:***REMOVED***''
-})
-
-//***REMOVED***模拟用户状态
-const***REMOVED***isLoggedIn***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***userInfo***REMOVED***=***REMOVED***ref({
-***REMOVED******REMOVED***name:***REMOVED***'用户',
-***REMOVED******REMOVED***avatar:***REMOVED***'https://picsum.photos/40/40?random=1'
-})
 
 //***REMOVED***方法
 const***REMOVED***handleSearch***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
@@ -109,18 +78,8 @@ const***REMOVED***handleSearch***REMOVED***=***REMOVED***()***REMOVED***=>***REM
 ***REMOVED******REMOVED***}
 }
 
-const***REMOVED***handleLogin***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***模拟登录
-***REMOVED******REMOVED***if***REMOVED***(loginForm.value.username***REMOVED***&&***REMOVED***loginForm.value.password)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***isLoggedIn.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED***showLogin.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED******REMOVED******REMOVED***loginForm.value***REMOVED***=***REMOVED***{***REMOVED***username:***REMOVED***'',***REMOVED***password:***REMOVED***''***REMOVED***}
-***REMOVED******REMOVED***}
-}
-
-const***REMOVED***handleCloseLogin***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***showLogin.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED***loginForm.value***REMOVED***=***REMOVED***{***REMOVED***username:***REMOVED***'',***REMOVED***password:***REMOVED***''***REMOVED***}
+const***REMOVED***goToLogin***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***router.push('/login')
 }
 
 const***REMOVED***handleUserCommand***REMOVED***=***REMOVED***(command:***REMOVED***string)***REMOVED***=>***REMOVED***{
@@ -135,10 +94,15 @@ const***REMOVED***handleUserCommand***REMOVED***=***REMOVED***(command:***REMOVE
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***router.push('/settings')
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***break
 ***REMOVED******REMOVED******REMOVED******REMOVED***case***REMOVED***'logout':
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***isLoggedIn.value***REMOVED***=***REMOVED***false
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userStore.logout()
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***break
 ***REMOVED******REMOVED***}
 }
+
+//***REMOVED***初始化用户信息
+onMounted(()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***userStore.initUserInfo()
+})
 </script>
 
 <style***REMOVED***scoped>
