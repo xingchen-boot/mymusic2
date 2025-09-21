@@ -121,8 +121,8 @@ const***REMOVED***playNext***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED
 ***REMOVED******REMOVED***musicStore.playNext()
 }
 
-const***REMOVED***setProgress***REMOVED***=***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.setProgress(value)
+const***REMOVED***setProgress***REMOVED***=***REMOVED***async***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.setProgress(value)
 }
 
 const***REMOVED***setVolume***REMOVED***=***REMOVED***async***REMOVED***(value:***REMOVED***number)***REMOVED***=>***REMOVED***{
