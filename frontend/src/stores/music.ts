@@ -74,6 +74,9 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED***//***REMOVED***收藏相关状态
 ***REMOVED******REMOVED***const***REMOVED***isCurrentMusicLiked***REMOVED***=***REMOVED***ref(false)***REMOVED***//***REMOVED***当前播放音乐是否已收藏
 ***REMOVED******REMOVED***
+***REMOVED******REMOVED***//***REMOVED***收藏状态变化监听器
+***REMOVED******REMOVED***const***REMOVED***favoriteStatusListeners***REMOVED***=***REMOVED***ref<Array<(isLiked:***REMOVED***boolean)***REMOVED***=>***REMOVED***void>>([])
+***REMOVED******REMOVED***
 ***REMOVED******REMOVED***//***REMOVED***防抖相关状态
 ***REMOVED******REMOVED***let***REMOVED***progressSyncTimer:***REMOVED***NodeJS.Timeout***REMOVED***|***REMOVED***null***REMOVED***=***REMOVED***null
 
@@ -1101,6 +1104,9 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***isCurrentMusicLiked.value***REMOVED***=***REMOVED***false
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('✅***REMOVED***取消收藏成功')
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***通知所有监听器
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***notifyFavoriteStatusListeners(false)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***显示提示
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('已取消收藏')
@@ -1118,6 +1124,9 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***isCurrentMusicLiked.value***REMOVED***=***REMOVED***true
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('✅***REMOVED***添加收藏成功')
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***通知所有监听器
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***notifyFavoriteStatusListeners(true)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***显示提示
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('已添加到我的喜欢')
@@ -1128,6 +1137,30 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('❌***REMOVED***切换收藏状态错误:',***REMOVED***error)
 ***REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED***}
+
+***REMOVED******REMOVED***//***REMOVED***添加收藏状态监听器
+***REMOVED******REMOVED***const***REMOVED***addFavoriteStatusListener***REMOVED***=***REMOVED***(listener:***REMOVED***(isLiked:***REMOVED***boolean)***REMOVED***=>***REMOVED***void)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***favoriteStatusListeners.value.push(listener)
+***REMOVED******REMOVED***}
+
+***REMOVED******REMOVED***//***REMOVED***移除收藏状态监听器
+***REMOVED******REMOVED***const***REMOVED***removeFavoriteStatusListener***REMOVED***=***REMOVED***(listener:***REMOVED***(isLiked:***REMOVED***boolean)***REMOVED***=>***REMOVED***void)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***index***REMOVED***=***REMOVED***favoriteStatusListeners.value.indexOf(listener)
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(index***REMOVED***>***REMOVED***-1)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***favoriteStatusListeners.value.splice(index,***REMOVED***1)
+***REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED***}
+
+***REMOVED******REMOVED***//***REMOVED***通知所有收藏状态监听器
+***REMOVED******REMOVED***const***REMOVED***notifyFavoriteStatusListeners***REMOVED***=***REMOVED***(isLiked:***REMOVED***boolean)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED***favoriteStatusListeners.value.forEach(listener***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***listener(isLiked)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('收藏状态监听器执行错误:',***REMOVED***error)
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED******REMOVED******REMOVED***})
 ***REMOVED******REMOVED***}
 
 
@@ -1218,6 +1251,8 @@ export***REMOVED***const***REMOVED***useMusicStore***REMOVED***=***REMOVED***def
 ***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***收藏方法
 ***REMOVED******REMOVED******REMOVED******REMOVED***checkCurrentMusicFavoriteStatus,
 ***REMOVED******REMOVED******REMOVED******REMOVED***toggleFavorite,
+***REMOVED******REMOVED******REMOVED******REMOVED***addFavoriteStatusListener,
+***REMOVED******REMOVED******REMOVED******REMOVED***removeFavoriteStatusListener,
 ***REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***下载方法
 ***REMOVED******REMOVED******REMOVED******REMOVED***downloadMusic
