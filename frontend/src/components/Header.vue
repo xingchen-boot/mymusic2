@@ -100,8 +100,8 @@ const***REMOVED***handleUserCommand***REMOVED***=***REMOVED***(command:***REMOVE
 }
 
 //***REMOVED***初始化用户信息
-onMounted(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***userStore.initUserInfo()
+onMounted(async***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***userStore.initUserInfo()
 })
 </script>
 

@@ -30,11 +30,11 @@ import***REMOVED***Footer***REMOVED***from***REMOVED***'@/components/Footer.vue'
 const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
 
-onMounted(()***REMOVED***=>***REMOVED***{
+onMounted(async***REMOVED***()***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***//***REMOVED***初始化音乐播放器
 ***REMOVED******REMOVED***musicStore.initAudio()
 ***REMOVED******REMOVED***//***REMOVED***初始化用户信息
-***REMOVED******REMOVED***userStore.initUserInfo()
+***REMOVED******REMOVED***await***REMOVED***userStore.initUserInfo()
 })
 </script>
 

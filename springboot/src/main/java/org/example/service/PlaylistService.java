@@ -95,7 +95,7 @@ public***REMOVED***class***REMOVED***PlaylistService***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***PlaylistMusic***REMOVED***playlistMusic***REMOVED***=***REMOVED***new***REMOVED***PlaylistMusic(playlistId,***REMOVED***music);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlistMusic.setAddedAt(LocalDateTime.now());
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlistMusic.setAddTime(LocalDateTime.now());
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***设置排序顺序（添加到末尾）
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***maxOrder***REMOVED***=***REMOVED***playlistMapper.countMusicByPlaylistId(playlistId);

@@ -215,12 +215,12 @@ const***REMOVED***playMusic***REMOVED***=***REMOVED***(music:***REMOVED***any)**
 ***REMOVED******REMOVED***musicStore.playMusicFromQueue(music)
 }
 
-const***REMOVED***removeFromQueue***REMOVED***=***REMOVED***(musicId:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.removeFromQueue(musicId)
+const***REMOVED***removeFromQueue***REMOVED***=***REMOVED***async***REMOVED***(musicId:***REMOVED***number)***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.removeFromPlayQueueWithSync(musicId)
 }
 
-const***REMOVED***clearQueue***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.clearQueue()
+const***REMOVED***clearQueue***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
+***REMOVED******REMOVED***await***REMOVED***musicStore.clearPlayQueueWithSync()
 }
 
 const***REMOVED***formatTime***REMOVED***=***REMOVED***(seconds:***REMOVED***number)***REMOVED***=>***REMOVED***{
