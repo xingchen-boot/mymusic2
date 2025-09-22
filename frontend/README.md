@@ -1,6 +1,6 @@
 #***REMOVED***MyMusic***REMOVED***音乐播放器
 
-一个功能完整的现代化音乐播放器，支持用户注册登录、音乐搜索播放、播放队列管理、个人收藏等功能。
+一个功能完整的现代化音乐播放器，支持用户注册登录、音乐搜索播放、播放队列管理、个人收藏、最近播放等功能。
 
 ##***REMOVED***🚀***REMOVED***快速开始
 
@@ -110,7 +110,7 @@ mymusic/
 -***REMOVED***✅***REMOVED***播放队列数据库存储
 -***REMOVED***✅***REMOVED***播放设置数据库存储
 -***REMOVED***✅***REMOVED***收藏列表数据库存储
--***REMOVED***✅***REMOVED***用户播放历史记录
+-***REMOVED***✅***REMOVED***用户播放历史记录（最近播放）
 
 ##***REMOVED***🔧***REMOVED***技术栈
 
@@ -196,6 +196,19 @@ mymusic/
 -***REMOVED***播放进度实时同步到数据库
 -***REMOVED***收藏状态实时更新
 -***REMOVED***播放设置自动保存
+
+###***REMOVED***最近播放（New）
+-***REMOVED***后端表：`user_recent_play`，按***REMOVED***`play_time`***REMOVED***倒序，保留最新100条
+-***REMOVED***接口：
+***REMOVED******REMOVED***-***REMOVED***`POST***REMOVED***/api/recent-play/record`***REMOVED***记录播放
+***REMOVED******REMOVED***-***REMOVED***`PUT***REMOVED***/api/recent-play/progress`***REMOVED***更新进度
+***REMOVED******REMOVED***-***REMOVED***`GET***REMOVED***/api/recent-play/user/{userId}`***REMOVED***拉取最近播放
+***REMOVED******REMOVED***-***REMOVED***`DELETE***REMOVED***/api/recent-play/user/{userId}/music/{musicId}`***REMOVED***移除单条
+***REMOVED******REMOVED***-***REMOVED***`DELETE***REMOVED***/api/recent-play/user/{userId}/clear`***REMOVED***清空
+-***REMOVED***前端：
+***REMOVED******REMOVED***-***REMOVED***`music.ts`***REMOVED***在***REMOVED***`playMusic`***REMOVED***成功后调用***REMOVED***`recordRecentPlay`
+***REMOVED******REMOVED***-***REMOVED***`syncPlayProgressToDatabase`***REMOVED***成功后调用***REMOVED***`updateRecentPlayProgress`
+***REMOVED******REMOVED***-***REMOVED***通过***REMOVED***`addRecentPlayListener/removeRecentPlayListener`***REMOVED***事件总线，`Recent.vue`***REMOVED***增量更新列表（插入/上移当前项），避免整页刷新
 
 ##***REMOVED***📝***REMOVED***开发日志
 
