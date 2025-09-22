@@ -8,6 +8,7 @@ import***REMOVED***Rank***REMOVED***from***REMOVED***'@/views/Rank.vue'
 import***REMOVED***MyMusic***REMOVED***from***REMOVED***'@/views/MyMusic.vue'
 import***REMOVED***Favorites***REMOVED***from***REMOVED***'@/views/Favorites.vue'
 import***REMOVED***Recent***REMOVED***from***REMOVED***'@/views/Recent.vue'
+import***REMOVED***Profile***REMOVED***from***REMOVED***'@/views/Profile.vue'
 import***REMOVED***Login***REMOVED***from***REMOVED***'@/views/Login.vue'
 import***REMOVED***Register***REMOVED***from***REMOVED***'@/views/Register.vue'
 
@@ -86,6 +87,11 @@ const***REMOVED***router***REMOVED***=***REMOVED***createRouter({
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'recent',
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'recent',
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Recent
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'profile',
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'profile',
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Profile
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***]
 ***REMOVED******REMOVED******REMOVED******REMOVED***}

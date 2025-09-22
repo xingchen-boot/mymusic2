@@ -33,9 +33,14 @@ public***REMOVED***interface***REMOVED***UserMapper***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insert(User***REMOVED***user);
 
 ***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新用户信息
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新用户信息（允许部分字段更新）。
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***使用***REMOVED***COALESCE***REMOVED***在传入为***REMOVED***NULL***REMOVED***时保留原值。
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user***REMOVED***SET***REMOVED***nickname***REMOVED***=***REMOVED***#{nickname},***REMOVED***avatar***REMOVED***=***REMOVED***#{avatar},***REMOVED***update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
+***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user***REMOVED***SET***REMOVED***"***REMOVED***+
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"nickname***REMOVED***=***REMOVED***COALESCE(#{nickname},***REMOVED***nickname),***REMOVED***"***REMOVED***+
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"avatar***REMOVED***=***REMOVED***COALESCE(#{avatar},***REMOVED***avatar),***REMOVED***"***REMOVED***+
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***"***REMOVED***+
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
 ***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updateUserInfo(User***REMOVED***user);
 
 ***REMOVED******REMOVED******REMOVED******REMOVED***/**
