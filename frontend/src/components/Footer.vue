@@ -3,11 +3,13 @@
 ***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="player-content">
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***当前播放歌曲信息***REMOVED***-->
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="player-info">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:src="currentMusic?.cover"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:alt="currentMusic?.song"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="player-cover"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***:to="{***REMOVED***name:***REMOVED***'player'***REMOVED***}"***REMOVED***class="cover-link">
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:src="currentMusic?.cover"***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:alt="currentMusic?.song"***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="player-cover"***REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="player-details">
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h4***REMOVED***class="song-title">{{***REMOVED***currentMusic?.song***REMOVED***}}</h4>
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="artist-name">{{***REMOVED***currentMusic?.singer***REMOVED***}}</p>
@@ -84,8 +86,8 @@
 </template>
 
 <script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***ref,***REMOVED***computed***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/music'
+import***REMOVED***{***REMOVED***computed***REMOVED***}***REMOVED***from***REMOVED***'vue'
+import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'../stores/music'
 
 const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 
@@ -147,9 +149,7 @@ const***REMOVED***togglePlaylist***REMOVED***=***REMOVED***()***REMOVED***=>***R
 ***REMOVED******REMOVED***musicStore.togglePlayQueue()
 }
 
-const***REMOVED***playMusic***REMOVED***=***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.playMusicFromQueue(music)
-}
+//
 
 
 const***REMOVED***formatTime***REMOVED***=***REMOVED***(seconds:***REMOVED***number)***REMOVED***=>***REMOVED***{

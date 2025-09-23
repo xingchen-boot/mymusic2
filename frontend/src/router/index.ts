@@ -11,6 +11,9 @@ import***REMOVED***Recent***REMOVED***from***REMOVED***'@/views/Recent.vue'
 import***REMOVED***Profile***REMOVED***from***REMOVED***'@/views/Profile.vue'
 import***REMOVED***Login***REMOVED***from***REMOVED***'@/views/Login.vue'
 import***REMOVED***Register***REMOVED***from***REMOVED***'@/views/Register.vue'
+//***REMOVED***Player***REMOVED***view***REMOVED***(full-screen***REMOVED***like***REMOVED***detail)
+//***REMOVED***@ts-ignore
+const***REMOVED***Player***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***import('@/views/Player.vue')
 
 const***REMOVED***router***REMOVED***=***REMOVED***createRouter({
 ***REMOVED******REMOVED***history:***REMOVED***createWebHistory(),
@@ -26,6 +29,12 @@ const***REMOVED***router***REMOVED***=***REMOVED***createRouter({
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Login
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***]
+***REMOVED******REMOVED******REMOVED******REMOVED***},
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放器详情（独立顶级路由）
+***REMOVED******REMOVED******REMOVED******REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/player',
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'player',
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Player
 ***REMOVED******REMOVED******REMOVED******REMOVED***},
 ***REMOVED******REMOVED******REMOVED******REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/register',

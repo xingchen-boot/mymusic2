@@ -86,9 +86,7 @@ const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
 const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
 
 onMounted(async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***初始化音乐播放器
-***REMOVED******REMOVED***musicStore.initAudio()
-***REMOVED******REMOVED***//***REMOVED***初始化用户信息
+***REMOVED******REMOVED***//***REMOVED***初始化用户信息（全局唯一初始化迁移至***REMOVED***main.ts）
 ***REMOVED******REMOVED***await***REMOVED***userStore.initUserInfo()
 })
 </script>
