@@ -22,3 +22,15 @@ mybatis:
 ***REMOVED******REMOVED***configuration:
 ***REMOVED******REMOVED******REMOVED******REMOVED***#***REMOVED***开启驼峰命名转换
 ***REMOVED******REMOVED******REMOVED******REMOVED***map-underscore-to-camel-case:***REMOVED***true
+
+#***REMOVED***阿里云***REMOVED***OSS***REMOVED***配置（请改为你的实际信息，建议使用环境变量覆盖）
+oss:
+***REMOVED******REMOVED***bucket:***REMOVED***my-music-avatar
+***REMOVED******REMOVED***region:***REMOVED***oss-cn-beijing
+***REMOVED******REMOVED***endpoint:***REMOVED***https://oss-cn-beijing.aliyuncs.com
+***REMOVED******REMOVED***#***REMOVED***仅服务器端持有永久***REMOVED***AK/SK；请不要提交真实值到仓库
+***REMOVED******REMOVED***accessKeyId:***REMOVED***LTAI5tHnpGBUrEQN3qPh62m7
+***REMOVED******REMOVED***accessKeySecret:***REMOVED***TMwR4nlxT2vWXOO36WedqtdlOVs5Qs
+***REMOVED******REMOVED***#***REMOVED***头像文件前缀
+***REMOVED******REMOVED***avatarPrefix:***REMOVED***avatars/
+***REMOVED******REMOVED***#***REMOVED***直传回调可选：若需要***REMOVED***OSS***REMOVED***回调到你服务器，请再补充***REMOVED***callback
