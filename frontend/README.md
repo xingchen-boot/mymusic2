@@ -77,6 +77,13 @@ mymusic/
 -***REMOVED***✅***REMOVED***登录状态持久化
 -***REMOVED***✅***REMOVED***自动登录功能
 
+###***REMOVED***👤***REMOVED***个人中心（Profile）
+-***REMOVED***✅***REMOVED***头像悬停展开菜单（Header）支持进入个人中心
+-***REMOVED***✅***REMOVED***个人中心页面可独立修改昵称或头像（无需同时修改）
+-***REMOVED***✅***REMOVED***头像上传走后端代理上传***REMOVED***OSS，保存***REMOVED***URL***REMOVED***到数据库
+-***REMOVED***✅***REMOVED***未设置头像时使用随机头像（`https://picsum.photos/...`）
+-***REMOVED***✅***REMOVED***本地***REMOVED***localStorage***REMOVED***同步，刷新后立即显示头像与昵称
+
 ###***REMOVED***🎶***REMOVED***音乐播放
 -***REMOVED***✅***REMOVED***音乐搜索（支持歌名、歌手、专辑）
 -***REMOVED***✅***REMOVED***音乐播放/暂停
@@ -105,6 +112,7 @@ mymusic/
 -***REMOVED***✅***REMOVED***移动端适配
 -***REMOVED***✅***REMOVED***播放器控制面板
 -***REMOVED***✅***REMOVED***音乐信息显示
+***REMOVED***-***REMOVED***✅***REMOVED***个人中心资料卡片化布局、圆形头像预览
 
 ###***REMOVED***💾***REMOVED***数据持久化
 -***REMOVED***✅***REMOVED***播放队列数据库存储
@@ -135,6 +143,7 @@ mymusic/
 ###***REMOVED***主要API端点
 -***REMOVED***`POST***REMOVED***/api/user/register`***REMOVED***-***REMOVED***用户注册
 -***REMOVED***`POST***REMOVED***/api/user/login`***REMOVED***-***REMOVED***用户登录
+***REMOVED***-***REMOVED***`PUT***REMOVED***/api/user/info/{id}`***REMOVED***-***REMOVED***更新用户信息（昵称/头像，任意字段可选）
 -***REMOVED***`GET***REMOVED***/api/music/search`***REMOVED***-***REMOVED***搜索音乐
 -***REMOVED***`GET***REMOVED***/api/music/url`***REMOVED***-***REMOVED***获取音乐播放URL
 -***REMOVED***`POST***REMOVED***/api/music/download`***REMOVED***-***REMOVED***下载音乐
@@ -144,6 +153,8 @@ mymusic/
 -***REMOVED***`GET***REMOVED***/api/favorites/user/{userId}`***REMOVED***-***REMOVED***获取用户收藏
 -***REMOVED***`POST***REMOVED***/api/favorites/add`***REMOVED***-***REMOVED***添加收藏
 -***REMOVED***`DELETE***REMOVED***/api/favorites/remove`***REMOVED***-***REMOVED***取消收藏
+***REMOVED***-***REMOVED***`POST***REMOVED***/api/oss/upload`***REMOVED***-***REMOVED***后端代理上传头像到***REMOVED***OSS，返回公开***REMOVED***URL
+***REMOVED***-***REMOVED***`GET***REMOVED***/api/oss/policy`***REMOVED***-***REMOVED***获取临时上传策略（如需直传）
 
 ##***REMOVED***🗄️***REMOVED***数据库设计
 
@@ -162,6 +173,15 @@ mymusic/
 2.***REMOVED***执行数据库脚本（在***REMOVED***`springboot/src/main/resources/sql/`***REMOVED***目录下）
 3.***REMOVED***修改***REMOVED***`application.yml`***REMOVED***中的数据库配置
 4.***REMOVED***运行***REMOVED***`mvn***REMOVED***spring-boot:run`
+
+####***REMOVED***OSS（头像上传）配置
+1.***REMOVED***在***REMOVED***`springboot/src/main/resources/application.yml`***REMOVED***设置：
+***REMOVED******REMOVED******REMOVED***-***REMOVED***`oss.bucket`:***REMOVED***你的***REMOVED***OSS***REMOVED***桶名（如***REMOVED***`my-music-avatar`）
+***REMOVED******REMOVED******REMOVED***-***REMOVED***`oss.region`:***REMOVED***地域（如***REMOVED***`oss-cn-beijing`）
+***REMOVED******REMOVED******REMOVED***-***REMOVED***`oss.endpoint`:***REMOVED***`https://<region>.aliyuncs.com`
+2.***REMOVED***通过环境变量提供密钥（不要写死在仓库）：
+***REMOVED******REMOVED******REMOVED***-***REMOVED***Windows***REMOVED***CMD:***REMOVED***`set***REMOVED***OSS_ACCESS_KEY_ID=...`，`set***REMOVED***OSS_ACCESS_KEY_SECRET=...`
+3.***REMOVED***OSS***REMOVED***桶需设置：公共读、允许***REMOVED***CORS（GET/POST/PUT，允许头*，暴露***REMOVED***ETag）
 
 ###***REMOVED***前端部署
 1.***REMOVED***执行***REMOVED***`npm***REMOVED***run***REMOVED***build`
@@ -210,6 +230,19 @@ mymusic/
 ***REMOVED******REMOVED***-***REMOVED***`syncPlayProgressToDatabase`***REMOVED***成功后调用***REMOVED***`updateRecentPlayProgress`
 ***REMOVED******REMOVED***-***REMOVED***通过***REMOVED***`addRecentPlayListener/removeRecentPlayListener`***REMOVED***事件总线，`Recent.vue`***REMOVED***增量更新列表（插入/上移当前项），避免整页刷新
 
+###***REMOVED***个人中心与头像上传（New）
+-***REMOVED***前端：
+***REMOVED******REMOVED***-***REMOVED***Header***REMOVED***头像悬停展示下拉菜单，进入***REMOVED***`/profile`
+***REMOVED******REMOVED***-***REMOVED***`Profile.vue`***REMOVED***支持独立修改昵称或头像；`canSave`***REMOVED***仅依据字段是否变更
+***REMOVED******REMOVED***-***REMOVED***头像选择后本地预览，限制***REMOVED***≤***REMOVED***2MB；压缩时保持原始宽高比（最长边***REMOVED***200px）
+***REMOVED******REMOVED***-***REMOVED***提交时：若头像有变更→先上传到***REMOVED***OSS（后端代理），拿到***REMOVED***URL***REMOVED***后与昵称变更一起***REMOVED***`PUT***REMOVED***/api/user/info/{id}`
+***REMOVED******REMOVED***-***REMOVED***保存成功后同步***REMOVED***`userStore.currentUser`***REMOVED***并写入***REMOVED***`localStorage('userInfo')`
+-***REMOVED***后端：
+***REMOVED******REMOVED***-***REMOVED***`PUT***REMOVED***/api/user/info/{id}`***REMOVED***使用***REMOVED***`COALESCE`***REMOVED***仅更新传入字段
+***REMOVED******REMOVED***-***REMOVED***`/api/oss/upload`***REMOVED***接收***REMOVED***Multipart，上传到***REMOVED***OSS***REMOVED***并返回***REMOVED***URL
+
+说明：未设置自定义头像时，前端使用随机头像***REMOVED***URL（`picsum.photos`）。
+
 ##***REMOVED***📝***REMOVED***开发日志
 
 -***REMOVED***✅***REMOVED***基础音乐播放功能
@@ -219,6 +252,7 @@ mymusic/
 -***REMOVED***✅***REMOVED***播放设置持久化
 -***REMOVED***✅***REMOVED***临时播放模式
 -***REMOVED***✅***REMOVED***响应式UI优化
+***REMOVED***-***REMOVED***✅***REMOVED***个人中心与头像上传（独立修改、比例修复、OSS***REMOVED***代理上传）
 
 ##***REMOVED***🤝***REMOVED***贡献指南
 
