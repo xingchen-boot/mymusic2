@@ -61,6 +61,21 @@ public***REMOVED***class***REMOVED***MusicController***REMOVED***{
 ***REMOVED******REMOVED******REMOVED******REMOVED***}
 
 ***REMOVED******REMOVED******REMOVED******REMOVED***/**
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取搜索建议
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
+***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/suggestions")
+***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***getSearchSuggestions(
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***word)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***musicApiService.getSearchSuggestions(word);
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***result));
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+***REMOVED******REMOVED******REMOVED******REMOVED***}
+
+***REMOVED******REMOVED******REMOVED******REMOVED***/**
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取歌词
 ***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
 ***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/lyrics")
