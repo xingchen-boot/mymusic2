@@ -1,1 +1,13 @@
 阿里云key.md
+
+#***REMOVED***排除除README外的所有MD文档
+*.md
+!README.md
+!readme.md
+!Readme.md
+
+#***REMOVED***或者更精确地排除特定文档
+#***REMOVED***Player页面开发详细文档.md
+#***REMOVED***歌词功能测试说明.md
+#***REMOVED***搜索建议功能实现说明.md
+#***REMOVED***优化-搜索与歌词去重加载实现说明.md
