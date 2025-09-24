@@ -1,4 +1,14 @@
+#***REMOVED***敏感信息文件
 阿里云key.md
+*key*.md
+*secret*.md
+*password*.md
+
+#***REMOVED***环境变量文件
+.env
+.env.local
+.env.production
+.env.development
 
 #***REMOVED***排除除README外的所有MD文档
 *.md

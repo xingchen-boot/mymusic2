@@ -29,8 +29,9 @@ oss:
 ***REMOVED******REMOVED***region:***REMOVED***oss-cn-beijing
 ***REMOVED******REMOVED***endpoint:***REMOVED***https://oss-cn-beijing.aliyuncs.com
 ***REMOVED******REMOVED***#***REMOVED***仅服务器端持有永久***REMOVED***AK/SK；请不要提交真实值到仓库
-***REMOVED******REMOVED***accessKeyId:***REMOVED***LTAI5tHnpGBUrEQN3qPh62m7
-***REMOVED******REMOVED***accessKeySecret:***REMOVED***TMwR4nlxT2vWXOO36WedqtdlOVs5Qs
+***REMOVED******REMOVED***#***REMOVED***使用环境变量，避免敏感信息泄露
+***REMOVED******REMOVED***accessKeyId:***REMOVED***${ALIBABA_CLOUD_ACCESS_KEY_ID:your-access-key-id}
+***REMOVED******REMOVED***accessKeySecret:***REMOVED***${ALIBABA_CLOUD_ACCESS_KEY_SECRET:your-access-key-secret}
 ***REMOVED******REMOVED***#***REMOVED***头像文件前缀
 ***REMOVED******REMOVED***avatarPrefix:***REMOVED***avatars/
 ***REMOVED******REMOVED***#***REMOVED***直传回调可选：若需要***REMOVED***OSS***REMOVED***回调到你服务器，请再补充***REMOVED***callback
