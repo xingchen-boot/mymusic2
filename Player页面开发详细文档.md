@@ -887,6 +887,9 @@ const***REMOVED***togglePlay***REMOVED***=***REMOVED***async***REMOVED***()***RE
 }
 ```
 
+##***REMOVED***附：性能与体验优化文档
+-***REMOVED***搜索与歌词去重加载实现说明：见***REMOVED***`优化-搜索与歌词去重加载实现说明.md`
+
 ##***REMOVED***面试重点
 
 ###***REMOVED***1.***REMOVED***核心技术难点

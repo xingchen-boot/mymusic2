@@ -195,7 +195,10 @@ const***REMOVED***removeScrollListener***REMOVED***=***REMOVED***()***REMOVED***
 //***REMOVED***监听路由变化
 watch(()***REMOVED***=>***REMOVED***route.query.keyword,***REMOVED***(newKeyword)***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***if***REMOVED***(newKeyword***REMOVED***&&***REMOVED***typeof***REMOVED***newKeyword***REMOVED***===***REMOVED***'string')***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***performSearch(newKeyword)
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查是否已经有相同关键词的搜索结果，避免重复搜索
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(searchKeyword.value***REMOVED***!==***REMOVED***newKeyword)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***performSearch(newKeyword)
+***REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED***}
 },***REMOVED***{***REMOVED***immediate:***REMOVED***true***REMOVED***})
 
@@ -210,7 +213,10 @@ watch(()***REMOVED***=>***REMOVED***musicList.value.length,***REMOVED***()***REM
 onMounted(()***REMOVED***=>***REMOVED***{
 ***REMOVED******REMOVED***const***REMOVED***keyword***REMOVED***=***REMOVED***route.query.keyword***REMOVED***as***REMOVED***string
 ***REMOVED******REMOVED***if***REMOVED***(keyword)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***performSearch(keyword)
+***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查是否已经有相同关键词的搜索结果，避免重复搜索
+***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(searchKeyword.value***REMOVED***!==***REMOVED***keyword)***REMOVED***{
+***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***performSearch(keyword)
+***REMOVED******REMOVED******REMOVED******REMOVED***}
 ***REMOVED******REMOVED***}
 ***REMOVED******REMOVED***
 ***REMOVED******REMOVED***//***REMOVED***添加滚动监听
