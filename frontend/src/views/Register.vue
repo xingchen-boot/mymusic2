@@ -1,266 +1,264 @@
-<template>
-***REMOVED******REMOVED***<div***REMOVED***class="register-container">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="register-box">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="register-header">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h2>注册***REMOVED***MyMusic</h2>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p>创建账号，开启你的音乐之旅</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ref="registerFormRef"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:model="registerForm"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:rules="registerRules"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="register-form"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@submit.prevent="handleRegister"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***prop="username">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="registerForm.username"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***placeholder="请输入用户名"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="large"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***prefix-icon="User"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***clearable
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***prop="nickname">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="registerForm.nickname"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***placeholder="请输入昵称"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="large"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***prefix-icon="Avatar"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***clearable
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***prop="password">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="registerForm.password"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="password"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***placeholder="请输入密码"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="large"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***prefix-icon="Lock"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***show-password
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***clearable
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***prop="confirmPassword">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="registerForm.confirmPassword"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="password"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***placeholder="请确认密码"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="large"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***prefix-icon="Lock"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***show-password
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***clearable
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@keyup.enter="handleRegister"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="primary"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="large"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="register-btn"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:loading="loading"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="handleRegister"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***loading***REMOVED***?***REMOVED***'注册中...'***REMOVED***:***REMOVED***'注册'***REMOVED***}}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="register-footer">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p>已有账号？<router-link***REMOVED***to="/login"***REMOVED***class="login-link">立即登录</router-link></p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***</div>
+﻿<template>
+  <div class="register-container">
+    <div class="register-box">
+      <div class="register-header">
+        <h2>注册MyMusic</h2>
+        <p>创建账号，开启你的音乐之旅</p>
+      </div>
+
+      <el-form
+        ref="registerFormRef"
+        :model="registerForm"
+        :rules="registerRules"
+        class="register-form"
+        @submit.prevent="handleRegister"
+      >
+        <el-form-item prop="username">
+          <el-input
+            v-model="registerForm.username"
+            placeholder="请输入用户名"
+            size="large"
+            prefix-icon="User"
+            clearable
+          />
+        </el-form-item>
+
+        <el-form-item prop="nickname">
+          <el-input
+            v-model="registerForm.nickname"
+            placeholder="请输入昵称"
+            size="large"
+            prefix-icon="Avatar"
+            clearable
+          />
+        </el-form-item>
+
+        <el-form-item prop="password">
+          <el-input
+            v-model="registerForm.password"
+            type="password"
+            placeholder="请输入密码"
+            size="large"
+            prefix-icon="Lock"
+            show-password
+            clearable
+          />
+        </el-form-item>
+
+        <el-form-item prop="confirmPassword">
+          <el-input
+            v-model="registerForm.confirmPassword"
+            type="password"
+            placeholder="请确认密码"
+            size="large"
+            prefix-icon="Lock"
+            show-password
+            clearable
+            @keyup.enter="handleRegister"
+          />
+        </el-form-item>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            size="large"
+            class="register-btn"
+            :loading="loading"
+            @click="handleRegister"
+          >
+            {{ loading ? '注册中...' : '注册' }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+
+      <div class="register-footer">
+        <p>已有账号？<router-link to="/login" class="login-link">立即登录</router-link></p>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***ref,***REMOVED***reactive***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useRouter***REMOVED***}***REMOVED***from***REMOVED***'vue-router'
-import***REMOVED***{***REMOVED***ElMessage,***REMOVED***type***REMOVED***FormInstance,***REMOVED***type***REMOVED***FormRules***REMOVED***}***REMOVED***from***REMOVED***'element-plus'
-import***REMOVED***{***REMOVED***useUserStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/user'
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { useUserStore } from '@/stores/user'
 
-const***REMOVED***router***REMOVED***=***REMOVED***useRouter()
-const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
+const router = useRouter()
+const userStore = useUserStore()
 
-//***REMOVED***表单引用
-const***REMOVED***registerFormRef***REMOVED***=***REMOVED***ref<FormInstance>()
+// 表单引用
+const registerFormRef = ref<FormInstance>()
 
-//***REMOVED***加载状态
-const***REMOVED***loading***REMOVED***=***REMOVED***ref(false)
+// 加载状态
+const loading = ref(false)
 
-//***REMOVED***注册表单数据
-const***REMOVED***registerForm***REMOVED***=***REMOVED***reactive({
-***REMOVED******REMOVED***username:***REMOVED***'',
-***REMOVED******REMOVED***nickname:***REMOVED***'',
-***REMOVED******REMOVED***password:***REMOVED***'',
-***REMOVED******REMOVED***confirmPassword:***REMOVED***''
+// 注册表单数据
+const registerForm = reactive({
+  username: '',
+  nickname: '',
+  password: '',
+  confirmPassword: ''
 })
 
-//***REMOVED***自定义验证器
-const***REMOVED***validateConfirmPassword***REMOVED***=***REMOVED***(rule:***REMOVED***any,***REMOVED***value:***REMOVED***any,***REMOVED***callback:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(value***REMOVED***===***REMOVED***'')***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***callback(new***REMOVED***Error('请再次输入密码'))
-***REMOVED******REMOVED***}***REMOVED***else***REMOVED***if***REMOVED***(value***REMOVED***!==***REMOVED***registerForm.password)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***callback(new***REMOVED***Error('两次输入密码不一致'))
-***REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***callback()
-***REMOVED******REMOVED***}
+// 自定义验证器
+const validateConfirmPassword = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请再次输入密码'))
+  } else if (value !== registerForm.password) {
+    callback(new Error('两次输入密码不一致'))
+  } else {
+    callback()
+  }
 }
 
-
-//***REMOVED***表单验证规则
-const***REMOVED***registerRules:***REMOVED***FormRules***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED***username:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***required:***REMOVED***true,***REMOVED***message:***REMOVED***'请输入用户名',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***min:***REMOVED***3,***REMOVED***max:***REMOVED***20,***REMOVED***message:***REMOVED***'用户名长度在***REMOVED***3***REMOVED***到***REMOVED***20***REMOVED***个字符',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***pattern:***REMOVED***/^[a-zA-Z0-9_]+$/,***REMOVED***message:***REMOVED***'用户名只能包含字母、数字和下划线',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***}
-***REMOVED******REMOVED***],
-***REMOVED******REMOVED***nickname:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***required:***REMOVED***true,***REMOVED***message:***REMOVED***'请输入昵称',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***min:***REMOVED***2,***REMOVED***max:***REMOVED***20,***REMOVED***message:***REMOVED***'昵称长度在***REMOVED***2***REMOVED***到***REMOVED***20***REMOVED***个字符',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***}
-***REMOVED******REMOVED***],
-***REMOVED******REMOVED***password:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***required:***REMOVED***true,***REMOVED***message:***REMOVED***'请输入密码',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***min:***REMOVED***6,***REMOVED***max:***REMOVED***20,***REMOVED***message:***REMOVED***'密码长度在***REMOVED***6***REMOVED***到***REMOVED***20***REMOVED***个字符',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***}
-***REMOVED******REMOVED***],
-***REMOVED******REMOVED***confirmPassword:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***required:***REMOVED***true,***REMOVED***message:***REMOVED***'请确认密码',***REMOVED***trigger:***REMOVED***'blur'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{***REMOVED***validator:***REMOVED***validateConfirmPassword,***REMOVED***trigger:***REMOVED***'blur'***REMOVED***}
-***REMOVED******REMOVED***]
+// 表单验证规则
+const registerRules: FormRules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 20, message: '用户名长度在3到20个字符', trigger: 'blur' },
+    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名只能包含字母、数字和下划线', trigger: 'blur' }
+  ],
+  nickname: [
+    { required: true, message: '请输入昵称', trigger: 'blur' },
+    { min: 2, max: 20, message: '昵称长度在2到20个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 20, message: '密码长度在6到20个字符', trigger: 'blur' }
+  ],
+  confirmPassword: [
+    { required: true, message: '请确认密码', trigger: 'blur' },
+    { validator: validateConfirmPassword, trigger: 'blur' }
+  ]
 }
 
-//***REMOVED***处理注册
-const***REMOVED***handleRegister***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!registerFormRef.value)***REMOVED***return
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***valid***REMOVED***=***REMOVED***await***REMOVED***registerFormRef.value.validate()
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!valid)***REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***loading.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***success***REMOVED***=***REMOVED***await***REMOVED***userStore.register(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***registerForm.username,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***registerForm.password,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***registerForm.nickname
-***REMOVED******REMOVED******REMOVED******REMOVED***)
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('注册成功，请登录')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***注册成功后跳转到登录页面
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***router.push('/login')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error(error.message***REMOVED***||***REMOVED***'注册失败')
-***REMOVED******REMOVED***}***REMOVED***finally***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***loading.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED***}
+// 处理注册
+const handleRegister = async () => {
+  if (!registerFormRef.value) return
+
+  try {
+    const valid = await registerFormRef.value.validate()
+    if (!valid) return
+
+    loading.value = true
+
+    const success = await userStore.register(
+      registerForm.username,
+      registerForm.password,
+      registerForm.nickname
+    )
+
+    if (success) {
+      ElMessage.success('注册成功，请登录')
+      // 注册成功后跳转到登录页面
+      router.push('/login')
+    }
+  } catch (error: any) {
+    ElMessage.error(error.message || '注册失败')
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
-<style***REMOVED***scoped>
-.register-container***REMOVED***{
-***REMOVED******REMOVED***min-height:***REMOVED***100vh;
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***justify-content:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***20px;
+<style scoped>
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.register-box***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***100%;
-***REMOVED******REMOVED***max-width:***REMOVED***400px;
-***REMOVED******REMOVED***background:***REMOVED***white;
-***REMOVED******REMOVED***border-radius:***REMOVED***16px;
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***20px***REMOVED***40px***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.1);
-***REMOVED******REMOVED***padding:***REMOVED***40px;
+.register-box {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
 }
 
-.register-header***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***30px;
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.register-header***REMOVED***h2***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#333;
-***REMOVED******REMOVED***font-size:***REMOVED***28px;
-***REMOVED******REMOVED***font-weight:***REMOVED***600;
-***REMOVED******REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***8px***REMOVED***0;
+.register-header h2 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
 }
 
-.register-header***REMOVED***p***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***margin:***REMOVED***0;
+.register-header p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
 }
 
-.register-form***REMOVED***{
-***REMOVED******REMOVED***margin-bottom:***REMOVED***20px;
+.register-form {
+  margin-bottom: 20px;
 }
 
-.register-btn***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***100%;
-***REMOVED******REMOVED***height:***REMOVED***48px;
-***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#667eea,***REMOVED***#764ba2);
-***REMOVED******REMOVED***border:***REMOVED***none;
-***REMOVED******REMOVED***border-radius:***REMOVED***8px;
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
+.register-btn {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.register-btn:hover***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#764ba2,***REMOVED***#667eea);
+.register-btn:hover {
+  background: linear-gradient(45deg, #764ba2, #667eea);
 }
 
-.register-footer***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***center;
+.register-footer {
+  text-align: center;
 }
 
-.register-footer***REMOVED***p***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***margin:***REMOVED***0;
+.register-footer p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
 }
 
-.login-link***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#667eea;
-***REMOVED******REMOVED***text-decoration:***REMOVED***none;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
+.login-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.login-link:hover***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#764ba2;
-***REMOVED******REMOVED***text-decoration:***REMOVED***underline;
+.login-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
 }
 
-/****REMOVED***Element***REMOVED***Plus***REMOVED***样式覆盖***REMOVED****/
-:deep(.el-input__wrapper)***REMOVED***{
-***REMOVED******REMOVED***border-radius:***REMOVED***8px;
-***REMOVED******REMOVED***border:***REMOVED***1px***REMOVED***solid***REMOVED***#e0e0e0;
-***REMOVED******REMOVED***box-shadow:***REMOVED***none;
-***REMOVED******REMOVED***height:***REMOVED***48px;
+/* Element Plus 样式覆盖 */
+::v-deep(.el-input__wrapper) {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: none;
+  height: 48px;
 }
 
-:deep(.el-input__wrapper:hover)***REMOVED***{
-***REMOVED******REMOVED***border-color:***REMOVED***#667eea;
+::v-deep(.el-input__wrapper:hover) {
+  border-color: #667eea;
 }
 
-:deep(.el-input__wrapper.is-focus)***REMOVED***{
-***REMOVED******REMOVED***border-color:***REMOVED***#667eea;
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***0***REMOVED***0***REMOVED***2px***REMOVED***rgba(102,***REMOVED***126,***REMOVED***234,***REMOVED***0.2);
+::v-deep(.el-input__wrapper.is-focus) {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
 }
 
-:deep(.el-form-item)***REMOVED***{
-***REMOVED******REMOVED***margin-bottom:***REMOVED***20px;
+::v-deep(.el-form-item) {
+  margin-bottom: 20px;
 }
 
-:deep(.el-form-item__error)***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
+::v-deep(.el-form-item__error) {
+  font-size: 12px;
 }
 </style>

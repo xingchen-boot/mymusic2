@@ -1,97 +1,97 @@
-package***REMOVED***org.example.entity;
+package org.example.entity;
 
-import***REMOVED***com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
-***REMOVED*******REMOVED***API响应包装类
-***REMOVED****/
+ * API响应包装类
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public***REMOVED***class***REMOVED***ApiResponse<T>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Integer***REMOVED***code;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***message;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***T***REMOVED***data;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Object***REMOVED***total;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Object***REMOVED***page;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Object***REMOVED***size;
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***构造函数
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse()***REMOVED***{}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse(Integer***REMOVED***code,***REMOVED***String***REMOVED***message)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.code***REMOVED***=***REMOVED***code;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.message***REMOVED***=***REMOVED***message;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse(Integer***REMOVED***code,***REMOVED***String***REMOVED***message,***REMOVED***T***REMOVED***data)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.code***REMOVED***=***REMOVED***code;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.message***REMOVED***=***REMOVED***message;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.data***REMOVED***=***REMOVED***data;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***静态方法创建响应
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***<T>***REMOVED***ApiResponse<T>***REMOVED***success(T***REMOVED***data)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***new***REMOVED***ApiResponse<>(200,***REMOVED***"操作成功",***REMOVED***data);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***<T>***REMOVED***ApiResponse<T>***REMOVED***success(String***REMOVED***message,***REMOVED***T***REMOVED***data)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***new***REMOVED***ApiResponse<>(200,***REMOVED***message,***REMOVED***data);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***<T>***REMOVED***ApiResponse<T>***REMOVED***error(String***REMOVED***message)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***new***REMOVED***ApiResponse<>(500,***REMOVED***message);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***<T>***REMOVED***ApiResponse<T>***REMOVED***error(Integer***REMOVED***code,***REMOVED***String***REMOVED***message)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***new***REMOVED***ApiResponse<>(code,***REMOVED***message);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***Getter和Setter方法
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Integer***REMOVED***getCode()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***code;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setCode(Integer***REMOVED***code)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.code***REMOVED***=***REMOVED***code;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMessage()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***message;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMessage(String***REMOVED***message)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.message***REMOVED***=***REMOVED***message;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***T***REMOVED***getData()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***data;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setData(T***REMOVED***data)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.data***REMOVED***=***REMOVED***data;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Object***REMOVED***getTotal()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***total;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setTotal(Object***REMOVED***total)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.total***REMOVED***=***REMOVED***total;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Object***REMOVED***getPage()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***page;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setPage(Object***REMOVED***page)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.page***REMOVED***=***REMOVED***page;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Object***REMOVED***getSize()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***size;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setSize(Object***REMOVED***size)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.size***REMOVED***=***REMOVED***size;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+public class ApiResponse<T> {
+    
+    private Integer code;
+    private String message;
+    private T data;
+    private Object total;
+    private Object page;
+    private Object size;
+    
+    // 构造函数
+    public ApiResponse() {}
+    
+    public ApiResponse(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+    
+    public ApiResponse(Integer code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+    
+    // 静态方法创建响应
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(200, "操作成功", data);
+    }
+    
+    public static <T> ApiResponse<T> success(String message, T data) {
+        return new ApiResponse<>(200, message, data);
+    }
+    
+    public static <T> ApiResponse<T> error(String message) {
+        return new ApiResponse<>(500, message);
+    }
+    
+    public static <T> ApiResponse<T> error(Integer code, String message) {
+        return new ApiResponse<>(code, message);
+    }
+    
+    // Getter和Setter方法
+    public Integer getCode() {
+        return code;
+    }
+    
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+    
+    public String getMessage() {
+        return message;
+    }
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    public T getData() {
+        return data;
+    }
+    
+    public void setData(T data) {
+        this.data = data;
+    }
+    
+    public Object getTotal() {
+        return total;
+    }
+    
+    public void setTotal(Object total) {
+        this.total = total;
+    }
+    
+    public Object getPage() {
+        return page;
+    }
+    
+    public void setPage(Object page) {
+        this.page = page;
+    }
+    
+    public Object getSize() {
+        return size;
+    }
+    
+    public void setSize(Object size) {
+        this.size = size;
+    }
 }

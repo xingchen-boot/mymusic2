@@ -1,22 +1,22 @@
---***REMOVED***创建用户最近播放表
-CREATE***REMOVED***TABLE***REMOVED***IF***REMOVED***NOT***REMOVED***EXISTS***REMOVED***`user_recent_play`***REMOVED***(
-***REMOVED******REMOVED******REMOVED******REMOVED***`id`***REMOVED***BIGINT***REMOVED***AUTO_INCREMENT***REMOVED***PRIMARY***REMOVED***KEY***REMOVED***COMMENT***REMOVED***'主键ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`user_id`***REMOVED***BIGINT***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'用户ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_id`***REMOVED***VARCHAR(100)***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'音乐ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_mid`***REMOVED***VARCHAR(100)***REMOVED***COMMENT***REMOVED***'音乐MID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_song`***REMOVED***VARCHAR(200)***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'歌曲名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_singer`***REMOVED***VARCHAR(200)***REMOVED***COMMENT***REMOVED***'歌手名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_album`***REMOVED***VARCHAR(200)***REMOVED***COMMENT***REMOVED***'专辑名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_cover`***REMOVED***VARCHAR(500)***REMOVED***COMMENT***REMOVED***'封面图片URL',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_time`***REMOVED***VARCHAR(20)***REMOVED***COMMENT***REMOVED***'歌曲时长',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_pay`***REMOVED***VARCHAR(20)***REMOVED***COMMENT***REMOVED***'付费信息',
-***REMOVED******REMOVED******REMOVED******REMOVED***`play_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'播放时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***`play_duration`***REMOVED***INT***REMOVED***DEFAULT***REMOVED***0***REMOVED***COMMENT***REMOVED***'播放时长（秒）',
-***REMOVED******REMOVED******REMOVED******REMOVED***`play_progress`***REMOVED***DECIMAL(5,2)***REMOVED***DEFAULT***REMOVED***0.00***REMOVED***COMMENT***REMOVED***'播放进度百分比',
-***REMOVED******REMOVED******REMOVED******REMOVED***`create_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'创建时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***`update_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***ON***REMOVED***UPDATE***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'更新时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***UNIQUE***REMOVED***KEY***REMOVED***`uk_user_music`***REMOVED***(`user_id`,***REMOVED***`music_id`),
-***REMOVED******REMOVED******REMOVED******REMOVED***FOREIGN***REMOVED***KEY***REMOVED***(`user_id`)***REMOVED***REFERENCES***REMOVED***`user`(`id`)***REMOVED***ON***REMOVED***DELETE***REMOVED***CASCADE,
-***REMOVED******REMOVED******REMOVED******REMOVED***INDEX***REMOVED***`idx_user_play_time`***REMOVED***(`user_id`,***REMOVED***`play_time`***REMOVED***DESC),
-***REMOVED******REMOVED******REMOVED******REMOVED***INDEX***REMOVED***`idx_play_time`***REMOVED***(`play_time`***REMOVED***DESC)
-)***REMOVED***ENGINE=InnoDB***REMOVED***DEFAULT***REMOVED***CHARSET=utf8mb4***REMOVED***COLLATE=utf8mb4_unicode_ci***REMOVED***COMMENT='用户最近播放表';
+﻿-- 创建用户最近播放表
+CREATE TABLE IF NOT EXISTS `user_recent_play` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+    `user_id` BIGINT NOT NULL COMMENT '用户ID',
+    `music_id` VARCHAR(100) NOT NULL COMMENT '音乐ID',
+    `music_mid` VARCHAR(100) COMMENT '音乐MID',
+    `music_song` VARCHAR(200) NOT NULL COMMENT '歌曲名称',
+    `music_singer` VARCHAR(200) COMMENT '歌手名称',
+    `music_album` VARCHAR(200) COMMENT '专辑名称',
+    `music_cover` VARCHAR(500) COMMENT '封面图片URL',
+    `music_time` VARCHAR(20) COMMENT '歌曲时长',
+    `music_pay` VARCHAR(20) COMMENT '付费信息',
+    `play_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '播放时间',
+    `play_duration` INT DEFAULT 0 COMMENT '播放时长（秒）',
+    `play_progress` DECIMAL(5,2) DEFAULT 0.00 COMMENT '播放进度百分比',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE KEY `uk_user_music` (`user_id`, `music_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
+    INDEX `idx_user_play_time` (`user_id`, `play_time` DESC),
+    INDEX `idx_play_time` (`play_time` DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户最近播放表';

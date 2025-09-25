@@ -1,592 +1,924 @@
-<template>
-***REMOVED******REMOVED***<div***REMOVED***class="player-shell">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="current"***REMOVED***class="player-page">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="left">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="disc-wrap">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="disc***REMOVED***spinning"***REMOVED***:class="{***REMOVED***paused:***REMOVED***!isPlaying***REMOVED***}"***REMOVED***@click="togglePlay">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="current.cover"***REMOVED***alt="cover"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="center-hole"></div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="tips">点击封面{{***REMOVED***isPlaying***REMOVED***?***REMOVED***'暂停'***REMOVED***:***REMOVED***'播放'***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***歌名***REMOVED***/***REMOVED***歌手***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="under-meta">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h2***REMOVED***class="under-title">{{***REMOVED***current.song***REMOVED***}}</h2>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="under-artist">{{***REMOVED***current.singer***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***进度条***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="under-progress">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="time">{{***REMOVED***formatTime(currentTime)***REMOVED***}}</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-slider***REMOVED***:model-value="progress"***REMOVED***@input="setProgress"***REMOVED***:show-tooltip="false"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="time">{{***REMOVED***formatTime(duration)***REMOVED***}}</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***控制按钮行：队列***REMOVED***|***REMOVED***上一首***REMOVED***|***REMOVED***播放/暂停***REMOVED***|***REMOVED***下一首***REMOVED***|***REMOVED***模式***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="controls-line">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***class="ctl"***REMOVED***@click="musicStore.togglePlayQueue">📋</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***class="ctl"***REMOVED***@click="playPrevious">⏮️</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***circle***REMOVED***class="play"***REMOVED***@click="togglePlay">{{***REMOVED***isPlaying***REMOVED***?***REMOVED***'⏸️'***REMOVED***:***REMOVED***'▶️'***REMOVED***}}</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***class="ctl"***REMOVED***@click="playNext">⏭️</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***class="ctl"***REMOVED***@click="musicStore.togglePlayMode">{{***REMOVED***musicStore.playModeIcon***REMOVED***}}</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***音量行***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="volume-line">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***class="ctl"***REMOVED***@click="musicStore.toggleMute">{{***REMOVED***musicStore.isMuted***REMOVED***?***REMOVED***'🔇'***REMOVED***:***REMOVED***'🔊'***REMOVED***}}</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-slider***REMOVED***class="volume-slider"***REMOVED***:model-value="musicStore.volume"***REMOVED***@input="musicStore.setVolume"***REMOVED***:show-tooltip="false"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="right">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="meta">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h1***REMOVED***class="title">{{***REMOVED***current.song***REMOVED***}}</h1>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="artist">{{***REMOVED***current.singer***REMOVED***}}</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="lyrics-controls">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="text"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="showTranslation***REMOVED***=***REMOVED***!showTranslation"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:class="{***REMOVED***active:***REMOVED***showTranslation***REMOVED***}"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***showTranslation***REMOVED***?***REMOVED***'🌐***REMOVED***隐藏翻译'***REMOVED***:***REMOVED***'🌐***REMOVED***显示翻译'***REMOVED***}}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="lyrics"***REMOVED***v-if="lyricsLines.length">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-for="(line,***REMOVED***idx)***REMOVED***in***REMOVED***lyricsLines"***REMOVED***:key="idx"***REMOVED***:class="['line',***REMOVED***{***REMOVED***active:***REMOVED***idx***REMOVED***===***REMOVED***activeLineIndex***REMOVED***}]">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="lyric-text">{{***REMOVED***line.text***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="showTranslation***REMOVED***&&***REMOVED***line.translation"***REMOVED***class="lyric-translation">{{***REMOVED***line.translation***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="lyrics***REMOVED***empty">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="isLoadingLyrics"***REMOVED***class="loading">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="loading-spinner">⏳</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="loading-text">正在加载歌词...</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="no-lyrics">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="no-lyrics-icon">🎵</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="no-lyrics-text">该歌曲暂无歌词</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="no-lyrics-tip">请尝试播放其他歌曲</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="empty">暂无正在播放的音乐</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***<!--***REMOVED***播放队列面板***REMOVED***-->
-***REMOVED******REMOVED******REMOVED******REMOVED***<transition***REMOVED***name="queue-panel">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="musicStore.showPlayQueue"***REMOVED***class="play-queue-panel">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-header">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h3>播放队列***REMOVED***({{***REMOVED***musicStore.queueCount***REMOVED***}})</h3>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-actions">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***@click="musicStore.clearPlayQueueWithSync"***REMOVED***size="small">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***清空队列
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="text"***REMOVED***@click="musicStore.togglePlayQueue"***REMOVED***size="small">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***✕
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-list">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-for="(music,***REMOVED***index)***REMOVED***in***REMOVED***musicStore.playQueue"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:key="music.id"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="queue-item"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:class="{***REMOVED***'current':***REMOVED***musicStore.currentMusic?.id***REMOVED***===***REMOVED***music.id***REMOVED***}"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-number">{{***REMOVED***index***REMOVED***+***REMOVED***1***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="music.cover"***REMOVED***:alt="music.song"***REMOVED***class="queue-cover"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-info">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-title">{{***REMOVED***music.song***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-artist">{{***REMOVED***music.singer***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="queue-actions">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="text"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="musicStore.playMusic(music)"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="play-btn"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{{***REMOVED***musicStore.currentMusic?.id***REMOVED***===***REMOVED***music.id***REMOVED***&&***REMOVED***musicStore.isPlaying***REMOVED***?***REMOVED***'⏸️'***REMOVED***:***REMOVED***'▶️'***REMOVED***}}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="text"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="musicStore.removeFromPlayQueueWithSync(music.id)"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***size="small"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="remove-btn"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***🗑️
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="musicStore.queueCount***REMOVED***===***REMOVED***0"***REMOVED***class="empty-queue">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p>播放队列为空</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</transition>
-***REMOVED******REMOVED***</div>
-</template>
-
-<script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***computed,***REMOVED***ref,***REMOVED***watch,***REMOVED***onMounted***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'../stores/music'
-import***REMOVED***{***REMOVED***useUserStore***REMOVED***}***REMOVED***from***REMOVED***'../stores/user'
-
-const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
-const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
-
-const***REMOVED***current***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentMusic)
-const***REMOVED***isPlaying***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isPlaying)
-const***REMOVED***progress***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.progress)
-const***REMOVED***currentTime***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentTime)
-const***REMOVED***duration***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.duration)
-
-const***REMOVED***togglePlay***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***m***REMOVED***=***REMOVED***current.value***REMOVED***as***REMOVED***any
-***REMOVED******REMOVED***if***REMOVED***(!m)***REMOVED***return
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***audioSrc***REMOVED***=***REMOVED***(musicStore***REMOVED***as***REMOVED***any).audio?.src***REMOVED***as***REMOVED***string***REMOVED***|***REMOVED***undefined
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果没有可用的音频源，则通过***REMOVED***playMusic***REMOVED***拉取并播放
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!audioSrc)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.playMusic(m)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***已有音源：统一走***REMOVED***store***REMOVED***的***REMOVED***togglePlay，确保***REMOVED***isPlaying***REMOVED***状态与按钮/动画同步
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.togglePlay()
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如遇播放失败，回退到重新拉取***REMOVED***URL
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.playMusic(m)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***静默失败，避免中断***REMOVED***UI；实际错误处理在***REMOVED***store***REMOVED***内完成
-***REMOVED******REMOVED***}
-}
-const***REMOVED***playPrevious***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***musicStore.playPrevious()
-const***REMOVED***playNext***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***musicStore.playNext()
-const***REMOVED***setProgress***REMOVED***=***REMOVED***async***REMOVED***(v:***REMOVED***number)***REMOVED***=>***REMOVED***{***REMOVED***await***REMOVED***musicStore.setProgress(v)***REMOVED***}
-
-//***REMOVED***歌词相关状态
-const***REMOVED***lyricsLines***REMOVED***=***REMOVED***ref<Array<{***REMOVED***time:***REMOVED***number;***REMOVED***text:***REMOVED***string;***REMOVED***translation?:***REMOVED***string***REMOVED***}>>([])
-const***REMOVED***activeLineIndex***REMOVED***=***REMOVED***ref<number>(-1)
-const***REMOVED***isLoadingLyrics***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***showTranslation***REMOVED***=***REMOVED***ref(true)***REMOVED***//***REMOVED***是否显示翻译
-const***REMOVED***lastLoadedMusicId***REMOVED***=***REMOVED***ref<string***REMOVED***|***REMOVED***number***REMOVED***|***REMOVED***null>(null)***REMOVED***//***REMOVED***记录最后加载歌词的歌曲ID
-
-//***REMOVED***加载歌词
-const***REMOVED***loadLyrics***REMOVED***=***REMOVED***async***REMOVED***(music:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music)***REMOVED***return
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***//***REMOVED***检查是否已经加载过相同歌曲的歌词，避免重复加载
-***REMOVED******REMOVED***const***REMOVED***currentMusicId***REMOVED***=***REMOVED***music.id***REMOVED***||***REMOVED***music.mid
-***REMOVED******REMOVED***if***REMOVED***(lastLoadedMusicId.value***REMOVED***===***REMOVED***currentMusicId***REMOVED***&&***REMOVED***lyricsLines.value.length***REMOVED***>***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.log('🎵***REMOVED***歌词已缓存，跳过加载:',***REMOVED***music.song)
-***REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***console.log('🎵***REMOVED***开始加载歌词:',***REMOVED***music.song,***REMOVED***music.id,***REMOVED***music.mid)
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***isLoadingLyrics.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED***lyricsLines.value***REMOVED***=***REMOVED***[]
-***REMOVED******REMOVED***activeLineIndex.value***REMOVED***=***REMOVED***-1
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***lyricsData***REMOVED***=***REMOVED***await***REMOVED***musicStore.getLyrics(music)
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(lyricsData)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('📝***REMOVED***歌词数据:',***REMOVED***lyricsData)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***解析主歌词
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***mainLyrics***REMOVED***=***REMOVED***musicStore.parseLrc(lyricsData.lrc)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('📝***REMOVED***主歌词解析结果:',***REMOVED***mainLyrics.length,***REMOVED***'行')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***解析翻译歌词
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***transLyrics***REMOVED***=***REMOVED***musicStore.parseLrc(lyricsData.trans)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('🌐***REMOVED***翻译歌词解析结果:',***REMOVED***transLyrics.length,***REMOVED***'行')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***合并歌词和翻译
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***combinedLyrics***REMOVED***=***REMOVED***mainLyrics.map(line***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***查找对应的翻译
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***translation***REMOVED***=***REMOVED***transLyrics.find(trans***REMOVED***=>***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Math.abs(trans.time***REMOVED***-***REMOVED***line.time)***REMOVED***<***REMOVED***0.5***REMOVED***//***REMOVED***时间差小于0.5秒
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***time:***REMOVED***line.time,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***text:***REMOVED***line.text,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***translation:***REMOVED***translation?.text
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***lyricsLines.value***REMOVED***=***REMOVED***combinedLyrics
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***lastLoadedMusicId.value***REMOVED***=***REMOVED***currentMusicId***REMOVED***//***REMOVED***记录已加载的歌曲ID
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('✅***REMOVED***歌词加载完成，共',***REMOVED***combinedLyrics.length,***REMOVED***'行')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('ℹ️***REMOVED***该歌曲暂无歌词数据')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***lastLoadedMusicId.value***REMOVED***=***REMOVED***currentMusicId***REMOVED***//***REMOVED***即使无歌词也记录ID，避免重复请求
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.error('加载歌词失败:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED***lastLoadedMusicId.value***REMOVED***=***REMOVED***currentMusicId***REMOVED***//***REMOVED***即使失败也记录ID，避免重复请求
-***REMOVED******REMOVED***}***REMOVED***finally***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***isLoadingLyrics.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED***}
-}
-
-//***REMOVED***监听当前歌曲变化
-watch(current,***REMOVED***async***REMOVED***(m)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(m)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadLyrics(m)
-***REMOVED******REMOVED***}
-},***REMOVED***{***REMOVED***immediate:***REMOVED***true***REMOVED***})
-
-//***REMOVED***监听播放时间，高亮当前歌词
-watch(currentTime,***REMOVED***(t)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(lyricsLines.value.length***REMOVED***===***REMOVED***0)***REMOVED***return
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***const***REMOVED***idx***REMOVED***=***REMOVED***lyricsLines.value.findIndex((l,***REMOVED***i)***REMOVED***=>***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***t***REMOVED***>=***REMOVED***l.time***REMOVED***&&***REMOVED***(i***REMOVED***===***REMOVED***lyricsLines.value.length***REMOVED***-***REMOVED***1***REMOVED***||***REMOVED***t***REMOVED***<***REMOVED***lyricsLines.value[i***REMOVED***+***REMOVED***1].time)
-***REMOVED******REMOVED***)
-***REMOVED******REMOVED***activeLineIndex.value***REMOVED***=***REMOVED***idx
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***//***REMOVED***自动滚动到当前歌词
-***REMOVED******REMOVED***if***REMOVED***(idx***REMOVED***>=***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***lyricsContainer***REMOVED***=***REMOVED***document.querySelector('.lyrics')
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(lyricsContainer)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***activeLine***REMOVED***=***REMOVED***lyricsContainer.querySelector('.line.active')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(activeLine)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***activeLine.scrollIntoView({***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***behavior:***REMOVED***'smooth',***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***block:***REMOVED***'center'***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
-})
-
-const***REMOVED***formatTime***REMOVED***=***REMOVED***(seconds:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***mins***REMOVED***=***REMOVED***Math.floor(seconds***REMOVED***/***REMOVED***60)
-***REMOVED******REMOVED***const***REMOVED***secs***REMOVED***=***REMOVED***Math.floor(seconds***REMOVED***%***REMOVED***60)
-***REMOVED******REMOVED***return***REMOVED***`${mins.toString().padStart(2,***REMOVED***'0')}:${secs.toString().padStart(2,***REMOVED***'0')}`
-}
-
-onMounted(async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***直接进入***REMOVED***/player***REMOVED***时，确保音频已初始化即可；避免在此恢复设置导致进度回退
-***REMOVED******REMOVED***if***REMOVED***(!(musicStore***REMOVED***as***REMOVED***any).audio)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***musicStore.initAudio()
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***if***REMOVED***(!userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***userStore.initUserInfo?.()
-***REMOVED******REMOVED***}
-})
-</script>
-
-<style***REMOVED***scoped>
-.player-shell***REMOVED***{***REMOVED***min-height:***REMOVED***calc(100vh***REMOVED***-***REMOVED***80px);***REMOVED***background:***REMOVED***radial-gradient(1200px***REMOVED***600px***REMOVED***at***REMOVED***20%***REMOVED***10%,***REMOVED***#7c83ff***REMOVED***0%,***REMOVED***#6c5ce7***REMOVED***25%,***REMOVED***#6f42c1***REMOVED***55%,***REMOVED***#51327a***REMOVED***100%);***REMOVED***padding:***REMOVED***24px***REMOVED***0;***REMOVED***}
-.player-page***REMOVED***{***REMOVED***max-width:***REMOVED***1280px;***REMOVED***margin:***REMOVED***0***REMOVED***auto;***REMOVED***padding:***REMOVED***0***REMOVED***24px;***REMOVED***display:***REMOVED***grid;***REMOVED***grid-template-columns:***REMOVED***560px***REMOVED***1fr;***REMOVED***gap:***REMOVED***28px;***REMOVED***}
-.left***REMOVED***{***REMOVED***display:***REMOVED***flex;***REMOVED***flex-direction:***REMOVED***column;***REMOVED***align-items:***REMOVED***center;***REMOVED***margin-top:***REMOVED***12px;***REMOVED***}
-.disc-wrap***REMOVED***{***REMOVED***display:***REMOVED***grid;***REMOVED***place-items:***REMOVED***center;***REMOVED***}
-.disc***REMOVED***{***REMOVED***width:***REMOVED***440px;***REMOVED***height:***REMOVED***440px;***REMOVED***border-radius:***REMOVED***50%;***REMOVED***background:***REMOVED***radial-gradient(#2b2f36***REMOVED***0%,***REMOVED***#151922***REMOVED***60%,***REMOVED***#0f1220***REMOVED***100%);***REMOVED***position:***REMOVED***relative;***REMOVED***box-shadow:***REMOVED***0***REMOVED***24px***REMOVED***48px***REMOVED***rgba(0,0,0,.35);***REMOVED***display:***REMOVED***grid;***REMOVED***place-items:***REMOVED***center;***REMOVED***overflow:***REMOVED***hidden;***REMOVED***}
-.disc***REMOVED***img***REMOVED***{***REMOVED***width:***REMOVED***88%;***REMOVED***height:***REMOVED***88%;***REMOVED***border-radius:***REMOVED***50%;***REMOVED***object-fit:***REMOVED***cover;***REMOVED***filter:***REMOVED***contrast(1.05)***REMOVED***brightness(.98);***REMOVED***}
-.center-hole***REMOVED***{***REMOVED***position:***REMOVED***absolute;***REMOVED***width:***REMOVED***18px;***REMOVED***height:***REMOVED***18px;***REMOVED***background:***REMOVED***#c7cad1;***REMOVED***border-radius:***REMOVED***50%;***REMOVED***box-shadow:***REMOVED***inset***REMOVED***0***REMOVED***0***REMOVED***0***REMOVED***4px***REMOVED***#2d3140;***REMOVED***}
-.spinning***REMOVED***{***REMOVED***animation:***REMOVED***spin***REMOVED***14s***REMOVED***linear***REMOVED***infinite;***REMOVED***animation-play-state:***REMOVED***running;***REMOVED***}
-.paused***REMOVED***{***REMOVED***animation-play-state:***REMOVED***paused;***REMOVED***}
-@keyframes***REMOVED***spin***REMOVED***{***REMOVED***from***REMOVED***{***REMOVED***transform:***REMOVED***rotate(0deg);}***REMOVED***to***REMOVED***{***REMOVED***transform:***REMOVED***rotate(360deg);}***REMOVED***}
-.tips***REMOVED***{***REMOVED***margin-top:***REMOVED***10px;***REMOVED***color:***REMOVED***rgba(255,255,255,.75);***REMOVED***font-size:***REMOVED***12px;***REMOVED***}
-.under-meta***REMOVED***{***REMOVED***margin-top:***REMOVED***14px;***REMOVED***text-align:***REMOVED***center;***REMOVED***}
-.under-title***REMOVED***{***REMOVED***margin:***REMOVED***0;***REMOVED***color:***REMOVED***#fff;***REMOVED***font-size:***REMOVED***22px;***REMOVED***font-weight:***REMOVED***800;***REMOVED***}
-.under-artist***REMOVED***{***REMOVED***margin-top:***REMOVED***6px;***REMOVED***color:***REMOVED***#e5e7eb;***REMOVED***font-size:***REMOVED***13px;***REMOVED***}
-.under-progress***REMOVED***{***REMOVED***margin-top:***REMOVED***12px;***REMOVED***width:***REMOVED***100%;***REMOVED***display:***REMOVED***grid;***REMOVED***grid-template-columns:***REMOVED***54px***REMOVED***1fr***REMOVED***54px;***REMOVED***gap:***REMOVED***8px;***REMOVED***align-items:***REMOVED***center;***REMOVED***}
-.ctl***REMOVED***{***REMOVED***color:***REMOVED***#e5e7eb;***REMOVED***font-size:***REMOVED***18px;***REMOVED***}
-.play***REMOVED***{***REMOVED***width:***REMOVED***46px;***REMOVED***height:***REMOVED***46px;***REMOVED***border:***REMOVED***none;***REMOVED***background:***REMOVED***linear-gradient(45deg,#67c3ff,#7b7cff);***REMOVED***}
-.controls-line***REMOVED***{***REMOVED***margin-top:***REMOVED***10px;***REMOVED***display:***REMOVED***grid;***REMOVED***grid-template-columns:***REMOVED***1fr***REMOVED***auto***REMOVED***auto***REMOVED***auto***REMOVED***1fr;***REMOVED***gap:***REMOVED***10px;***REMOVED***align-items:***REMOVED***center;***REMOVED***}
-.volume-line***REMOVED***{***REMOVED***margin-top:***REMOVED***8px;***REMOVED***width:***REMOVED***100%;***REMOVED***display:***REMOVED***grid;***REMOVED***grid-template-columns:***REMOVED***auto***REMOVED***auto;***REMOVED***gap:***REMOVED***10px;***REMOVED***align-items:***REMOVED***center;***REMOVED***justify-content:***REMOVED***center;***REMOVED***}
-.volume-slider***REMOVED***{***REMOVED***width:***REMOVED***200px;***REMOVED***}
-.time***REMOVED***{***REMOVED***color:***REMOVED***#d1d5db;***REMOVED***font-size:***REMOVED***12px;***REMOVED***text-align:***REMOVED***center;***REMOVED***}
-.right***REMOVED***{***REMOVED***display:***REMOVED***flex;***REMOVED***flex-direction:***REMOVED***column;***REMOVED***}
-.meta***REMOVED***.title***REMOVED***{***REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***6px;***REMOVED***font-size:***REMOVED***28px;***REMOVED***font-weight:***REMOVED***800;***REMOVED***color:***REMOVED***#fff;***REMOVED***}
-.meta***REMOVED***.artist***REMOVED***{***REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***8px;***REMOVED***color:***REMOVED***#e5e7eb;***REMOVED***}
-
-.lyrics-controls***REMOVED***{
-***REMOVED******REMOVED***margin-bottom:***REMOVED***12px;
-}
-
-.lyrics-controls***REMOVED***.el-button***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#a0a0a0***REMOVED***!important;
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
-***REMOVED******REMOVED***padding:***REMOVED***4px***REMOVED***8px;
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***0.2s***REMOVED***ease;
-}
-
-.lyrics-controls***REMOVED***.el-button:hover***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#67c3ff***REMOVED***!important;
-}
-
-.lyrics-controls***REMOVED***.el-button.active***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#67c3ff***REMOVED***!important;
-***REMOVED******REMOVED***background-color:***REMOVED***rgba(103,***REMOVED***195,***REMOVED***255,***REMOVED***0.1);
-}
-.lyrics***REMOVED***{***REMOVED***
-***REMOVED******REMOVED***margin-top:***REMOVED***4px;***REMOVED***
-***REMOVED******REMOVED***padding:***REMOVED***16px;***REMOVED***
-***REMOVED******REMOVED***height:***REMOVED***560px;***REMOVED***
-***REMOVED******REMOVED***overflow-y:***REMOVED***auto;***REMOVED***
-***REMOVED******REMOVED***background:***REMOVED***rgba(6,10,25,.85);***REMOVED***
-***REMOVED******REMOVED***border-radius:***REMOVED***14px;***REMOVED***
-***REMOVED******REMOVED***color:***REMOVED***#e5e7eb;***REMOVED***
-***REMOVED******REMOVED***box-shadow:***REMOVED***inset***REMOVED***0***REMOVED***8px***REMOVED***16px***REMOVED***rgba(0,0,0,.35);***REMOVED***
-***REMOVED******REMOVED***backdrop-filter:***REMOVED***blur(2px);***REMOVED***
-***REMOVED******REMOVED***scroll-behavior:***REMOVED***smooth;
-}
-
-.lyrics***REMOVED***.line***REMOVED***{***REMOVED***
-***REMOVED******REMOVED***opacity:***REMOVED***.6;***REMOVED***
-***REMOVED******REMOVED***padding:***REMOVED***8px***REMOVED***0;***REMOVED***
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***.3s***REMOVED***ease;***REMOVED***
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***line-height:***REMOVED***1.6;
-}
-
-.lyrics***REMOVED***.line.active***REMOVED***{***REMOVED***
-***REMOVED******REMOVED***opacity:***REMOVED***1;***REMOVED***
-***REMOVED******REMOVED***color:***REMOVED***#fff;***REMOVED***
-***REMOVED******REMOVED***font-weight:***REMOVED***700;***REMOVED***
-***REMOVED******REMOVED***transform:***REMOVED***scale(1.05);
-***REMOVED******REMOVED***text-shadow:***REMOVED***0***REMOVED***0***REMOVED***10px***REMOVED***rgba(255,255,255,0.3);
-}
-
-.lyric-text***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***4px;
-}
-
-.lyric-translation***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***color:***REMOVED***#a0a0a0;
-***REMOVED******REMOVED***opacity:***REMOVED***0.8;
-}
-
-.lyrics.empty***REMOVED***{***REMOVED***
-***REMOVED******REMOVED***display:***REMOVED***grid;***REMOVED***
-***REMOVED******REMOVED***place-items:***REMOVED***center;***REMOVED***
-***REMOVED******REMOVED***color:***REMOVED***#b6bdc6;***REMOVED***
-}
-
-.lyrics***REMOVED***.loading***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***flex-direction:***REMOVED***column;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***gap:***REMOVED***12px;
-***REMOVED******REMOVED***color:***REMOVED***#67c3ff;
-}
-
-.loading-spinner***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***24px;
-***REMOVED******REMOVED***animation:***REMOVED***pulse***REMOVED***1.5s***REMOVED***ease-in-out***REMOVED***infinite;
-}
-
-.loading-text***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***animation:***REMOVED***pulse***REMOVED***1.5s***REMOVED***ease-in-out***REMOVED***infinite;
-}
-
-.no-lyrics***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***40px***REMOVED***20px;
-}
-
-.no-lyrics-icon***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***48px;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***16px;
-***REMOVED******REMOVED***opacity:***REMOVED***0.6;
-}
-
-.no-lyrics-text***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***color:***REMOVED***#e5e7eb;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***8px;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
-}
-
-.no-lyrics-tip***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***color:***REMOVED***#a0a0a0;
-***REMOVED******REMOVED***opacity:***REMOVED***0.8;
-}
-
-@keyframes***REMOVED***pulse***REMOVED***{
-***REMOVED******REMOVED***0%,***REMOVED***100%***REMOVED***{***REMOVED***opacity:***REMOVED***0.6;***REMOVED***}
-***REMOVED******REMOVED***50%***REMOVED***{***REMOVED***opacity:***REMOVED***1;***REMOVED***}
-}
-@media***REMOVED***(max-width:***REMOVED***1024px)***REMOVED***{
-***REMOVED******REMOVED***.player-page***REMOVED***{***REMOVED***grid-template-columns:***REMOVED***1fr;***REMOVED***}
-***REMOVED******REMOVED***.disc***REMOVED***{***REMOVED***width:***REMOVED***320px;***REMOVED***height:***REMOVED***320px;***REMOVED***}
-***REMOVED******REMOVED***.lyrics***REMOVED***{***REMOVED***height:***REMOVED***380px;***REMOVED***}
-}
-
-/****REMOVED***播放队列面板样式***REMOVED****/
-.play-queue-panel***REMOVED***{
-***REMOVED******REMOVED***position:***REMOVED***fixed;
-***REMOVED******REMOVED***bottom:***REMOVED***20px;
-***REMOVED******REMOVED***right:***REMOVED***20px;
-***REMOVED******REMOVED***width:***REMOVED***400px;
-***REMOVED******REMOVED***max-height:***REMOVED***500px;
-***REMOVED******REMOVED***background:***REMOVED***white;
-***REMOVED******REMOVED***border-radius:***REMOVED***12px;
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***8px***REMOVED***32px***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.15);
-***REMOVED******REMOVED***z-index:***REMOVED***1000;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-}
-
-/****REMOVED***队列面板动画***REMOVED****/
-.queue-panel-enter-active,
-.queue-panel-leave-active***REMOVED***{
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***0.3s***REMOVED***ease;
-}
-
-.queue-panel-enter-from***REMOVED***{
-***REMOVED******REMOVED***opacity:***REMOVED***0;
-***REMOVED******REMOVED***transform:***REMOVED***translateY(20px)***REMOVED***scale(0.95);
-}
-
-.queue-panel-leave-to***REMOVED***{
-***REMOVED******REMOVED***opacity:***REMOVED***0;
-***REMOVED******REMOVED***transform:***REMOVED***translateY(20px)***REMOVED***scale(0.95);
-}
-
-.queue-header***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***justify-content:***REMOVED***space-between;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***16px***REMOVED***20px;
-***REMOVED******REMOVED***background:***REMOVED***linear-gradient(45deg,***REMOVED***#667eea,***REMOVED***#764ba2);
-***REMOVED******REMOVED***color:***REMOVED***white;
-}
-
-.queue-header***REMOVED***h3***REMOVED***{
-***REMOVED******REMOVED***margin:***REMOVED***0;
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***font-weight:***REMOVED***600;
-}
-
-.queue-actions***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***gap:***REMOVED***8px;
-}
-
-.queue-actions***REMOVED***.el-button***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***white***REMOVED***!important;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
-}
-
-.queue-actions***REMOVED***.el-button:hover***REMOVED***{
-***REMOVED******REMOVED***background-color:***REMOVED***rgba(255,***REMOVED***255,***REMOVED***255,***REMOVED***0.2)***REMOVED***!important;
-***REMOVED******REMOVED***color:***REMOVED***white***REMOVED***!important;
-}
-
-.queue-list***REMOVED***{
-***REMOVED******REMOVED***max-height:***REMOVED***400px;
-***REMOVED******REMOVED***overflow-y:***REMOVED***auto;
-}
-
-.queue-item***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***12px***REMOVED***20px;
-***REMOVED******REMOVED***border-bottom:***REMOVED***1px***REMOVED***solid***REMOVED***#f0f0f0;
-***REMOVED******REMOVED***transition:***REMOVED***background-color***REMOVED***0.2s***REMOVED***ease;
-}
-
-.queue-item:hover***REMOVED***{
-***REMOVED******REMOVED***background-color:***REMOVED***#f8f9fa;
-}
-
-.queue-item.current***REMOVED***{
-***REMOVED******REMOVED***background-color:***REMOVED***#e3f2fd;
-***REMOVED******REMOVED***border-left:***REMOVED***3px***REMOVED***solid***REMOVED***#667eea;
-}
-
-.queue-number***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***24px;
-***REMOVED******REMOVED***height:***REMOVED***24px;
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***justify-content:***REMOVED***center;
-***REMOVED******REMOVED***background:***REMOVED***#f0f0f0;
-***REMOVED******REMOVED***border-radius:***REMOVED***50%;
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
-***REMOVED******REMOVED***font-weight:***REMOVED***600;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***margin-right:***REMOVED***12px;
-}
-
-.queue-item.current***REMOVED***.queue-number***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#667eea;
-***REMOVED******REMOVED***color:***REMOVED***white;
-}
-
-.queue-cover***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***40px;
-***REMOVED******REMOVED***height:***REMOVED***40px;
-***REMOVED******REMOVED***border-radius:***REMOVED***6px;
-***REMOVED******REMOVED***object-fit:***REMOVED***cover;
-***REMOVED******REMOVED***margin-right:***REMOVED***12px;
-}
-
-.queue-info***REMOVED***{
-***REMOVED******REMOVED***flex:***REMOVED***1;
-***REMOVED******REMOVED***min-width:***REMOVED***0;
-}
-
-.queue-title***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***font-weight:***REMOVED***600;
-***REMOVED******REMOVED***color:***REMOVED***#333;
-***REMOVED******REMOVED***white-space:***REMOVED***nowrap;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-***REMOVED******REMOVED***text-overflow:***REMOVED***ellipsis;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***2px;
-}
-
-.queue-artist***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***white-space:***REMOVED***nowrap;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-***REMOVED******REMOVED***text-overflow:***REMOVED***ellipsis;
-}
-
-.queue-actions***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***gap:***REMOVED***4px;
-}
-
-.queue-actions***REMOVED***.el-button***REMOVED***{
-***REMOVED******REMOVED***padding:***REMOVED***4px***REMOVED***8px;
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
-}
-
-.play-btn***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#667eea***REMOVED***!important;
-}
-
-.remove-btn***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#f56565***REMOVED***!important;
-}
-
-.empty-queue***REMOVED***{
-***REMOVED******REMOVED***padding:***REMOVED***40px***REMOVED***20px;
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***color:***REMOVED***#999;
-}
-
-.empty-queue***REMOVED***p***REMOVED***{
-***REMOVED******REMOVED***margin:***REMOVED***0;
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-}
-</style>
-
-
+﻿<template>
+    <div class="player-shell">
+      <!-- 播放器主内容区 -->
+      <div v-if="current" class="player-page">
+        <!-- 左侧：唱片、控制区 -->
+        <div class="left">
+          <!-- 唱片封面 -->
+          <div class="disc-wrap">
+            <div 
+              class="disc spinning" 
+              :class="{ paused: !isPlaying }" 
+              @click="togglePlay"
+            >
+              <img :src="current.cover" alt="cover" />
+              <div class="center-hole"></div>
+            </div>
+            <div class="tips">点击封面{{ isPlaying ? '暂停' : '播放' }}</div>
+          </div>
+  
+          <!-- 歌名/歌手信息 -->
+          <div class="under-meta">
+            <h2 class="under-title">{{ current.song }}</h2>
+            <div class="under-artist">{{ current.singer }}</div>
+          </div>
+  
+          <!-- 进度条 -->
+          <div class="under-progress">
+            <span class="time">{{ formatTime(currentTime) }}</span>
+            <el-slider 
+              :model-value="progress" 
+              @input="setProgress" 
+              :show-tooltip="false" 
+            />
+            <span class="time">{{ formatTime(duration) }}</span>
+          </div>
+  
+          <!-- 控制按钮行：队列|上一首|播放/暂停|下一首|模式 -->
+          <div class="controls-line">
+            <el-button 
+              type="text" 
+              class="ctl" 
+              @click="musicStore.togglePlayQueue"
+            >
+              📋
+            </el-button>
+            <el-button 
+              type="text" 
+              class="ctl" 
+              @click="playPrevious"
+            >
+              ⏮️
+            </el-button>
+            <el-button 
+              type="primary" 
+              circle 
+              class="play" 
+              @click="togglePlay"
+            >
+              {{ isPlaying ? '⏸️' : '▶️' }}
+            </el-button>
+            <el-button 
+              type="text" 
+              class="ctl" 
+              @click="playNext"
+            >
+              ⏭️
+            </el-button>
+            <el-button 
+              type="text" 
+              class="ctl" 
+              @click="musicStore.togglePlayMode"
+            >
+              {{ musicStore.playModeIcon }}
+            </el-button>
+          </div>
+  
+          <!-- 音量控制行 -->
+          <div class="volume-line">
+            <el-button 
+              type="text" 
+              class="ctl" 
+              @click="musicStore.toggleMute"
+            >
+              {{ musicStore.isMuted ? '🔇' : '🔊' }}
+            </el-button>
+            <el-slider 
+              class="volume-slider" 
+              :model-value="musicStore.volume" 
+              @input="musicStore.setVolume" 
+              :show-tooltip="false" 
+            />
+          </div>
+        </div>
+  
+        <!-- 右侧：歌词区 -->
+        <div class="right">
+          <!-- 歌曲信息与歌词控制 -->
+          <div class="meta">
+            <h1 class="title">{{ current.song }}</h1>
+            <p class="artist">{{ current.singer }}</p>
+            <div class="lyrics-controls">
+              <el-button
+                type="text"
+                size="small"
+                @click="showTranslation = !showTranslation"
+                :class="{ active: showTranslation }"
+              >
+                {{ showTranslation ? '🌐隐藏翻译' : '🌐显示翻译' }}
+              </el-button>
+            </div>
+          </div>
+  
+          <!-- 歌词显示区 -->
+          <div class="lyrics" v-if="lyricsLines.length">
+            <div 
+              v-for="(line, idx) in lyricsLines" 
+              :key="idx" 
+              :class="['line', { active: idx === activeLineIndex }]"
+            >
+              <div class="lyric-text">{{ line.text }}</div>
+              <div 
+                v-if="showTranslation && line.translation" 
+                class="lyric-translation"
+              >
+                {{ line.translation }}
+              </div>
+            </div>
+          </div>
+  
+          <!-- 无歌词/加载中状态 -->
+          <div class="lyrics empty" v-else>
+            <div v-if="isLoadingLyrics" class="loading">
+              <div class="loading-spinner">⏳</div>
+              <div class="loading-text">正在加载歌词...</div>
+            </div>
+            <div v-else class="no-lyrics">
+              <div class="no-lyrics-icon">🎵</div>
+              <div class="no-lyrics-text">该歌曲暂无歌词</div>
+              <div class="no-lyrics-tip">请尝试播放其他歌曲</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- 无播放内容提示 -->
+      <div v-else class="empty">暂无正在播放的音乐</div>
+  
+      <!-- 播放队列面板（带过渡动画） -->
+      <transition name="queue-panel">
+        <div v-if="musicStore.showPlayQueue" class="play-queue-panel">
+          <!-- 队列头部 -->
+          <div class="queue-header">
+            <h3>播放队列({{ musicStore.queueCount }})</h3>
+            <div class="queue-actions">
+              <el-button 
+                type="text" 
+                @click="musicStore.clearPlayQueueWithSync" 
+                size="small"
+              >
+                清空队列
+              </el-button>
+              <el-button 
+                type="text" 
+                @click="musicStore.togglePlayQueue" 
+                size="small"
+              >
+                ✕
+              </el-button>
+            </div>
+          </div>
+  
+          <!-- 队列列表 -->
+          <div class="queue-list">
+            <div
+              v-for="(music, index) in musicStore.playQueue"
+              :key="music.id"
+              class="queue-item"
+              :class="{ current: musicStore.currentMusic?.id === music.id }"
+            >
+              <div class="queue-number">{{ index + 1 }}</div>
+              <img :src="music.cover" :alt="music.song" class="queue-cover" />
+              <div class="queue-info">
+                <div class="queue-title">{{ music.song }}</div>
+                <div class="queue-artist">{{ music.singer }}</div>
+              </div>
+              <div class="queue-actions">
+                <el-button
+                  type="text"
+                  @click="musicStore.playMusic(music)"
+                  size="small"
+                  class="play-btn"
+                >
+                  {{ musicStore.currentMusic?.id === music.id && musicStore.isPlaying ? '⏸️' : '▶️' }}
+                </el-button>
+                <el-button
+                  type="text"
+                  @click="musicStore.removeFromPlayQueueWithSync(music.id)"
+                  size="small"
+                  class="remove-btn"
+                >
+                  🗑️
+                </el-button>
+              </div>
+            </div>
+  
+            <!-- 空队列提示 -->
+            <div v-if="musicStore.queueCount === 0" class="empty-queue">
+              <p>播放队列为空</p>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { computed, ref, watch, onMounted } from 'vue'
+  import { useMusicStore } from '../stores/music'
+  import { useUserStore } from '../stores/user'
+  
+  // 状态管理实例
+  const musicStore = useMusicStore()
+  const userStore = useUserStore()
+  
+  // 计算属性：从store获取核心状态
+  const current = computed(() => musicStore.currentMusic)
+  const isPlaying = computed(() => musicStore.isPlaying)
+  const progress = computed(() => musicStore.progress)
+  const currentTime = computed(() => musicStore.currentTime)
+  const duration = computed(() => musicStore.duration)
+  
+  // 歌词相关状态
+  const lyricsLines = ref<Array<{ 
+    time: number; 
+    text: string; 
+    translation?: string 
+  }>>([])
+  const activeLineIndex = ref<number>(-1)
+  const isLoadingLyrics = ref(false)
+  const showTranslation = ref(true) // 是否显示歌词翻译
+  const lastLoadedMusicId = ref<string | number | null>(null) // 避免重复加载歌词
+  
+  /**
+   * 切换播放/暂停状态
+   */
+  const togglePlay = async () => {
+    const m = current.value as any
+    if (!m) return
+  
+    try {
+      const audioSrc = (musicStore as any).audio?.src as string | undefined
+      // 无音频源时，重新拉取并播放
+      if (!audioSrc) {
+        await musicStore.playMusic(m)
+        return
+      }
+  
+      // 有音频源时，先尝试切换播放状态
+      try {
+        await musicStore.togglePlay()
+      } catch {
+        // 切换失败时，回退到重新拉取
+        await musicStore.playMusic(m)
+      }
+    } catch (e) {
+      // 静默处理错误（store内部已做错误处理）
+    }
+  }
+  
+  /**
+   * 播放上一首
+   */
+  const playPrevious = () => {
+    musicStore.playPrevious()
+  }
+  
+  /**
+   * 播放下一首
+   */
+  const playNext = () => {
+    musicStore.playNext()
+  }
+  
+  /**
+   * 设置播放进度
+   * @param v 进度值（0-100）
+   */
+  const setProgress = async (v: number) => {
+    await musicStore.setProgress(v)
+  }
+  
+  /**
+   * 加载歌曲歌词
+   * @param music 当前播放歌曲信息
+   */
+  const loadLyrics = async (music: any) => {
+    if (!music) return
+  
+    // 避免重复加载同一歌曲的歌词
+    const currentMusicId = music.id || music.mid
+    if (lastLoadedMusicId.value === currentMusicId && lyricsLines.value.length > 0) {
+      console.log('🎵歌词已缓存，跳过加载:', music.song)
+      return
+    }
+  
+    console.log('🎵开始加载歌词:', music.song, music.id, music.mid)
+    isLoadingLyrics.value = true
+    lyricsLines.value = []
+    activeLineIndex.value = -1
+  
+    try {
+      // 从store获取歌词数据
+      const lyricsData = await musicStore.getLyrics(music)
+      if (lyricsData) {
+        console.log('📝歌词数据:', lyricsData)
+        
+        // 解析主歌词和翻译歌词
+        const mainLyrics = musicStore.parseLrc(lyricsData.lrc)
+        const transLyrics = musicStore.parseLrc(lyricsData.trans)
+        console.log('📝主歌词解析结果:', mainLyrics.length, '行')
+        console.log('🌐翻译歌词解析结果:', transLyrics.length, '行')
+  
+        // 合并主歌词与翻译（时间差<0.5秒视为匹配）
+        const combinedLyrics = mainLyrics.map(line => {
+          const translation = transLyrics.find(trans => 
+            Math.abs(trans.time - line.time) < 0.5
+          )
+          return {
+            time: line.time,
+            text: line.text,
+            translation: translation?.text
+          }
+        })
+  
+        lyricsLines.value = combinedLyrics
+        lastLoadedMusicId.value = currentMusicId
+        console.log('✅歌词加载完成，共', combinedLyrics.length, '行')
+      } else {
+        console.log('ℹ️该歌曲暂无歌词数据')
+        lastLoadedMusicId.value = currentMusicId
+      }
+    } catch (error) {
+      console.error('加载歌词失败:', error)
+      lastLoadedMusicId.value = currentMusicId
+    } finally {
+      isLoadingLyrics.value = false
+    }
+  }
+  
+  /**
+   * 监听当前歌曲变化，加载对应歌词
+   */
+  watch(current, async (m) => {
+    if (m) {
+      await loadLyrics(m)
+    }
+  }, { immediate: true })
+  
+  /**
+   * 监听播放时间，高亮当前歌词并自动滚动
+   */
+  watch(currentTime, (t) => {
+    if (lyricsLines.value.length === 0) return
+  
+    // 找到当前播放时间对应的歌词索引
+    const idx = lyricsLines.value.findIndex((line, i) => 
+      t >= line.time && (
+        i === lyricsLines.value.length - 1 || 
+        t < lyricsLines.value[i + 1].time
+      )
+    )
+    activeLineIndex.value = idx
+  
+    // 自动滚动到当前歌词（居中显示）
+    if (idx >= 0) {
+      const lyricsContainer = document.querySelector('.lyrics')
+      const activeLine = lyricsContainer?.querySelector('.line.active')
+      if (activeLine) {
+        activeLine.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      }
+    }
+  })
+  
+  /**
+   * 格式化时间（秒 → 分:秒）
+   * @param seconds 总秒数
+   * @returns 格式化后的时间字符串（如 03:45）
+   */
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = Math.floor(seconds % 60)
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+  
+  /**
+   * 组件挂载时初始化
+   */
+  onMounted(async () => {
+    // 初始化音频实例（避免重复初始化）
+    if (!(musicStore as any).audio) {
+      musicStore.initAudio()
+    }
+    // 初始化用户信息（若未登录）
+    if (!userStore.currentUser) {
+      await userStore.initUserInfo?.()
+    }
+  })
+  </script>
+  
+  <style scoped>
+  /* 播放器外层容器 */
+  .player-shell {
+    min-height: calc(100vh - 80px);
+    background: radial-gradient(
+      1200px 600px at 20% 10%, 
+      #7c83ff 0%, 
+      #6c5ce7 25%, 
+      #6f42c1 55%, 
+      #51327a 100%
+    );
+    padding: 24px 0;
+  }
+  
+  /* 播放器主内容区（左右布局） */
+  .player-page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 560px 1fr;
+    gap: 28px;
+  }
+  
+  /* 左侧区域：唱片、控制按钮 */
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 12px;
+  }
+  
+  /* 唱片容器 */
+  .disc-wrap {
+    display: grid;
+    place-items: center;
+  }
+  
+  /* 唱片样式 */
+  .disc {
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+    background: radial-gradient(
+      #2b2f36 0%, 
+      #151922 60%, 
+      #0f1220 100%
+    );
+    position: relative;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  
+  /* 唱片封面 */
+  .disc img {
+    width: 88%;
+    height: 88%;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: contrast(1.05) brightness(0.98);
+  }
+  
+  /* 唱片中心圆孔 */
+  .center-hole {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #c7cad1;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 4px #2d3140;
+  }
+  
+  /* 唱片旋转动画 */
+  .spinning {
+    animation: spin 14s linear infinite;
+    animation-play-state: running;
+  }
+  
+  /* 暂停时停止旋转 */
+  .paused {
+    animation-play-state: paused;
+  }
+  
+  /* 旋转动画定义 */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* 唱片下方提示文字 */
+  .tips {
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12px;
+  }
+  
+  /* 歌曲信息（歌名/歌手） */
+  .under-meta {
+    margin-top: 14px;
+    text-align: center;
+  }
+  
+  .under-title {
+    margin: 0;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .under-artist {
+    margin-top: 6px;
+    color: #e5e7eb;
+    font-size: 13px;
+  }
+  
+  /* 进度条区域 */
+  .under-progress {
+    margin-top: 12px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 54px 1fr 54px;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  /* 控制按钮通用样式 */
+  .ctl {
+    color: #e5e7eb;
+    font-size: 18px;
+  }
+  
+  /* 播放按钮样式 */
+  .play {
+    width: 46px;
+    height: 46px;
+    border: none;
+    background: linear-gradient(45deg, #67c3ff, #7b7cff);
+  }
+  
+  /* 控制按钮行布局 */
+  .controls-line {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto auto auto 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  /* 音量控制行 */
+  .volume-line {
+    margin-top: 8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 音量滑块宽度 */
+  .volume-slider {
+    width: 200px;
+  }
+  
+  /* 时间显示样式 */
+  .time {
+    color: #d1d5db;
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  /* 右侧歌词区域布局 */
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 右侧歌曲信息 */
+  .meta .title {
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+  }
+  
+  .meta .artist {
+    margin: 0 0 8px;
+    color: #e5e7eb;
+  }
+  
+  /* 歌词控制按钮 */
+  .lyrics-controls {
+    margin-bottom: 12px;
+  }
+  
+  .lyrics-controls .el-button {
+    color: #a0a0a0 !important;
+    font-size: 12px;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .lyrics-controls .el-button:hover {
+    color: #67c3ff !important;
+  }
+  
+  .lyrics-controls .el-button.active {
+    color: #67c3ff !important;
+    background-color: rgba(103, 195, 255, 0.1);
+  }
+  
+  /* 歌词容器样式 */
+  .lyrics {
+    margin-top: 4px;
+    padding: 16px;
+    height: 560px;
+    overflow-y: auto;
+    background: rgba(6, 10, 25, 0.85);
+    border-radius: 14px;
+    color: #e5e7eb;
+    box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    scroll-behavior: smooth;
+  }
+  
+  /* 歌词行样式 */
+  .lyrics .line {
+    opacity: 0.6;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 1.6;
+  }
+  
+  /* 当前播放歌词高亮 */
+  .lyrics .line.active {
+    opacity: 1;
+    color: #fff;
+    font-weight: 700;
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* 歌词文本样式 */
+  .lyric-text {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  
+  /* 歌词翻译样式 */
+  .lyric-translation {
+    font-size: 14px;
+    color: #a0a0a0;
+    opacity: 0.8;
+  }
+  
+  /* 无歌词/加载中容器 */
+  .lyrics.empty {
+    display: grid;
+    place-items: center;
+    color: #b6bdc6;
+  }
+  
+  /* 加载中样式 */
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #67c3ff;
+  }
+  
+  /* 加载动画 */
+  .loading-spinner {
+    font-size: 24px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  .loading-text {
+    font-size: 14px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  /* 无歌词提示 */
+  .no-lyrics {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .no-lyrics-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+  
+  .no-lyrics-text {
+    font-size: 16px;
+    color: #e5e7eb;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .no-lyrics-tip {
+    font-size: 14px;
+    color: #a0a0a0;
+    opacity: 0.8;
+  }
+  
+  /* 加载动画定义 */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  /* 响应式布局 - 小屏幕 */
+  @media (max-width: 1024px) {
+    .player-page {
+      grid-template-columns: 1fr;
+    }
+    .disc {
+      width: 320px;
+      height: 320px;
+    }
+    .lyrics {
+      height: 380px;
+    }
+  }
+  
+  /* 播放队列面板样式 */
+  .play-queue-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    max-height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+  }
+  
+  /* 队列面板动画 */
+  .queue-panel-enter-active,
+  .queue-panel-leave-active {
+    transition: all 0.3s ease;
+  }
+  
+  .queue-panel-enter-from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  
+  .queue-panel-leave-to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  
+  /* 队列头部 */
+  .queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+  }
+  
+  .queue-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  /* 队列头部操作按钮 */
+  .queue-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .queue-actions .el-button {
+    color: white !important;
+    font-weight: 500;
+  }
+  
+  .queue-actions .el-button:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+  }
+  
+  /* 队列列表容器 */
+  .queue-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  /* 队列项样式 */
+  .queue-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+  }
+  
+  .queue-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /* 当前播放项样式 */
+  .queue-item.current {
+    background-color: #e3f2fd;
+    border-left: 3px solid #667eea;
+  }
+  
+  /* 队列序号 */
+  .queue-number {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-right: 12px;
+  }
+  
+  .queue-item.current .queue-number {
+    background: #667eea;
+    color: white;
+  }
+  
+  /* 队列项封面 */
+  .queue-cover {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 12px;
+  }
+  
+  /* 队列项信息 */
+  .queue-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .queue-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+  
+  .queue-artist {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* 队列项操作按钮 */
+  .queue-actions {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .queue-actions .el-button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .play-btn {
+    color: #667eea !important;
+  }
+  
+  .remove-btn {
+    color: #f56565 !important;
+  }
+  
+  /* 空队列提示 */
+  .empty-queue {
+    padding: 40px 20px;
+    text-align: center;
+    color: #999;
+  }
+  
+  .empty-queue p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* 无播放内容提示 */
+  .empty {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+  }
+  </style>
+  

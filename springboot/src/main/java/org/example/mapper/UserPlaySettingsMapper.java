@@ -1,59 +1,59 @@
-package***REMOVED***org.example.mapper;
+package org.example.mapper;
 
-import***REMOVED***org.apache.ibatis.annotations.*;
-import***REMOVED***org.example.entity.UserPlaySettings;
+import org.apache.ibatis.annotations.*;
+import org.example.entity.UserPlaySettings;
 
 /**
-***REMOVED*******REMOVED***用户播放设置Mapper接口
-***REMOVED****/
+ * 用户播放设置Mapper接口
+ */
 @Mapper
-public***REMOVED***interface***REMOVED***UserPlaySettingsMapper***REMOVED***{
+public interface UserPlaySettingsMapper {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据用户ID查询播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user_play_settings***REMOVED***WHERE***REMOVED***user_id***REMOVED***=***REMOVED***#{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***UserPlaySettings***REMOVED***findByUserId(@Param("userId")***REMOVED***Long***REMOVED***userId);
+    /**
+     * 根据用户ID查询播放设置
+     */
+    @Select("SELECT * FROM user_play_settings WHERE user_id = #{userId}")
+    UserPlaySettings findByUserId(@Param("userId") Long userId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***插入用户播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***user_play_settings***REMOVED***(user_id,***REMOVED***volume,***REMOVED***is_muted,***REMOVED***play_mode)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{userId},***REMOVED***#{volume},***REMOVED***#{isMuted},***REMOVED***#{playMode})")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Options(useGeneratedKeys***REMOVED***=***REMOVED***true,***REMOVED***keyProperty***REMOVED***=***REMOVED***"id")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insert(UserPlaySettings***REMOVED***settings);
+    /**
+     * 插入用户播放设置
+     */
+    @Insert("INSERT INTO user_play_settings (user_id, volume, is_muted, play_mode) " +
+            "VALUES (#{userId}, #{volume}, #{isMuted}, #{playMode})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(UserPlaySettings settings);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新用户播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user_play_settings***REMOVED***SET***REMOVED***volume***REMOVED***=***REMOVED***#{volume},***REMOVED***is_muted***REMOVED***=***REMOVED***#{isMuted},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"play_mode***REMOVED***=***REMOVED***#{playMode},***REMOVED***current_music_id***REMOVED***=***REMOVED***#{currentMusicId},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_name***REMOVED***=***REMOVED***#{currentMusicName},***REMOVED***current_music_artist***REMOVED***=***REMOVED***#{currentMusicArtist},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_cover***REMOVED***=***REMOVED***#{currentMusicCover},***REMOVED***current_music_url***REMOVED***=***REMOVED***#{currentMusicUrl},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"play_progress***REMOVED***=***REMOVED***#{playProgress},***REMOVED***play_time***REMOVED***=***REMOVED***#{playTime},***REMOVED***is_playing***REMOVED***=***REMOVED***#{isPlaying},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"update_time***REMOVED***=***REMOVED***CURRENT_TIMESTAMP***REMOVED***WHERE***REMOVED***user_id***REMOVED***=***REMOVED***#{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updateByUserId(UserPlaySettings***REMOVED***settings);
+    /**
+     * 更新用户播放设置
+     */
+    @Update("UPDATE user_play_settings SET volume = #{volume}, is_muted = #{isMuted}, " +
+            "play_mode = #{playMode}, current_music_id = #{currentMusicId}, " +
+            "current_music_name = #{currentMusicName}, current_music_artist = #{currentMusicArtist}, " +
+            "current_music_cover = #{currentMusicCover}, current_music_url = #{currentMusicUrl}, " +
+            "play_progress = #{playProgress}, play_time = #{playTime}, is_playing = #{isPlaying}, " +
+            "update_time = CURRENT_TIMESTAMP WHERE user_id = #{userId}")
+    int updateByUserId(UserPlaySettings settings);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***插入或更新用户播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***user_play_settings***REMOVED***(user_id,***REMOVED***volume,***REMOVED***is_muted,***REMOVED***play_mode,***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_id,***REMOVED***current_music_name,***REMOVED***current_music_artist,***REMOVED***current_music_cover,***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_url,***REMOVED***play_progress,***REMOVED***play_time,***REMOVED***is_playing)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{userId},***REMOVED***#{volume},***REMOVED***#{isMuted},***REMOVED***#{playMode},***REMOVED***#{currentMusicId},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"#{currentMusicName},***REMOVED***#{currentMusicArtist},***REMOVED***#{currentMusicCover},***REMOVED***#{currentMusicUrl},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"#{playProgress},***REMOVED***#{playTime},***REMOVED***#{isPlaying})***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"ON***REMOVED***DUPLICATE***REMOVED***KEY***REMOVED***UPDATE***REMOVED***volume***REMOVED***=***REMOVED***#{volume},***REMOVED***is_muted***REMOVED***=***REMOVED***#{isMuted},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"play_mode***REMOVED***=***REMOVED***#{playMode},***REMOVED***current_music_id***REMOVED***=***REMOVED***#{currentMusicId},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_name***REMOVED***=***REMOVED***#{currentMusicName},***REMOVED***current_music_artist***REMOVED***=***REMOVED***#{currentMusicArtist},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"current_music_cover***REMOVED***=***REMOVED***#{currentMusicCover},***REMOVED***current_music_url***REMOVED***=***REMOVED***#{currentMusicUrl},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"play_progress***REMOVED***=***REMOVED***#{playProgress},***REMOVED***play_time***REMOVED***=***REMOVED***#{playTime},***REMOVED***is_playing***REMOVED***=***REMOVED***#{isPlaying},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"update_time***REMOVED***=***REMOVED***CURRENT_TIMESTAMP")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insertOrUpdate(UserPlaySettings***REMOVED***settings);
+    /**
+     * 插入或更新用户播放设置
+     */
+    @Insert("INSERT INTO user_play_settings (user_id, volume, is_muted, play_mode, " +
+            "current_music_id, current_music_name, current_music_artist, current_music_cover, " +
+            "current_music_url, play_progress, play_time, is_playing) " +
+            "VALUES (#{userId}, #{volume}, #{isMuted}, #{playMode}, #{currentMusicId}, " +
+            "#{currentMusicName}, #{currentMusicArtist}, #{currentMusicCover}, #{currentMusicUrl}, " +
+            "#{playProgress}, #{playTime}, #{isPlaying}) " +
+            "ON DUPLICATE KEY UPDATE volume = #{volume}, is_muted = #{isMuted}, " +
+            "play_mode = #{playMode}, current_music_id = #{currentMusicId}, " +
+            "current_music_name = #{currentMusicName}, current_music_artist = #{currentMusicArtist}, " +
+            "current_music_cover = #{currentMusicCover}, current_music_url = #{currentMusicUrl}, " +
+            "play_progress = #{playProgress}, play_time = #{playTime}, is_playing = #{isPlaying}, " +
+            "update_time = CURRENT_TIMESTAMP")
+    int insertOrUpdate(UserPlaySettings settings);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***删除用户播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***user_play_settings***REMOVED***WHERE***REMOVED***user_id***REMOVED***=***REMOVED***#{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***deleteByUserId(@Param("userId")***REMOVED***Long***REMOVED***userId);
+    /**
+     * 删除用户播放设置
+     */
+    @Delete("DELETE FROM user_play_settings WHERE user_id = #{userId}")
+    int deleteByUserId(@Param("userId") Long userId);
 }

@@ -1,171 +1,171 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.example.entity.ApiResponse;
-import***REMOVED***org.example.entity.Music;
-import***REMOVED***org.example.entity.Playlist;
-import***REMOVED***org.example.entity.PlaylistMusic;
-import***REMOVED***org.example.service.PlaylistService;
-import***REMOVED***org.springframework.http.ResponseEntity;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import org.example.entity.ApiResponse;
+import org.example.entity.Music;
+import org.example.entity.Playlist;
+import org.example.entity.PlaylistMusic;
+import org.example.service.PlaylistService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***java.util.List;
-import***REMOVED***java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 /**
-***REMOVED*******REMOVED***播放列表控制器
-***REMOVED****/
+ * 播放列表控制器
+ */
 @RestController
 @RequestMapping("/api/playlist")
-@CrossOrigin(origins***REMOVED***=***REMOVED***"*")
-public***REMOVED***class***REMOVED***PlaylistController***REMOVED***{
+@CrossOrigin(origins = "*")
+public class PlaylistController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***final***REMOVED***PlaylistService***REMOVED***playlistService;
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***PlaylistController(PlaylistService***REMOVED***playlistService)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.playlistService***REMOVED***=***REMOVED***playlistService;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***创建播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Playlist>>***REMOVED***createPlaylist(@RequestBody***REMOVED***Map<String,***REMOVED***String>***REMOVED***request)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***name***REMOVED***=***REMOVED***request.get("name");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***description***REMOVED***=***REMOVED***request.get("description");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(name***REMOVED***==***REMOVED***null***REMOVED***||***REMOVED***name.trim().isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("播放列表名称不能为空"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Playlist***REMOVED***playlist***REMOVED***=***REMOVED***playlistService.createPlaylist(name,***REMOVED***description);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("创建成功",***REMOVED***playlist));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("创建失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取所有播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<List<Playlist>>>***REMOVED***getAllPlaylists()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<Playlist>***REMOVED***playlists***REMOVED***=***REMOVED***playlistService.getAllPlaylists();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***playlists));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据ID获取播放列表详情
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Playlist>>***REMOVED***getPlaylistById(@PathVariable***REMOVED***Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Playlist***REMOVED***playlist***REMOVED***=***REMOVED***playlistService.getPlaylistById(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(playlist***REMOVED***==***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("播放列表不存在"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***playlist));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PutMapping("/{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***updatePlaylist(@PathVariable***REMOVED***Long***REMOVED***id,***REMOVED***@RequestBody***REMOVED***Playlist***REMOVED***playlist)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setId(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***playlistService.updatePlaylist(playlist);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("更新成功",***REMOVED***null));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("更新失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("更新失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***删除播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***deletePlaylist(@PathVariable***REMOVED***Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***playlistService.deletePlaylist(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("删除成功",***REMOVED***null));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("删除失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("删除失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***添加音乐到播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping("/{playlistId}/music")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***addMusicToPlaylist(@PathVariable***REMOVED***Long***REMOVED***playlistId,***REMOVED***@RequestBody***REMOVED***Music***REMOVED***music)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***playlistService.addMusicToPlaylist(playlistId,***REMOVED***music);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("添加成功",***REMOVED***null));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("音乐已存在或添加失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("添加失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***从播放列表移除音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/{playlistId}/music/{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***removeMusicFromPlaylist(@PathVariable***REMOVED***Long***REMOVED***playlistId,***REMOVED***@PathVariable***REMOVED***Long***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***playlistService.removeMusicFromPlaylist(playlistId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("移除成功",***REMOVED***null));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("移除失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("移除失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取播放列表中的音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/{playlistId}/music")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<List<PlaylistMusic>>>***REMOVED***getPlaylistMusic(@PathVariable***REMOVED***Long***REMOVED***playlistId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<PlaylistMusic>***REMOVED***musicList***REMOVED***=***REMOVED***playlistService.getPlaylistMusic(playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***musicList));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查音乐是否在播放列表中
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/{playlistId}/music/{musicId}/exists")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Boolean>>***REMOVED***checkMusicInPlaylist(@PathVariable***REMOVED***Long***REMOVED***playlistId,***REMOVED***@PathVariable***REMOVED***Long***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***exists***REMOVED***=***REMOVED***playlistService.isMusicInPlaylist(playlistId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("检查完成",***REMOVED***exists));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("检查失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    private final PlaylistService playlistService;
+    
+    public PlaylistController(PlaylistService playlistService) {
+        this.playlistService = playlistService;
+    }
+    
+    /**
+     * 创建播放列表
+     */
+    @PostMapping
+    public ResponseEntity<ApiResponse<Playlist>> createPlaylist(@RequestBody Map<String, String> request) {
+        try {
+            String name = request.get("name");
+            String description = request.get("description");
+            
+            if (name == null || name.trim().isEmpty()) {
+                return ResponseEntity.ok(ApiResponse.error("播放列表名称不能为空"));
+            }
+            
+            Playlist playlist = playlistService.createPlaylist(name, description);
+            return ResponseEntity.ok(ApiResponse.success("创建成功", playlist));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("创建失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 获取所有播放列表
+     */
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Playlist>>> getAllPlaylists() {
+        try {
+            List<Playlist> playlists = playlistService.getAllPlaylists();
+            return ResponseEntity.ok(ApiResponse.success("获取成功", playlists));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 根据ID获取播放列表详情
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Playlist>> getPlaylistById(@PathVariable Long id) {
+        try {
+            Playlist playlist = playlistService.getPlaylistById(id);
+            if (playlist == null) {
+                return ResponseEntity.ok(ApiResponse.error("播放列表不存在"));
+            }
+            return ResponseEntity.ok(ApiResponse.success("获取成功", playlist));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 更新播放列表
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Object>> updatePlaylist(@PathVariable Long id, @RequestBody Playlist playlist) {
+        try {
+            playlist.setId(id);
+            boolean success = playlistService.updatePlaylist(playlist);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("更新成功", null));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("更新失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("更新失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 删除播放列表
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Object>> deletePlaylist(@PathVariable Long id) {
+        try {
+            boolean success = playlistService.deletePlaylist(id);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("删除成功", null));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("删除失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("删除失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 添加音乐到播放列表
+     */
+    @PostMapping("/{playlistId}/music")
+    public ResponseEntity<ApiResponse<Object>> addMusicToPlaylist(@PathVariable Long playlistId, @RequestBody Music music) {
+        try {
+            boolean success = playlistService.addMusicToPlaylist(playlistId, music);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("添加成功", null));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("音乐已存在或添加失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("添加失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 从播放列表移除音乐
+     */
+    @DeleteMapping("/{playlistId}/music/{musicId}")
+    public ResponseEntity<ApiResponse<Object>> removeMusicFromPlaylist(@PathVariable Long playlistId, @PathVariable Long musicId) {
+        try {
+            boolean success = playlistService.removeMusicFromPlaylist(playlistId, musicId);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("移除成功", null));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("移除失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("移除失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 获取播放列表中的音乐
+     */
+    @GetMapping("/{playlistId}/music")
+    public ResponseEntity<ApiResponse<List<PlaylistMusic>>> getPlaylistMusic(@PathVariable Long playlistId) {
+        try {
+            List<PlaylistMusic> musicList = playlistService.getPlaylistMusic(playlistId);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", musicList));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
+    
+    /**
+     * 检查音乐是否在播放列表中
+     */
+    @GetMapping("/{playlistId}/music/{musicId}/exists")
+    public ResponseEntity<ApiResponse<Boolean>> checkMusicInPlaylist(@PathVariable Long playlistId, @PathVariable Long musicId) {
+        try {
+            boolean exists = playlistService.isMusicInPlaylist(playlistId, musicId);
+            return ResponseEntity.ok(ApiResponse.success("检查完成", exists));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("检查失败: " + e.getMessage()));
+        }
+    }
 }

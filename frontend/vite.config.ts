@@ -1,21 +1,21 @@
-import***REMOVED***{***REMOVED***defineConfig***REMOVED***}***REMOVED***from***REMOVED***'vite'
-import***REMOVED***vue***REMOVED***from***REMOVED***'@vitejs/plugin-vue'
-import***REMOVED***{***REMOVED***resolve***REMOVED***}***REMOVED***from***REMOVED***'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { resolve } from 'path'
 
-export***REMOVED***default***REMOVED***defineConfig({
-***REMOVED******REMOVED***plugins:***REMOVED***[vue()],
-***REMOVED******REMOVED***resolve:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***alias:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'@':***REMOVED***resolve(__dirname,***REMOVED***'src')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***},
-***REMOVED******REMOVED***server:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***port:***REMOVED***3000,
-***REMOVED******REMOVED******REMOVED******REMOVED***proxy:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'/api':***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***target:***REMOVED***'http://localhost:9092',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***changeOrigin:***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
+    }
+  },
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9092',
+        changeOrigin: true
+      }
+    }
+  }
 })

@@ -1,153 +1,153 @@
-package***REMOVED***org.example.entity;
+package org.example.entity;
 
-import***REMOVED***java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 /**
-***REMOVED*******REMOVED***用户收藏音乐实体类
-***REMOVED****/
-public***REMOVED***class***REMOVED***UserFavorite***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Long***REMOVED***id;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Long***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicMid;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicSong;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicSinger;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicAlbum;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicCover;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicPay;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***LocalDateTime***REMOVED***createTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***LocalDateTime***REMOVED***updateTime;
+ * 用户收藏音乐实体类
+ */
+public class UserFavorite {
+    private Long id;
+    private Long userId;
+    private String musicId;
+    private String musicMid;
+    private String musicSong;
+    private String musicSinger;
+    private String musicAlbum;
+    private String musicCover;
+    private String musicTime;
+    private String musicPay;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***构造函数
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***UserFavorite()***REMOVED***{}
+    // 构造函数
+    public UserFavorite() {}
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***UserFavorite(Long***REMOVED***userId,***REMOVED***String***REMOVED***musicId,***REMOVED***String***REMOVED***musicMid,***REMOVED***String***REMOVED***musicSong,***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***musicSinger,***REMOVED***String***REMOVED***musicAlbum,***REMOVED***String***REMOVED***musicCover,***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***musicTime,***REMOVED***String***REMOVED***musicPay)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.userId***REMOVED***=***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicId***REMOVED***=***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicMid***REMOVED***=***REMOVED***musicMid;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicSong***REMOVED***=***REMOVED***musicSong;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicSinger***REMOVED***=***REMOVED***musicSinger;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicAlbum***REMOVED***=***REMOVED***musicAlbum;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicCover***REMOVED***=***REMOVED***musicCover;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicTime***REMOVED***=***REMOVED***musicTime;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicPay***REMOVED***=***REMOVED***musicPay;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public UserFavorite(Long userId, String musicId, String musicMid, String musicSong, 
+                       String musicSinger, String musicAlbum, String musicCover, 
+                       String musicTime, String musicPay) {
+        this.userId = userId;
+        this.musicId = musicId;
+        this.musicMid = musicMid;
+        this.musicSong = musicSong;
+        this.musicSinger = musicSinger;
+        this.musicAlbum = musicAlbum;
+        this.musicCover = musicCover;
+        this.musicTime = musicTime;
+        this.musicPay = musicPay;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***Getter和Setter方法
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Long***REMOVED***getId()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***id;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    // Getter和Setter方法
+    public Long getId() {
+        return id;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setId(Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.id***REMOVED***=***REMOVED***id;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Long***REMOVED***getUserId()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public Long getUserId() {
+        return userId;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setUserId(Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.userId***REMOVED***=***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicId()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicId() {
+        return musicId;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicId(String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicId***REMOVED***=***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicId(String musicId) {
+        this.musicId = musicId;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicMid()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicMid;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicMid() {
+        return musicMid;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicMid(String***REMOVED***musicMid)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicMid***REMOVED***=***REMOVED***musicMid;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicMid(String musicMid) {
+        this.musicMid = musicMid;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicSong()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicSong;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicSong() {
+        return musicSong;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicSong(String***REMOVED***musicSong)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicSong***REMOVED***=***REMOVED***musicSong;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicSong(String musicSong) {
+        this.musicSong = musicSong;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicSinger()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicSinger;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicSinger() {
+        return musicSinger;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicSinger(String***REMOVED***musicSinger)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicSinger***REMOVED***=***REMOVED***musicSinger;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicSinger(String musicSinger) {
+        this.musicSinger = musicSinger;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicAlbum()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicAlbum;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicAlbum() {
+        return musicAlbum;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicAlbum(String***REMOVED***musicAlbum)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicAlbum***REMOVED***=***REMOVED***musicAlbum;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicAlbum(String musicAlbum) {
+        this.musicAlbum = musicAlbum;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicCover()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicCover;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicCover() {
+        return musicCover;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicCover(String***REMOVED***musicCover)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicCover***REMOVED***=***REMOVED***musicCover;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicCover(String musicCover) {
+        this.musicCover = musicCover;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicTime()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicTime() {
+        return musicTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicTime(String***REMOVED***musicTime)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicTime***REMOVED***=***REMOVED***musicTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicTime(String musicTime) {
+        this.musicTime = musicTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicPay()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***musicPay;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public String getMusicPay() {
+        return musicPay;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicPay(String***REMOVED***musicPay)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicPay***REMOVED***=***REMOVED***musicPay;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setMusicPay(String musicPay) {
+        this.musicPay = musicPay;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***LocalDateTime***REMOVED***getCreateTime()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***createTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setCreateTime(LocalDateTime***REMOVED***createTime)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.createTime***REMOVED***=***REMOVED***createTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***LocalDateTime***REMOVED***getUpdateTime()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***updateTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setUpdateTime(LocalDateTime***REMOVED***updateTime)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.updateTime***REMOVED***=***REMOVED***updateTime;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Override
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***toString()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***"UserFavorite{"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"id="***REMOVED***+***REMOVED***id***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***userId="***REMOVED***+***REMOVED***userId***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicId='"***REMOVED***+***REMOVED***musicId***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicMid='"***REMOVED***+***REMOVED***musicMid***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicSong='"***REMOVED***+***REMOVED***musicSong***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicSinger='"***REMOVED***+***REMOVED***musicSinger***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicAlbum='"***REMOVED***+***REMOVED***musicAlbum***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicCover='"***REMOVED***+***REMOVED***musicCover***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicTime='"***REMOVED***+***REMOVED***musicTime***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***musicPay='"***REMOVED***+***REMOVED***musicPay***REMOVED***+***REMOVED***'\''***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***createTime="***REMOVED***+***REMOVED***createTime***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***",***REMOVED***updateTime="***REMOVED***+***REMOVED***updateTime***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'}';
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    @Override
+    public String toString() {
+        return "UserFavorite{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", musicId='" + musicId + '\'' +
+                ", musicMid='" + musicMid + '\'' +
+                ", musicSong='" + musicSong + '\'' +
+                ", musicSinger='" + musicSinger + '\'' +
+                ", musicAlbum='" + musicAlbum + '\'' +
+                ", musicCover='" + musicCover + '\'' +
+                ", musicTime='" + musicTime + '\'' +
+                ", musicPay='" + musicPay + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

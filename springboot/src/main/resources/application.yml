@@ -1,37 +1,37 @@
-#***REMOVED***Spring***REMOVED***Boot***REMOVED***应用配置
+﻿# Spring Boot 应用配置
 server:
-***REMOVED******REMOVED***port:***REMOVED***9092
+  port: 9092
 
 spring:
-***REMOVED******REMOVED***application:
-***REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***mymusic-springboot
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***#***REMOVED***数据源配置
-***REMOVED******REMOVED***datasource:
-***REMOVED******REMOVED******REMOVED******REMOVED***driver-class-name:***REMOVED***com.mysql.cj.jdbc.Driver
-***REMOVED******REMOVED******REMOVED******REMOVED***url:***REMOVED***jdbc:mysql://localhost:3306/mymusic?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-***REMOVED******REMOVED******REMOVED******REMOVED***username:***REMOVED***root
-***REMOVED******REMOVED******REMOVED******REMOVED***password:***REMOVED***admin123
+  application:
+    name: mymusic-springboot
+  
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mymusic?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: admin123
 
-#***REMOVED***MyBatis配置
+# MyBatis配置
 mybatis:
-***REMOVED******REMOVED***#***REMOVED***mapper文件位置
-***REMOVED******REMOVED***mapper-locations:***REMOVED***classpath:mapper/*.xml
-***REMOVED******REMOVED***#***REMOVED***实体类包路径
-***REMOVED******REMOVED***type-aliases-package:***REMOVED***org.example.entity
-***REMOVED******REMOVED***configuration:
-***REMOVED******REMOVED******REMOVED******REMOVED***#***REMOVED***开启驼峰命名转换
-***REMOVED******REMOVED******REMOVED******REMOVED***map-underscore-to-camel-case:***REMOVED***true
+  # mapper文件位置
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类包路径
+  type-aliases-package: org.example.entity
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
 
-#***REMOVED***阿里云***REMOVED***OSS***REMOVED***配置（请改为你的实际信息，建议使用环境变量覆盖）
+# 阿里云 OSS 配置（请改为你的实际信息，建议使用环境变量覆盖）
 oss:
-***REMOVED******REMOVED***bucket:***REMOVED***my-music-avatar
-***REMOVED******REMOVED***region:***REMOVED***oss-cn-beijing
-***REMOVED******REMOVED***endpoint:***REMOVED***https://oss-cn-beijing.aliyuncs.com
-***REMOVED******REMOVED***#***REMOVED***仅服务器端持有永久***REMOVED***AK/SK；请不要提交真实值到仓库
-***REMOVED******REMOVED***#***REMOVED***使用环境变量，避免敏感信息泄露
-***REMOVED******REMOVED***accessKeyId:***REMOVED***${ALIBABA_CLOUD_ACCESS_KEY_ID:your-access-key-id}
-***REMOVED******REMOVED***accessKeySecret:***REMOVED***${ALIBABA_CLOUD_ACCESS_KEY_SECRET:your-access-key-secret}
-***REMOVED******REMOVED***#***REMOVED***头像文件前缀
-***REMOVED******REMOVED***avatarPrefix:***REMOVED***avatars/
-***REMOVED******REMOVED***#***REMOVED***直传回调可选：若需要***REMOVED***OSS***REMOVED***回调到你服务器，请再补充***REMOVED***callback
+  bucket: my-music-avatar
+  region: oss-cn-beijing
+  endpoint: https://oss-cn-beijing.aliyuncs.com
+  # 仅服务器端持有永久 AK/SK；请不要提交真实值到仓库
+  # 使用环境变量，避免敏感信息泄露
+  accessKeyId: ${ALIBABA_CLOUD_ACCESS_KEY_ID:your-access-key-id}
+  accessKeySecret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET:your-access-key-secret}
+  # 头像文件前缀
+  avatarPrefix: avatars/
+  # 直传回调可选：若需要 OSS 回调到你服务器，请再补充 callback

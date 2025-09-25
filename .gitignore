@@ -21,3 +21,10 @@
 #***REMOVED***歌词功能测试说明.md
 #***REMOVED***搜索建议功能实现说明.md
 #***REMOVED***优化-搜索与歌词去重加载实现说明.md
+node_modules/
+dist/
+.vite/
+.idea/
+target/
+logs/
+*.log

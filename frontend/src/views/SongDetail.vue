@@ -1,110 +1,170 @@
-<template>
-***REMOVED******REMOVED***<div***REMOVED***class="song-detail"***REMOVED***v-if="music">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="header">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="music.cover"***REMOVED***alt="cover"***REMOVED***class="cover"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="meta">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h1***REMOVED***class="title">{{***REMOVED***music.song***REMOVED***}}</h1>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="artist">{{***REMOVED***music.singer***REMOVED***}}</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="album"***REMOVED***v-if="music.album">专辑：{{***REMOVED***music.album***REMOVED***}}</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="duration"***REMOVED***v-if="music.time">时长：{{***REMOVED***formatTime(music.time)***REMOVED***}}</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="actions">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***@click="togglePlay">{{***REMOVED***isPlayingCurrent***REMOVED***?***REMOVED***'⏸️***REMOVED***暂停'***REMOVED***:***REMOVED***'▶️***REMOVED***播放'***REMOVED***}}</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***@click="toggleFavorite">{{***REMOVED***isLiked***REMOVED***?***REMOVED***'❤️***REMOVED***已收藏'***REMOVED***:***REMOVED***'🤍***REMOVED***收藏'***REMOVED***}}</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***@click="addToQueue">➕***REMOVED***加入队列</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***@click="download">⬇️***REMOVED***下载</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="info">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h2>歌曲信息</h2>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<ul>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li><strong>MID：</strong>{{***REMOVED***music.mid***REMOVED***||***REMOVED***'-'***REMOVED***}}</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li><strong>ID：</strong>{{***REMOVED***music.id***REMOVED***||***REMOVED***'-'***REMOVED***}}</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</ul>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="empty">暂无歌曲信息</div>
-***REMOVED***</template>
-
-<script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***computed***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useRoute***REMOVED***}***REMOVED***from***REMOVED***'vue-router'
-import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'../stores/music'
-
-const***REMOVED***route***REMOVED***=***REMOVED***useRoute()
-const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
-
-const***REMOVED***current***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentMusic)
-
-//***REMOVED***优先通过路由参数查找（mid），否则使用当前播放的歌曲
-const***REMOVED***music***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***mid***REMOVED***=***REMOVED***route.params.mid***REMOVED***as***REMOVED***string***REMOVED***|***REMOVED***undefined
-***REMOVED******REMOVED***if***REMOVED***(mid)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***在队列或收藏中尝试找到该歌曲
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***inQueue***REMOVED***=***REMOVED***(musicStore***REMOVED***as***REMOVED***any).playQueue?.find((m:***REMOVED***any)***REMOVED***=>***REMOVED***m.mid***REMOVED***===***REMOVED***mid)
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(inQueue)***REMOVED***return***REMOVED***inQueue
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***return***REMOVED***current.value
-})
-
-const***REMOVED***isPlayingCurrent***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***return***REMOVED***music.value***REMOVED***&&***REMOVED***current.value***REMOVED***&&***REMOVED***(music.value***REMOVED***as***REMOVED***any).mid***REMOVED***===***REMOVED***(current.value***REMOVED***as***REMOVED***any).mid***REMOVED***&&***REMOVED***musicStore.isPlaying
-})
-
-//***REMOVED***仅当详情歌曲是当前播放时，采用全局的收藏状态；否则暂不显示已收藏（避免直接依赖***REMOVED***favorites***REMOVED***列表）
-const***REMOVED***isLiked***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music.value)***REMOVED***return***REMOVED***false
-***REMOVED******REMOVED***const***REMOVED***same***REMOVED***=***REMOVED***current.value***REMOVED***&&***REMOVED***(music.value***REMOVED***as***REMOVED***any).mid***REMOVED***===***REMOVED***(current.value***REMOVED***as***REMOVED***any).mid
-***REMOVED******REMOVED***return***REMOVED***same***REMOVED***?***REMOVED***(musicStore***REMOVED***as***REMOVED***any).isCurrentMusicLiked***REMOVED***:***REMOVED***false
-})
-
-const***REMOVED***togglePlay***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music.value)***REMOVED***return
-***REMOVED******REMOVED***if***REMOVED***(isPlayingCurrent.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***musicStore.togglePlay()
-***REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.playMusic(music.value***REMOVED***as***REMOVED***any)
-***REMOVED******REMOVED***}
-}
-
-const***REMOVED***toggleFavorite***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music.value)***REMOVED***return
-***REMOVED******REMOVED***const***REMOVED***same***REMOVED***=***REMOVED***current.value***REMOVED***&&***REMOVED***(music.value***REMOVED***as***REMOVED***any).mid***REMOVED***===***REMOVED***(current.value***REMOVED***as***REMOVED***any).mid
-***REMOVED******REMOVED***if***REMOVED***(!same)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.playMusic(music.value***REMOVED***as***REMOVED***any)
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***await***REMOVED***(musicStore***REMOVED***as***REMOVED***any).toggleFavorite()
-}
-
-const***REMOVED***addToQueue***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music.value)***REMOVED***return
-***REMOVED******REMOVED***await***REMOVED***musicStore.addToPlayQueueWithSync(music.value***REMOVED***as***REMOVED***any)
-}
-
-const***REMOVED***download***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!music.value)***REMOVED***return
-***REMOVED******REMOVED***await***REMOVED***musicStore.downloadMusic(music.value***REMOVED***as***REMOVED***any)
-}
-
-const***REMOVED***formatTime***REMOVED***=***REMOVED***(seconds:***REMOVED***number)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!seconds***REMOVED***&&***REMOVED***seconds***REMOVED***!==***REMOVED***0)***REMOVED***return***REMOVED***'-'
-***REMOVED******REMOVED***const***REMOVED***mins***REMOVED***=***REMOVED***Math.floor(seconds***REMOVED***/***REMOVED***60)
-***REMOVED******REMOVED***const***REMOVED***secs***REMOVED***=***REMOVED***Math.floor(seconds***REMOVED***%***REMOVED***60)
-***REMOVED******REMOVED***return***REMOVED***`${mins.toString().padStart(2,***REMOVED***'0')}:${secs.toString().padStart(2,***REMOVED***'0')}`
-}
-</script>
-
-<style***REMOVED***scoped>
-.song-detail***REMOVED***{***REMOVED***max-width:***REMOVED***980px;***REMOVED***margin:***REMOVED***24px***REMOVED***auto;***REMOVED***padding:***REMOVED***0***REMOVED***16px;***REMOVED***}
-.header***REMOVED***{***REMOVED***display:***REMOVED***flex;***REMOVED***gap:***REMOVED***20px;***REMOVED***}
-.cover***REMOVED***{***REMOVED***width:***REMOVED***220px;***REMOVED***height:***REMOVED***220px;***REMOVED***border-radius:***REMOVED***12px;***REMOVED***object-fit:***REMOVED***cover;***REMOVED***box-shadow:***REMOVED***0***REMOVED***8px***REMOVED***24px***REMOVED***rgba(0,0,0,.15);***REMOVED***}
-.meta***REMOVED***{***REMOVED***flex:***REMOVED***1;***REMOVED***}
-.title***REMOVED***{***REMOVED***margin:***REMOVED***8px***REMOVED***0***REMOVED***6px;***REMOVED***font-size:***REMOVED***28px;***REMOVED***font-weight:***REMOVED***700;***REMOVED***color:***REMOVED***#1f2328;***REMOVED***}
-.artist,***REMOVED***.album,***REMOVED***.duration***REMOVED***{***REMOVED***margin:***REMOVED***4px***REMOVED***0;***REMOVED***color:***REMOVED***#6b7280;***REMOVED***}
-.actions***REMOVED***{***REMOVED***margin-top:***REMOVED***14px;***REMOVED***display:***REMOVED***flex;***REMOVED***gap:***REMOVED***10px;***REMOVED***}
-.info***REMOVED***{***REMOVED***margin-top:***REMOVED***30px;***REMOVED***}
-.info***REMOVED***h2***REMOVED***{***REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***10px;***REMOVED***font-size:***REMOVED***18px;***REMOVED***}
-.empty***REMOVED***{***REMOVED***max-width:***REMOVED***980px;***REMOVED***margin:***REMOVED***48px***REMOVED***auto;***REMOVED***text-align:***REMOVED***center;***REMOVED***color:***REMOVED***#9aa5b1;***REMOVED***}
-</style>
-
+﻿<template>
+    <div class="song-detail" v-if="music">
+      <div class="header">
+        <img :src="music.cover" alt="cover" class="cover" />
+        <div class="meta">
+          <h1 class="title">{{ music.song }}</h1>
+          <p class="artist">{{ music.singer }}</p>
+          <p class="album" v-if="music.album">专辑：{{ music.album }}</p>
+          <p class="duration" v-if="music.time">时长：{{ formatTime(music.time) }}</p>
+          <div class="actions">
+            <el-button type="primary" @click="togglePlay">
+              {{ isPlayingCurrent ? '⏸️暂停' : '▶️播放' }}
+            </el-button>
+            <el-button @click="toggleFavorite">
+              {{ isLiked ? '❤️已收藏' : '🤍收藏' }}
+            </el-button>
+            <el-button @click="addToQueue">➕加入队列</el-button>
+            <el-button @click="download">⬇️下载</el-button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="info">
+        <h2>歌曲信息</h2>
+        <ul>
+          <li><strong>MID：</strong>{{ music.mid || '-' }}</li>
+          <li><strong>ID：</strong>{{ music.id || '-' }}</li>
+        </ul>
+      </div>
+    </div>
+    <div v-else class="empty">暂无歌曲信息</div>
+  </template>
+  
+  <script setup lang="ts">
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
+  import { useMusicStore } from '../stores/music'
+  
+  const route = useRoute()
+  const musicStore = useMusicStore()
+  
+  // 当前播放的歌曲
+  const current = computed(() => musicStore.currentMusic)
+  
+  // 优先通过路由参数查找歌曲，否则使用当前播放的歌曲
+  const music = computed(() => {
+    const mid = route.params.mid as string | undefined
+    if (mid) {
+      // 在播放队列中查找匹配的歌曲
+      const inQueue = (musicStore as any).playQueue?.find((m: any) => m.mid === mid)
+      if (inQueue) return inQueue
+    }
+    return current.value
+  })
+  
+  // 判断当前歌曲是否正在播放
+  const isPlayingCurrent = computed(() => {
+    return music.value 
+      && current.value 
+      && (music.value as any).mid === (current.value as any).mid 
+      && musicStore.isPlaying
+  })
+  
+  // 判断当前歌曲是否已收藏
+  const isLiked = computed(() => {
+    if (!music.value) return false
+    const same = current.value && (music.value as any).mid === (current.value as any).mid
+    return same ? (musicStore as any).isCurrentMusicLiked : false
+  })
+  
+  // 切换播放/暂停状态
+  const togglePlay = async () => {
+    if (!music.value) return
+    if (isPlayingCurrent.value) {
+      musicStore.togglePlay()
+    } else {
+      await musicStore.playMusic(music.value as any)
+    }
+  }
+  
+  // 切换收藏状态
+  const toggleFavorite = async () => {
+    if (!music.value) return
+    const same = current.value && (music.value as any).mid === (current.value as any).mid
+    if (!same) {
+      await musicStore.playMusic(music.value as any)
+    }
+    await (musicStore as any).toggleFavorite()
+  }
+  
+  // 将歌曲加入播放队列
+  const addToQueue = async () => {
+    if (!music.value) return
+    await musicStore.addToPlayQueueWithSync(music.value as any)
+  }
+  
+  // 下载歌曲
+  const download = async () => {
+    if (!music.value) return
+    await musicStore.downloadMusic(music.value as any)
+  }
+  
+  // 格式化时长（秒 -> MM:SS）
+  const formatTime = (seconds: number) => {
+    if (!seconds && seconds !== 0) return '-'
+    const mins = Math.floor(seconds / 60)
+    const secs = Math.floor(seconds % 60)
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+  </script>
+  
+  <style scoped>
+  .song-detail {
+    max-width: 980px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  
+  .header {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .cover {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
+  }
+  
+  .meta {
+    flex: 1;
+  }
+  
+  .title {
+    margin: 8px 0 6px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2328;
+  }
+  
+  .artist, .album, .duration {
+    margin: 4px 0;
+    color: #6b7280;
+  }
+  
+  .actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .info {
+    margin-top: 30px;
+  }
+  
+  .info h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+  
+  .empty {
+    max-width: 980px;
+    margin: 48px auto;
+    text-align: center;
+    color: #9aa5b1;
+  }
+  </style>
+  

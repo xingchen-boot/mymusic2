@@ -1,114 +1,114 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***com.fasterxml.jackson.databind.ObjectMapper;
-import***REMOVED***org.springframework.beans.factory.annotation.Value;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***javax.crypto.Mac;
-import***REMOVED***javax.crypto.spec.SecretKeySpec;
-import***REMOVED***java.nio.charset.StandardCharsets;
-import***REMOVED***java.text.SimpleDateFormat;
-import***REMOVED***java.util.*;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
-***REMOVED*******REMOVED***提供前端直传***REMOVED***OSS***REMOVED***的表单策略与签名
-***REMOVED****/
+ * 提供前端直传 OSS 的表单策略与签名
+ */
 @RestController
 @RequestMapping("/api/oss")
-public***REMOVED***class***REMOVED***OssController***REMOVED***{
+public class OssController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.bucket}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***bucket;
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.region}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***region;
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.endpoint}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***endpoint;
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.accessKeyId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***accessKeyId;
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.accessKeySecret}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***accessKeySecret;
-***REMOVED******REMOVED******REMOVED******REMOVED***@Value("${oss.avatarPrefix}")
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***avatarPrefix;
+    @Value("${oss.bucket}")
+    private String bucket;
+    @Value("${oss.region}")
+    private String region;
+    @Value("${oss.endpoint}")
+    private String endpoint;
+    @Value("${oss.accessKeyId}")
+    private String accessKeyId;
+    @Value("${oss.accessKeySecret}")
+    private String accessKeySecret;
+    @Value("${oss.avatarPrefix}")
+    private String avatarPrefix;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/policy")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***getUploadPolicy(@RequestParam("userId")***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***基础校验，避免后端***REMOVED***NPE***REMOVED***或签名无效
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userId***REMOVED***==***REMOVED***null***REMOVED***||***REMOVED***userId***REMOVED***<=***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***IllegalArgumentException("非法的用户ID");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(isBlank(bucket)***REMOVED***||***REMOVED***isBlank(region)***REMOVED***||***REMOVED***isBlank(endpoint)***REMOVED***||***REMOVED***isBlank(accessKeyId)***REMOVED***||***REMOVED***isBlank(accessKeySecret))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***IllegalStateException("OSS***REMOVED***配置不完整，请设置***REMOVED***bucket/region/endpoint***REMOVED***以及访问凭证");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***限制前缀：avatars/{userId}/
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***dir***REMOVED***=***REMOVED***String.format("%s%d/",***REMOVED***avatarPrefix,***REMOVED***userId);
+    @GetMapping("/policy")
+    public Map<String, Object> getUploadPolicy(@RequestParam("userId") Long userId) {
+        // 基础校验，避免后端 NPE 或签名无效
+        if (userId == null || userId <= 0) {
+            throw new IllegalArgumentException("非法的用户ID");
+        }
+        if (isBlank(bucket) || isBlank(region) || isBlank(endpoint) || isBlank(accessKeyId) || isBlank(accessKeySecret)) {
+            throw new IllegalStateException("OSS 配置不完整，请设置 bucket/region/endpoint 以及访问凭证");
+        }
+        // 限制前缀：avatars/{userId}/
+        String dir = String.format("%s%d/", avatarPrefix, userId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***过期时间：1***REMOVED***分钟
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***long***REMOVED***expireTime***REMOVED***=***REMOVED***60;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***long***REMOVED***expireEndTime***REMOVED***=***REMOVED***System.currentTimeMillis()***REMOVED***+***REMOVED***expireTime***REMOVED*******REMOVED***1000;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Date***REMOVED***expiration***REMOVED***=***REMOVED***new***REMOVED***Date(expireEndTime);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***SimpleDateFormat***REMOVED***gmt***REMOVED***=***REMOVED***new***REMOVED***SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***gmt.setTimeZone(TimeZone.getTimeZone("UTC"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***expirationStr***REMOVED***=***REMOVED***gmt.format(expiration);
+        // 过期时间：1 分钟
+        long expireTime = 60;
+        long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
+        Date expiration = new Date(expireEndTime);
+        SimpleDateFormat gmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        gmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String expirationStr = gmt.format(expiration);
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***条件限制：前缀***REMOVED***+***REMOVED***文件大小<=5MB***REMOVED***+***REMOVED***仅***REMOVED***image/*
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<Object>***REMOVED***conditions***REMOVED***=***REMOVED***new***REMOVED***ArrayList<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***conditions.add(Arrays.asList("starts-with",***REMOVED***"$key",***REMOVED***dir));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***conditions.add(Arrays.asList("content-length-range",***REMOVED***0,***REMOVED***5***REMOVED*******REMOVED***1024***REMOVED*******REMOVED***1024));
+        // 条件限制：前缀 + 文件大小<=5MB + 仅 image/*
+        List<Object> conditions = new ArrayList<>();
+        conditions.add(Arrays.asList("starts-with", "$key", dir));
+        conditions.add(Arrays.asList("content-length-range", 0, 5 * 1024 * 1024));
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***policy***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***policy.put("expiration",***REMOVED***expirationStr);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***policy.put("conditions",***REMOVED***conditions);
+        Map<String, Object> policy = new HashMap<>();
+        policy.put("expiration", expirationStr);
+        policy.put("conditions", conditions);
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***policyJson;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***policyJson***REMOVED***=***REMOVED***new***REMOVED***ObjectMapper().writeValueAsString(policy);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("生成策略失败",***REMOVED***e);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***policyBase64***REMOVED***=***REMOVED***Base64.getEncoder().encodeToString(policyJson.getBytes(StandardCharsets.UTF_8));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***signature***REMOVED***=***REMOVED***sign(policyBase64,***REMOVED***accessKeySecret);
+        String policyJson;
+        try {
+            policyJson = new ObjectMapper().writeValueAsString(policy);
+        } catch (Exception e) {
+            throw new RuntimeException("生成策略失败", e);
+        }
+        String policyBase64 = Base64.getEncoder().encodeToString(policyJson.getBytes(StandardCharsets.UTF_8));
+        String signature = sign(policyBase64, accessKeySecret);
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***endpointHost***REMOVED***=***REMOVED***endpoint
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***.replace("https://",***REMOVED***"")
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***.replace("http://",***REMOVED***"");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***host***REMOVED***=***REMOVED***String.format("https://%s.%s",***REMOVED***bucket,***REMOVED***endpointHost);
+        String endpointHost = endpoint
+                .replace("https://", "")
+                .replace("http://", "");
+        String host = String.format("https://%s.%s", bucket, endpointHost);
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***resp***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("accessId",***REMOVED***accessKeyId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("policy",***REMOVED***policyBase64);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("signature",***REMOVED***signature);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("dir",***REMOVED***dir);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("host",***REMOVED***host);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("expire",***REMOVED***expireEndTime***REMOVED***/***REMOVED***1000);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("bucket",***REMOVED***bucket);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resp.put("region",***REMOVED***region);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***resp;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("accessId", accessKeyId);
+        resp.put("policy", policyBase64);
+        resp.put("signature", signature);
+        resp.put("dir", dir);
+        resp.put("host", host);
+        resp.put("expire", expireEndTime / 1000);
+        resp.put("bucket", bucket);
+        resp.put("region", region);
+        return resp;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping("/upload")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***uploadAvatar(@RequestParam("file")***REMOVED***org.springframework.web.multipart.MultipartFile***REMOVED***file,***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam("userId")***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("success",***REMOVED***false);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("error",***REMOVED***"OSS***REMOVED***上传功能暂时不可用，请稍后再试");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    @PostMapping("/upload")
+    public Map<String, Object> uploadAvatar(@RequestParam("file") org.springframework.web.multipart.MultipartFile file, 
+                                          @RequestParam("userId") Long userId) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", false);
+        result.put("error", "OSS 上传功能暂时不可用，请稍后再试");
+        return result;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***sign(String***REMOVED***policyBase64,***REMOVED***String***REMOVED***accessKeySecret)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***algo***REMOVED***=***REMOVED***"HmacSHA1";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Mac***REMOVED***mac***REMOVED***=***REMOVED***Mac.getInstance(algo);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***mac.init(new***REMOVED***SecretKeySpec(accessKeySecret.getBytes(StandardCharsets.UTF_8),***REMOVED***algo));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***byte[]***REMOVED***signData***REMOVED***=***REMOVED***mac.doFinal(policyBase64.getBytes(StandardCharsets.UTF_8));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***Base64.getEncoder().encodeToString(signData);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("签名失败",***REMOVED***e);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    private String sign(String policyBase64, String accessKeySecret) {
+        try {
+            String algo = "HmacSHA1";
+            Mac mac = Mac.getInstance(algo);
+            mac.init(new SecretKeySpec(accessKeySecret.getBytes(StandardCharsets.UTF_8), algo));
+            byte[] signData = mac.doFinal(policyBase64.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(signData);
+        } catch (Exception e) {
+            throw new RuntimeException("签名失败", e);
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***boolean***REMOVED***isBlank(String***REMOVED***s)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***s***REMOVED***==***REMOVED***null***REMOVED***||***REMOVED***s.trim().isEmpty();
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    private boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
 }
 
 

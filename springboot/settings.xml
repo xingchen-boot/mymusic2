@@ -1,16 +1,16 @@
-<?xml***REMOVED***version="1.0"***REMOVED***encoding="UTF-8"?>
-<settings***REMOVED***xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***http://maven.apache.org/xsd/settings-1.0.0.xsd">
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***<mirrors>
-***REMOVED******REMOVED******REMOVED******REMOVED***<mirror>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<id>aliyunmaven</id>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<mirrorOf>*</mirrorOf>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<name>阿里云公共仓库</name>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<url>https://maven.aliyun.com/repository/public</url>
-***REMOVED******REMOVED******REMOVED******REMOVED***</mirror>
-***REMOVED******REMOVED***</mirrors>
-***REMOVED******REMOVED***
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 
+          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  
+  <mirrors>
+    <mirror>
+      <id>aliyunmaven</id>
+      <mirrorOf>*</mirrorOf>
+      <name>阿里云公共仓库</name>
+      <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
+  </mirrors>
+  
 </settings>

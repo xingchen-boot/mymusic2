@@ -1,201 +1,201 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.example.entity.ApiResponse;
-import***REMOVED***org.example.entity.UserRecentPlay;
-import***REMOVED***org.example.service.UserRecentPlayService;
-import***REMOVED***org.springframework.beans.factory.annotation.Autowired;
-import***REMOVED***org.springframework.http.ResponseEntity;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import org.example.entity.ApiResponse;
+import org.example.entity.UserRecentPlay;
+import org.example.service.UserRecentPlayService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***java.math.BigDecimal;
-import***REMOVED***java.util.List;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户最近播放控制器
-***REMOVED****/
+ * 用户最近播放控制器
+ */
 @RestController
 @RequestMapping("/api/recent-play")
-@CrossOrigin(origins***REMOVED***=***REMOVED***"*")
-public***REMOVED***class***REMOVED***UserRecentPlayController***REMOVED***{
+@CrossOrigin(origins = "*")
+public class UserRecentPlayController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Autowired
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***UserRecentPlayService***REMOVED***userRecentPlayService;
+    @Autowired
+    private UserRecentPlayService userRecentPlayService;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***记录用户播放音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping("/record")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***recordPlay(@RequestBody***REMOVED***RecordPlayRequest***REMOVED***request)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userRecentPlayService.recordPlay(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getUserId(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicId(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicMid(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicSong(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicSinger(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicAlbum(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicCover(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicTime(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicPay(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getPlayDuration(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getPlayProgress()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("记录播放成功"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("记录播放失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 记录用户播放音乐
+     */
+    @PostMapping("/record")
+    public ResponseEntity<ApiResponse<Object>> recordPlay(@RequestBody RecordPlayRequest request) {
+        try {
+            userRecentPlayService.recordPlay(
+                request.getUserId(),
+                request.getMusicId(),
+                request.getMusicMid(),
+                request.getMusicSong(),
+                request.getMusicSinger(),
+                request.getMusicAlbum(),
+                request.getMusicCover(),
+                request.getMusicTime(),
+                request.getMusicPay(),
+                request.getPlayDuration(),
+                request.getPlayProgress()
+            );
+            return ResponseEntity.ok(ApiResponse.success("记录播放成功"));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("记录播放失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新播放进度
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PutMapping("/progress")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***updatePlayProgress(@RequestBody***REMOVED***UpdateProgressRequest***REMOVED***request)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userRecentPlayService.updatePlayProgress(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getUserId(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getMusicId(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getPlayDuration(),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***request.getPlayProgress()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("更新进度成功"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("更新进度失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 更新播放进度
+     */
+    @PutMapping("/progress")
+    public ResponseEntity<ApiResponse<Object>> updatePlayProgress(@RequestBody UpdateProgressRequest request) {
+        try {
+            userRecentPlayService.updatePlayProgress(
+                request.getUserId(),
+                request.getMusicId(),
+                request.getPlayDuration(),
+                request.getPlayProgress()
+            );
+            return ResponseEntity.ok(ApiResponse.success("更新进度成功"));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("更新进度失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户最近播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/user/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<List<UserRecentPlay>>>***REMOVED***getRecentPlays(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@PathVariable***REMOVED***Long***REMOVED***userId,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***Integer***REMOVED***limit)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<UserRecentPlay>***REMOVED***recentPlays***REMOVED***=***REMOVED***userRecentPlayService.getRecentPlays(userId,***REMOVED***limit);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***recentPlays));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户最近播放列表
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<UserRecentPlay>>> getRecentPlays(
+            @PathVariable Long userId,
+            @RequestParam(required = false) Integer limit) {
+        try {
+            List<UserRecentPlay> recentPlays = userRecentPlayService.getRecentPlays(userId, limit);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", recentPlays));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查音乐是否在最近播放中
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/user/{userId}/check/{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Boolean>>***REMOVED***checkInRecentPlays(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@PathVariable***REMOVED***Long***REMOVED***userId,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@PathVariable***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***isInRecentPlays***REMOVED***=***REMOVED***userRecentPlayService.isInRecentPlays(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("检查成功",***REMOVED***isInRecentPlays));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("检查失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 检查音乐是否在最近播放中
+     */
+    @GetMapping("/user/{userId}/check/{musicId}")
+    public ResponseEntity<ApiResponse<Boolean>> checkInRecentPlays(
+            @PathVariable Long userId,
+            @PathVariable String musicId) {
+        try {
+            boolean isInRecentPlays = userRecentPlayService.isInRecentPlays(userId, musicId);
+            return ResponseEntity.ok(ApiResponse.success("检查成功", isInRecentPlays));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("检查失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***从最近播放中移除音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/user/{userId}/music/{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***removeFromRecentPlays(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@PathVariable***REMOVED***Long***REMOVED***userId,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@PathVariable***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userRecentPlayService.removeFromRecentPlays(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("移除成功"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("移除失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("移除失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 从最近播放中移除音乐
+     */
+    @DeleteMapping("/user/{userId}/music/{musicId}")
+    public ResponseEntity<ApiResponse<Object>> removeFromRecentPlays(
+            @PathVariable Long userId,
+            @PathVariable String musicId) {
+        try {
+            boolean success = userRecentPlayService.removeFromRecentPlays(userId, musicId);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("移除成功"));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("移除失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("移除失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***清空用户最近播放记录
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/user/{userId}/clear")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***clearRecentPlays(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userRecentPlayService.clearRecentPlays(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("清空成功"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("清空失败"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("清空失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 清空用户最近播放记录
+     */
+    @DeleteMapping("/user/{userId}/clear")
+    public ResponseEntity<ApiResponse<Object>> clearRecentPlays(@PathVariable Long userId) {
+        try {
+            boolean success = userRecentPlayService.clearRecentPlays(userId);
+            if (success) {
+                return ResponseEntity.ok(ApiResponse.success("清空成功"));
+            } else {
+                return ResponseEntity.ok(ApiResponse.error("清空失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("清空失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户最近播放数量
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/user/{userId}/count")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Integer>>***REMOVED***getRecentPlaysCount(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***count***REMOVED***=***REMOVED***userRecentPlayService.getRecentPlaysCount(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***count));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户最近播放数量
+     */
+    @GetMapping("/user/{userId}/count")
+    public ResponseEntity<ApiResponse<Integer>> getRecentPlaysCount(@PathVariable Long userId) {
+        try {
+            int count = userRecentPlayService.getRecentPlaysCount(userId);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", count));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***内部请求类
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***class***REMOVED***RecordPlayRequest***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Long***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicMid;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicSong;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicSinger;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicAlbum;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicCover;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicTime;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicPay;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Integer***REMOVED***playDuration;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***BigDecimal***REMOVED***playProgress;
+    // 内部请求类
+    public static class RecordPlayRequest {
+        private Long userId;
+        private String musicId;
+        private String musicMid;
+        private String musicSong;
+        private String musicSinger;
+        private String musicAlbum;
+        private String musicCover;
+        private String musicTime;
+        private String musicPay;
+        private Integer playDuration;
+        private BigDecimal playProgress;
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***Getters***REMOVED***and***REMOVED***Setters
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Long***REMOVED***getUserId()***REMOVED***{***REMOVED***return***REMOVED***userId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setUserId(Long***REMOVED***userId)***REMOVED***{***REMOVED***this.userId***REMOVED***=***REMOVED***userId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicId()***REMOVED***{***REMOVED***return***REMOVED***musicId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicId(String***REMOVED***musicId)***REMOVED***{***REMOVED***this.musicId***REMOVED***=***REMOVED***musicId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicMid()***REMOVED***{***REMOVED***return***REMOVED***musicMid;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicMid(String***REMOVED***musicMid)***REMOVED***{***REMOVED***this.musicMid***REMOVED***=***REMOVED***musicMid;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicSong()***REMOVED***{***REMOVED***return***REMOVED***musicSong;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicSong(String***REMOVED***musicSong)***REMOVED***{***REMOVED***this.musicSong***REMOVED***=***REMOVED***musicSong;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicSinger()***REMOVED***{***REMOVED***return***REMOVED***musicSinger;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicSinger(String***REMOVED***musicSinger)***REMOVED***{***REMOVED***this.musicSinger***REMOVED***=***REMOVED***musicSinger;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicAlbum()***REMOVED***{***REMOVED***return***REMOVED***musicAlbum;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicAlbum(String***REMOVED***musicAlbum)***REMOVED***{***REMOVED***this.musicAlbum***REMOVED***=***REMOVED***musicAlbum;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicCover()***REMOVED***{***REMOVED***return***REMOVED***musicCover;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicCover(String***REMOVED***musicCover)***REMOVED***{***REMOVED***this.musicCover***REMOVED***=***REMOVED***musicCover;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicTime()***REMOVED***{***REMOVED***return***REMOVED***musicTime;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicTime(String***REMOVED***musicTime)***REMOVED***{***REMOVED***this.musicTime***REMOVED***=***REMOVED***musicTime;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicPay()***REMOVED***{***REMOVED***return***REMOVED***musicPay;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicPay(String***REMOVED***musicPay)***REMOVED***{***REMOVED***this.musicPay***REMOVED***=***REMOVED***musicPay;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Integer***REMOVED***getPlayDuration()***REMOVED***{***REMOVED***return***REMOVED***playDuration;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setPlayDuration(Integer***REMOVED***playDuration)***REMOVED***{***REMOVED***this.playDuration***REMOVED***=***REMOVED***playDuration;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***BigDecimal***REMOVED***getPlayProgress()***REMOVED***{***REMOVED***return***REMOVED***playProgress;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setPlayProgress(BigDecimal***REMOVED***playProgress)***REMOVED***{***REMOVED***this.playProgress***REMOVED***=***REMOVED***playProgress;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        // Getters and Setters
+        public Long getUserId() { return userId; }
+        public void setUserId(Long userId) { this.userId = userId; }
+        public String getMusicId() { return musicId; }
+        public void setMusicId(String musicId) { this.musicId = musicId; }
+        public String getMusicMid() { return musicMid; }
+        public void setMusicMid(String musicMid) { this.musicMid = musicMid; }
+        public String getMusicSong() { return musicSong; }
+        public void setMusicSong(String musicSong) { this.musicSong = musicSong; }
+        public String getMusicSinger() { return musicSinger; }
+        public void setMusicSinger(String musicSinger) { this.musicSinger = musicSinger; }
+        public String getMusicAlbum() { return musicAlbum; }
+        public void setMusicAlbum(String musicAlbum) { this.musicAlbum = musicAlbum; }
+        public String getMusicCover() { return musicCover; }
+        public void setMusicCover(String musicCover) { this.musicCover = musicCover; }
+        public String getMusicTime() { return musicTime; }
+        public void setMusicTime(String musicTime) { this.musicTime = musicTime; }
+        public String getMusicPay() { return musicPay; }
+        public void setMusicPay(String musicPay) { this.musicPay = musicPay; }
+        public Integer getPlayDuration() { return playDuration; }
+        public void setPlayDuration(Integer playDuration) { this.playDuration = playDuration; }
+        public BigDecimal getPlayProgress() { return playProgress; }
+        public void setPlayProgress(BigDecimal playProgress) { this.playProgress = playProgress; }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***static***REMOVED***class***REMOVED***UpdateProgressRequest***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Long***REMOVED***userId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***String***REMOVED***musicId;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***Integer***REMOVED***playDuration;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***BigDecimal***REMOVED***playProgress;
+    public static class UpdateProgressRequest {
+        private Long userId;
+        private String musicId;
+        private Integer playDuration;
+        private BigDecimal playProgress;
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***Getters***REMOVED***and***REMOVED***Setters
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Long***REMOVED***getUserId()***REMOVED***{***REMOVED***return***REMOVED***userId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setUserId(Long***REMOVED***userId)***REMOVED***{***REMOVED***this.userId***REMOVED***=***REMOVED***userId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***getMusicId()***REMOVED***{***REMOVED***return***REMOVED***musicId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setMusicId(String***REMOVED***musicId)***REMOVED***{***REMOVED***this.musicId***REMOVED***=***REMOVED***musicId;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Integer***REMOVED***getPlayDuration()***REMOVED***{***REMOVED***return***REMOVED***playDuration;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setPlayDuration(Integer***REMOVED***playDuration)***REMOVED***{***REMOVED***this.playDuration***REMOVED***=***REMOVED***playDuration;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***BigDecimal***REMOVED***getPlayProgress()***REMOVED***{***REMOVED***return***REMOVED***playProgress;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***void***REMOVED***setPlayProgress(BigDecimal***REMOVED***playProgress)***REMOVED***{***REMOVED***this.playProgress***REMOVED***=***REMOVED***playProgress;***REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        // Getters and Setters
+        public Long getUserId() { return userId; }
+        public void setUserId(Long userId) { this.userId = userId; }
+        public String getMusicId() { return musicId; }
+        public void setMusicId(String musicId) { this.musicId = musicId; }
+        public Integer getPlayDuration() { return playDuration; }
+        public void setPlayDuration(Integer playDuration) { this.playDuration = playDuration; }
+        public BigDecimal getPlayProgress() { return playProgress; }
+        public void setPlayProgress(BigDecimal playProgress) { this.playProgress = playProgress; }
+    }
 }

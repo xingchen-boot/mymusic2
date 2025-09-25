@@ -1,94 +1,94 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.example.entity.ApiResponse;
-import***REMOVED***org.example.entity.UserFavorite;
-import***REMOVED***org.example.service.UserFavoriteService;
-import***REMOVED***org.springframework.beans.factory.annotation.Autowired;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import org.example.entity.ApiResponse;
+import org.example.entity.UserFavorite;
+import org.example.service.UserFavoriteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***java.util.List;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户收藏音乐控制器
-***REMOVED****/
+ * 用户收藏音乐控制器
+ */
 @RestController
 @RequestMapping("/api/user-favorites")
-public***REMOVED***class***REMOVED***UserFavoriteController***REMOVED***{
+public class UserFavoriteController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Autowired
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***UserFavoriteService***REMOVED***userFavoriteService;
+    @Autowired
+    private UserFavoriteService userFavoriteService;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户收藏列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/user/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<List<UserFavorite>>***REMOVED***getUserFavorites(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<UserFavorite>***REMOVED***favorites***REMOVED***=***REMOVED***userFavoriteService.getUserFavorites(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success(favorites);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("获取收藏列表失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户收藏列表
+     */
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<UserFavorite>> getUserFavorites(@PathVariable Long userId) {
+        try {
+            List<UserFavorite> favorites = userFavoriteService.getUserFavorites(userId);
+            return ApiResponse.success(favorites);
+        } catch (Exception e) {
+            return ApiResponse.error("获取收藏列表失败: " + e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***添加收藏
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping("/add")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<Boolean>***REMOVED***addFavorite(@RequestParam***REMOVED***Long***REMOVED***userId,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***musicId,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***musicMid,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***musicSong,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***musicSinger,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***musicAlbum,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***musicCover,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***musicTime,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***musicPay)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userFavoriteService.addFavorite(userId,***REMOVED***musicId,***REMOVED***musicMid,***REMOVED***musicSong,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***musicSinger,***REMOVED***musicAlbum,***REMOVED***musicCover,***REMOVED***musicTime,***REMOVED***musicPay);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***success***REMOVED***?***REMOVED***ApiResponse.success(true)***REMOVED***:***REMOVED***ApiResponse.error("添加收藏失败");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("添加收藏失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 添加收藏
+     */
+    @PostMapping("/add")
+    public ApiResponse<Boolean> addFavorite(@RequestParam Long userId,
+                                           @RequestParam String musicId,
+                                           @RequestParam(required = false) String musicMid,
+                                           @RequestParam String musicSong,
+                                           @RequestParam String musicSinger,
+                                           @RequestParam(required = false) String musicAlbum,
+                                           @RequestParam(required = false) String musicCover,
+                                           @RequestParam(required = false) String musicTime,
+                                           @RequestParam(required = false) String musicPay) {
+        try {
+            boolean success = userFavoriteService.addFavorite(userId, musicId, musicMid, musicSong,
+                    musicSinger, musicAlbum, musicCover, musicTime, musicPay);
+            return success ? ApiResponse.success(true) : ApiResponse.error("添加收藏失败");
+        } catch (Exception e) {
+            return ApiResponse.error("添加收藏失败: " + e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***删除收藏
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/remove")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<Boolean>***REMOVED***removeFavorite(@RequestParam***REMOVED***Long***REMOVED***userId,***REMOVED***@RequestParam***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userFavoriteService.removeFavorite(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***success***REMOVED***?***REMOVED***ApiResponse.success(true)***REMOVED***:***REMOVED***ApiResponse.error("删除收藏失败");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("删除收藏失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 删除收藏
+     */
+    @DeleteMapping("/remove")
+    public ApiResponse<Boolean> removeFavorite(@RequestParam Long userId, @RequestParam String musicId) {
+        try {
+            boolean success = userFavoriteService.removeFavorite(userId, musicId);
+            return success ? ApiResponse.success(true) : ApiResponse.error("删除收藏失败");
+        } catch (Exception e) {
+            return ApiResponse.error("删除收藏失败: " + e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查是否已收藏
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/check")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<Boolean>***REMOVED***checkFavorite(@RequestParam***REMOVED***Long***REMOVED***userId,***REMOVED***@RequestParam***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***isFavorite***REMOVED***=***REMOVED***userFavoriteService.isFavorite(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success(isFavorite);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("检查收藏状态失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 检查是否已收藏
+     */
+    @GetMapping("/check")
+    public ApiResponse<Boolean> checkFavorite(@RequestParam Long userId, @RequestParam String musicId) {
+        try {
+            boolean isFavorite = userFavoriteService.isFavorite(userId, musicId);
+            return ApiResponse.success(isFavorite);
+        } catch (Exception e) {
+            return ApiResponse.error("检查收藏状态失败: " + e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户收藏数量
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/count/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<Integer>***REMOVED***getFavoriteCount(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***count***REMOVED***=***REMOVED***userFavoriteService.getFavoriteCount(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success(count);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("获取收藏数量失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户收藏数量
+     */
+    @GetMapping("/count/{userId}")
+    public ApiResponse<Integer> getFavoriteCount(@PathVariable Long userId) {
+        try {
+            int count = userFavoriteService.getFavoriteCount(userId);
+            return ApiResponse.success(count);
+        } catch (Exception e) {
+            return ApiResponse.error("获取收藏数量失败: " + e.getMessage());
+        }
+    }
 }

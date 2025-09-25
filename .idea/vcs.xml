@@ -1,6 +1,6 @@
-<?xml***REMOVED***version="1.0"***REMOVED***encoding="UTF-8"?>
-<project***REMOVED***version="4">
-***REMOVED******REMOVED***<component***REMOVED***name="VcsDirectoryMappings">
-***REMOVED******REMOVED******REMOVED******REMOVED***<mapping***REMOVED***directory="$PROJECT_DIR$"***REMOVED***vcs="Git"***REMOVED***/>
-***REMOVED******REMOVED***</component>
+﻿<?xmlversion="1.0"encoding="UTF-8"?>
+<projectversion="4">
+<componentname="VcsDirectoryMappings">
+<mappingdirectory="$PROJECT_DIR$"vcs="Git"/>
+</component>
 </project>

@@ -1,407 +1,405 @@
-import***REMOVED***{***REMOVED***defineStore***REMOVED***}***REMOVED***from***REMOVED***'pinia'
-import***REMOVED***{***REMOVED***ref,***REMOVED***computed***REMOVED***}***REMOVED***from***REMOVED***'vue'
+﻿import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 
-export***REMOVED***interface***REMOVED***UserInfo***REMOVED***{
-***REMOVED******REMOVED***id:***REMOVED***number
-***REMOVED******REMOVED***username:***REMOVED***string
-***REMOVED******REMOVED***nickname:***REMOVED***string
-***REMOVED******REMOVED***avatar?:***REMOVED***string
-***REMOVED******REMOVED***createTime:***REMOVED***string
+export interface UserInfo {
+  id: number
+  username: string
+  nickname: string
+  avatar?: string
+  createTime: string
 }
 
-export***REMOVED***interface***REMOVED***UserPlaylist***REMOVED***{
-***REMOVED******REMOVED***id:***REMOVED***number
-***REMOVED******REMOVED***userId:***REMOVED***number
-***REMOVED******REMOVED***name:***REMOVED***string
-***REMOVED******REMOVED***description?:***REMOVED***string
-***REMOVED******REMOVED***coverUrl?:***REMOVED***string
-***REMOVED******REMOVED***createTime:***REMOVED***string
-***REMOVED******REMOVED***updateTime:***REMOVED***string
-***REMOVED******REMOVED***status:***REMOVED***number
-***REMOVED******REMOVED***musicList?:***REMOVED***PlaylistMusic[]
+export interface UserPlaylist {
+  id: number
+  userId: number
+  name: string
+  description?: string
+  coverUrl?: string
+  createTime: string
+  updateTime: string
+  status: number
+  musicList?: PlaylistMusic[]
 }
 
-export***REMOVED***interface***REMOVED***PlaylistMusic***REMOVED***{
-***REMOVED******REMOVED***id?:***REMOVED***number
-***REMOVED******REMOVED***playlistId?:***REMOVED***number
-***REMOVED******REMOVED***musicId:***REMOVED***string
-***REMOVED******REMOVED***musicName:***REMOVED***string
-***REMOVED******REMOVED***artistName?:***REMOVED***string
-***REMOVED******REMOVED***albumName?:***REMOVED***string
-***REMOVED******REMOVED***duration?:***REMOVED***number
-***REMOVED******REMOVED***musicUrl?:***REMOVED***string
-***REMOVED******REMOVED***coverUrl?:***REMOVED***string
-***REMOVED******REMOVED***addTime?:***REMOVED***string
-***REMOVED******REMOVED***sortOrder?:***REMOVED***number
+export interface PlaylistMusic {
+  id?: number
+  playlistId?: number
+  musicId: string
+  musicName: string
+  artistName?: string
+  albumName?: string
+  duration?: number
+  musicUrl?: string
+  coverUrl?: string
+  addTime?: string
+  sortOrder?: number
 }
 
-export***REMOVED***const***REMOVED***useUserStore***REMOVED***=***REMOVED***defineStore('user',***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***状态
-***REMOVED******REMOVED***const***REMOVED***userInfo***REMOVED***=***REMOVED***ref<UserInfo***REMOVED***|***REMOVED***null>(null)
-***REMOVED******REMOVED***const***REMOVED***token***REMOVED***=***REMOVED***ref<string>('')
-***REMOVED******REMOVED***const***REMOVED***userPlaylists***REMOVED***=***REMOVED***ref<UserPlaylist[]>([])
+export const useUserStore = defineStore('user', () => {
+  // 状态
+  const userInfo = ref<UserInfo | null>(null)
+  const token = ref<string>('')
+  const userPlaylists = ref<UserPlaylist[]>([])
 
-***REMOVED******REMOVED***//***REMOVED***计算属性
-***REMOVED******REMOVED***const***REMOVED***isLoggedIn***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***!!userInfo.value)
-***REMOVED******REMOVED***const***REMOVED***currentUser***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***userInfo.value)
+  // 计算属性
+  const isLoggedIn = computed(() => !!userInfo.value)
+  const currentUser = computed(() => userInfo.value)
 
-***REMOVED******REMOVED***//***REMOVED***登录
-***REMOVED******REMOVED***const***REMOVED***login***REMOVED***=***REMOVED***async***REMOVED***(username:***REMOVED***string,***REMOVED***password:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch('http://localhost:9092/api/user/login',***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'POST',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***username,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***password
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+  // 登录
+  const login = async (username: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:9092/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      })
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userInfo.value***REMOVED***=***REMOVED***result.data
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***这里可以保存token到localStorage
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.setItem('userInfo',***REMOVED***JSON.stringify(result.data))
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***登录成功后加载用户播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***登录成功后加载用户播放队列
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlayQueue()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***登录成功后加载用户播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaySettings()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'登录失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Login***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      const result = await response.json()
+      
+      if (result.code === 200) {
+        userInfo.value = result.data
+        // 保存用户信息到localStorage
+        localStorage.setItem('userInfo', JSON.stringify(result.data))
+        // 登录成功后加载用户相关数据
+        await loadUserPlaylists()
+        await loadUserPlayQueue()
+        await loadUserPlaySettings()
+        return true
+      } else {
+        throw new Error(result.message || '登录失败')
+      }
+    } catch (error: any) {
+      console.error('Login error:', error)
+      throw error
+    }
+  }
 
-***REMOVED******REMOVED***//***REMOVED***注册
-***REMOVED******REMOVED***const***REMOVED***register***REMOVED***=***REMOVED***async***REMOVED***(username:***REMOVED***string,***REMOVED***password:***REMOVED***string,***REMOVED***nickname?:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch('http://localhost:9092/api/user/register',***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'POST',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***username,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***password,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+  // 注册
+  const register = async (username: string, password: string, nickname?: string): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:9092/api/user/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          nickname
+        })
+      })
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'注册失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Register***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      const result = await response.json()
+      
+      if (result.code === 200) {
+        return true
+      } else {
+        throw new Error(result.message || '注册失败')
+      }
+    } catch (error: any) {
+      console.error('Register error:', error)
+      throw error
+    }
+  }
 
-***REMOVED******REMOVED***//***REMOVED***登出
-***REMOVED******REMOVED***const***REMOVED***logout***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***userInfo.value***REMOVED***=***REMOVED***null
-***REMOVED******REMOVED******REMOVED******REMOVED***token.value***REMOVED***=***REMOVED***''
-***REMOVED******REMOVED******REMOVED******REMOVED***userPlaylists.value***REMOVED***=***REMOVED***[]
-***REMOVED******REMOVED******REMOVED******REMOVED***localStorage.removeItem('userInfo')
-***REMOVED******REMOVED******REMOVED******REMOVED***localStorage.removeItem('token')
-***REMOVED******REMOVED******REMOVED******REMOVED***localStorage.removeItem('userPlaylists')
-***REMOVED******REMOVED***}
+  // 登出
+  const logout = () => {
+    userInfo.value = null
+    token.value = ''
+    userPlaylists.value = []
+    localStorage.removeItem('userInfo')
+    localStorage.removeItem('token')
+    localStorage.removeItem('userPlaylists')
+  }
 
-***REMOVED******REMOVED***//***REMOVED***初始化用户信息（从localStorage恢复）
-***REMOVED******REMOVED***const***REMOVED***initUserInfo***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***savedUserInfo***REMOVED***=***REMOVED***localStorage.getItem('userInfo')
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(savedUserInfo)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userInfo.value***REMOVED***=***REMOVED***JSON.parse(savedUserInfo)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***同时加载用户播放列表、播放队列和播放设置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlayQueue()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaySettings()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Failed***REMOVED***to***REMOVED***parse***REMOVED***saved***REMOVED***user***REMOVED***info:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.removeItem('userInfo')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+  // 初始化用户信息（从localStorage恢复）
+  const initUserInfo = async () => {
+    const savedUserInfo = localStorage.getItem('userInfo')
+    if (savedUserInfo) {
+      try {
+        userInfo.value = JSON.parse(savedUserInfo)
+        // 同时加载用户相关数据
+        await loadUserPlaylists()
+        await loadUserPlayQueue()
+        await loadUserPlaySettings()
+      } catch (error) {
+        console.error('Failed to parse saved user info:', error)
+        localStorage.removeItem('userInfo')
+      }
+    }
+  }
 
-***REMOVED******REMOVED***//***REMOVED***更新用户信息
-***REMOVED******REMOVED***const***REMOVED***updateUserInfo***REMOVED***=***REMOVED***async***REMOVED***(nickname?:***REMOVED***string,***REMOVED***avatar?:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error('用户未登录')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+  // 更新用户信息
+  const updateUserInfo = async (nickname?: string, avatar?: string): Promise<boolean> => {
+    if (!userInfo.value) {
+      throw new Error('用户未登录')
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user/info/${userInfo.value.id}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'PUT',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***avatar
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+    try {
+      const response = await fetch(`http://localhost:9092/api/user/info/${userInfo.value.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nickname,
+          avatar
+        })
+      })
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***更新本地用户信息
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userInfo.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(nickname)***REMOVED***userInfo.value.nickname***REMOVED***=***REMOVED***nickname
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(avatar)***REMOVED***userInfo.value.avatar***REMOVED***=***REMOVED***avatar
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.setItem('userInfo',***REMOVED***JSON.stringify(userInfo.value))
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'更新失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Update***REMOVED***user***REMOVED***info***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      const result = await response.json()
 
-***REMOVED******REMOVED***//***REMOVED***修改密码
-***REMOVED******REMOVED***const***REMOVED***changePassword***REMOVED***=***REMOVED***async***REMOVED***(oldPassword:***REMOVED***string,***REMOVED***newPassword:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error('用户未登录')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+      if (result.code === 200) {
+        // 更新本地用户信息
+        if (userInfo.value) {
+          if (nickname) userInfo.value.nickname = nickname
+          if (avatar) userInfo.value.avatar = avatar
+          localStorage.setItem('userInfo', JSON.stringify(userInfo.value))
+        }
+        return true
+      } else {
+        throw new Error(result.message || '更新失败')
+      }
+    } catch (error: any) {
+      console.error('Update user info error:', error)
+      throw error
+    }
+  }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user/password/${userInfo.value.id}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'PUT',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***oldPassword,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***newPassword
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+  // 修改密码
+  const changePassword = async (oldPassword: string, newPassword: string): Promise<boolean> => {
+    if (!userInfo.value) {
+      throw new Error('用户未登录')
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'密码修改失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Change***REMOVED***password***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+    try {
+      const response = await fetch(`http://localhost:9092/api/user/password/${userInfo.value.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldPassword,
+          newPassword
+        })
+      })
 
-***REMOVED******REMOVED***//***REMOVED***检查用户名是否存在
-***REMOVED******REMOVED***const***REMOVED***checkUsername***REMOVED***=***REMOVED***async***REMOVED***(username:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user/check-username?username=${encodeURIComponent(username)}`)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result.data.exists
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'检查失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Check***REMOVED***username***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      const result = await response.json()
 
-***REMOVED******REMOVED***//***REMOVED***播放列表相关方法
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***//***REMOVED***加载用户播放列表
-***REMOVED******REMOVED***const***REMOVED***loadUserPlaylists***REMOVED***=***REMOVED***async***REMOVED***():***REMOVED***Promise<void>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-playlist/user/${userInfo.value.id}`)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userPlaylists.value***REMOVED***=***REMOVED***result.data
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.setItem('userPlaylists',***REMOVED***JSON.stringify(result.data))
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Load***REMOVED***user***REMOVED***playlists***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      if (result.code === 200) {
+        return true
+      } else {
+        throw new Error(result.message || '密码修改失败')
+      }
+    } catch (error: any) {
+      console.error('Change password error:', error)
+      throw error
+    }
+  }
 
-***REMOVED******REMOVED***//***REMOVED***加载用户播放队列
-***REMOVED******REMOVED***const***REMOVED***loadUserPlayQueue***REMOVED***=***REMOVED***async***REMOVED***():***REMOVED***Promise<void>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***动态导入音乐store以避免循环依赖
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('./music')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.loadPlayQueueFromDatabase()
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Load***REMOVED***user***REMOVED***play***REMOVED***queue***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+  // 检查用户名是否存在
+  const checkUsername = async (username: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`http://localhost:9092/api/user/check-username?username=${encodeURIComponent(username)}`)
+      const result = await response.json()
 
-***REMOVED******REMOVED***//***REMOVED***加载用户播放设置
-***REMOVED******REMOVED***const***REMOVED***loadUserPlaySettings***REMOVED***=***REMOVED***async***REMOVED***():***REMOVED***Promise<void>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***动态导入音乐store以避免循环依赖
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('./music')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.loadPlaySettingsFromDatabase()
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Load***REMOVED***user***REMOVED***play***REMOVED***settings***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+      if (result.code === 200) {
+        return result.data.exists
+      } else {
+        throw new Error(result.message || '检查失败')
+      }
+    } catch (error: any) {
+      console.error('Check username error:', error)
+      throw error
+    }
+  }
 
-***REMOVED******REMOVED***//***REMOVED***创建播放列表
-***REMOVED******REMOVED***const***REMOVED***createPlaylist***REMOVED***=***REMOVED***async***REMOVED***(name:***REMOVED***string,***REMOVED***description?:***REMOVED***string):***REMOVED***Promise<UserPlaylist***REMOVED***|***REMOVED***null>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!userInfo.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error('用户未登录')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+  // 播放列表相关方法
 
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch('http://localhost:9092/api/user-playlist/create',***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'POST',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userId:***REMOVED***userInfo.value.id,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***description
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+  // 加载用户播放列表
+  const loadUserPlaylists = async (): Promise<void> => {
+    if (!userInfo.value) return
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***重新加载播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result.data
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'创建失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Create***REMOVED***playlist***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-playlist/user/${userInfo.value.id}`)
+      const result = await response.json()
 
-***REMOVED******REMOVED***//***REMOVED***添加音乐到播放列表
-***REMOVED******REMOVED***const***REMOVED***addMusicToPlaylist***REMOVED***=***REMOVED***async***REMOVED***(playlistId:***REMOVED***number,***REMOVED***music:***REMOVED***PlaylistMusic):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'POST',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***'Content-Type':***REMOVED***'application/json',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify(music)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+      if (result.code === 200) {
+        userPlaylists.value = result.data
+        localStorage.setItem('userPlaylists', JSON.stringify(result.data))
+      }
+    } catch (error) {
+      console.error('Load user playlists error:', error)
+    }
+  }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***重新加载播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'添加失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Add***REMOVED***music***REMOVED***to***REMOVED***playlist***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+  // 加载用户播放队列
+  const loadUserPlayQueue = async (): Promise<void> => {
+    if (!userInfo.value) return
 
-***REMOVED******REMOVED***//***REMOVED***从播放列表移除音乐
-***REMOVED******REMOVED***const***REMOVED***removeMusicFromPlaylist***REMOVED***=***REMOVED***async***REMOVED***(playlistId:***REMOVED***number,***REMOVED***musicId:***REMOVED***string):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music/${musicId}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'DELETE'
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+    try {
+      // 动态导入音乐store以避免循环依赖
+      const { useMusicStore } = await import('./music')
+      const musicStore = useMusicStore()
+      await musicStore.loadPlayQueueFromDatabase()
+    } catch (error) {
+      console.error('Load user play queue error:', error)
+    }
+  }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***重新加载播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'移除失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Remove***REMOVED***music***REMOVED***from***REMOVED***playlist***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+  // 加载用户播放设置
+  const loadUserPlaySettings = async (): Promise<void> => {
+    if (!userInfo.value) return
 
-***REMOVED******REMOVED***//***REMOVED***删除播放列表
-***REMOVED******REMOVED***const***REMOVED***deletePlaylist***REMOVED***=***REMOVED***async***REMOVED***(playlistId:***REMOVED***number):***REMOVED***Promise<boolean>***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-playlist/${playlistId}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'DELETE'
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
+    try {
+      // 动态导入音乐store以避免循环依赖
+      const { useMusicStore } = await import('./music')
+      const musicStore = useMusicStore()
+      await musicStore.loadPlaySettingsFromDatabase()
+    } catch (error) {
+      console.error('Load user play settings error:', error)
+    }
+  }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***重新加载播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***loadUserPlaylists()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Error(result.message***REMOVED***||***REMOVED***'删除失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error:***REMOVED***any)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('Delete***REMOVED***playlist***REMOVED***error:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***error
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
+  // 创建播放列表
+  const createPlaylist = async (name: string, description?: string): Promise<UserPlaylist|null> => {
+    if (!userInfo.value) {
+      throw new Error('用户未登录')
+    }
 
-***REMOVED******REMOVED***return***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***状态
-***REMOVED******REMOVED******REMOVED******REMOVED***userInfo,
-***REMOVED******REMOVED******REMOVED******REMOVED***token,
-***REMOVED******REMOVED******REMOVED******REMOVED***userPlaylists,
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***计算属性
-***REMOVED******REMOVED******REMOVED******REMOVED***isLoggedIn,
-***REMOVED******REMOVED******REMOVED******REMOVED***currentUser,
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***方法
-***REMOVED******REMOVED******REMOVED******REMOVED***login,
-***REMOVED******REMOVED******REMOVED******REMOVED***register,
-***REMOVED******REMOVED******REMOVED******REMOVED***logout,
-***REMOVED******REMOVED******REMOVED******REMOVED***initUserInfo,
-***REMOVED******REMOVED******REMOVED******REMOVED***updateUserInfo,
-***REMOVED******REMOVED******REMOVED******REMOVED***changePassword,
-***REMOVED******REMOVED******REMOVED******REMOVED***checkUsername,
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放列表方法
-***REMOVED******REMOVED******REMOVED******REMOVED***loadUserPlaylists,
-***REMOVED******REMOVED******REMOVED******REMOVED***createPlaylist,
-***REMOVED******REMOVED******REMOVED******REMOVED***addMusicToPlaylist,
-***REMOVED******REMOVED******REMOVED******REMOVED***removeMusicFromPlaylist,
-***REMOVED******REMOVED******REMOVED******REMOVED***deletePlaylist,
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放设置方法
-***REMOVED******REMOVED******REMOVED******REMOVED***loadUserPlaySettings,
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放队列方法
-***REMOVED******REMOVED******REMOVED******REMOVED***loadUserPlayQueue
-***REMOVED******REMOVED***}
+    try {
+      const response = await fetch('http://localhost:9092/api/user-playlist/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userInfo.value.id,
+          name,
+          description
+        })
+      })
+
+      const result = await response.json()
+
+      if (result.code === 200) {
+        // 重新加载播放列表
+        await loadUserPlaylists()
+        return result.data
+      } else {
+        throw new Error(result.message || '创建失败')
+      }
+    } catch (error: any) {
+      console.error('Create playlist error:', error)
+      throw error
+    }
+  }
+
+  // 添加音乐到播放列表
+  const addMusicToPlaylist = async (playlistId: number, music: PlaylistMusic): Promise<boolean> => {
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(music)
+      })
+
+      const result = await response.json()
+
+      if (result.code === 200) {
+        // 重新加载播放列表
+        await loadUserPlaylists()
+        return true
+      } else {
+        throw new Error(result.message || '添加失败')
+      }
+    } catch (error: any) {
+      console.error('Add music to playlist error:', error)
+      throw error
+    }
+  }
+
+  // 从播放列表移除音乐
+  const removeMusicFromPlaylist = async (playlistId: number, musicId: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music/${musicId}`, {
+        method: 'DELETE'
+      })
+
+      const result = await response.json()
+
+      if (result.code === 200) {
+        // 重新加载播放列表
+        await loadUserPlaylists()
+        return true
+      } else {
+        throw new Error(result.message || '移除失败')
+      }
+    } catch (error: any) {
+      console.error('Remove music from playlist error:', error)
+      throw error
+    }
+  }
+
+  // 删除播放列表
+  const deletePlaylist = async (playlistId: number): Promise<boolean> => {
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}`, {
+        method: 'DELETE'
+      })
+
+      const result = await response.json()
+
+      if (result.code === 200) {
+        // 重新加载播放列表
+        await loadUserPlaylists()
+        return true
+      } else {
+        throw new Error(result.message || '删除失败')
+      }
+    } catch (error: any) {
+      console.error('Delete playlist error:', error)
+      throw error
+    }
+  }
+
+  return {
+    // 状态
+    userInfo,
+    token,
+    userPlaylists,
+
+    // 计算属性
+    isLoggedIn,
+    currentUser,
+
+    // 方法
+    login,
+    register,
+    logout,
+    initUserInfo,
+    updateUserInfo,
+    changePassword,
+    checkUsername,
+
+    // 播放列表方法
+    loadUserPlaylists,
+    createPlaylist,
+    addMusicToPlaylist,
+    removeMusicFromPlaylist,
+    deletePlaylist,
+    
+    // 播放设置方法
+    loadUserPlaySettings,
+    
+    // 播放队列方法
+    loadUserPlayQueue
+  }
 })

@@ -1,192 +1,223 @@
-<template>
-***REMOVED******REMOVED***<aside***REMOVED***class="sidebar">
-***REMOVED******REMOVED******REMOVED******REMOVED***<nav***REMOVED***class="nav-menu">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="nav-section">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h3***REMOVED***class="nav-title">发现音乐</h3>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<ul***REMOVED***class="nav-list">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'home'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🏠</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">首页</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/discover"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'discover'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🎵</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">发现</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/playlist"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'playlist'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">📋</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">歌单</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/rank"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'rank'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🏆</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">排行榜</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</ul>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="nav-section">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h3***REMOVED***class="nav-title">我的音乐</h3>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<ul***REMOVED***class="nav-list">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/my-music"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'my-music'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">💿</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">我的音乐</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/favorites"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'favorites'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">❤️</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">我喜欢的</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/recent"***REMOVED***class="nav-link"***REMOVED***:class="{***REMOVED***active:***REMOVED***$route.name***REMOVED***===***REMOVED***'recent'***REMOVED***}">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🕒</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">最近播放</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</ul>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="nav-section">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h3***REMOVED***class="nav-title">创建的歌单</h3>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<ul***REMOVED***class="nav-list">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/playlist/1"***REMOVED***class="nav-link">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🎶</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">我的收藏</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/playlist/2"***REMOVED***class="nav-link">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🎸</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">摇滚精选</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<li***REMOVED***class="nav-item">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<router-link***REMOVED***to="/playlist/3"***REMOVED***class="nav-link">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-icon">🎹</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="nav-text">轻音乐</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</router-link>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</li>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</ul>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</nav>
-***REMOVED******REMOVED***</aside>
-</template>
-
-<script***REMOVED***setup***REMOVED***lang="ts">
-//***REMOVED***这里可以添加一些逻辑，比如获取用户歌单等
-</script>
-
-<style***REMOVED***scoped>
-.sidebar***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***240px;
-***REMOVED******REMOVED***background:***REMOVED***white;
-***REMOVED******REMOVED***border-right:***REMOVED***1px***REMOVED***solid***REMOVED***#e0e0e0;
-***REMOVED******REMOVED***height:***REMOVED***100%;
-***REMOVED******REMOVED***overflow-y:***REMOVED***auto;
-***REMOVED******REMOVED***flex-shrink:***REMOVED***0;
-}
-
-.nav-menu***REMOVED***{
-***REMOVED******REMOVED***padding:***REMOVED***20px***REMOVED***0;
-}
-
-.nav-section***REMOVED***{
-***REMOVED******REMOVED***margin-bottom:***REMOVED***30px;
-}
-
-.nav-title***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***color:***REMOVED***#999;
-***REMOVED******REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***15px***REMOVED***20px;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
-***REMOVED******REMOVED***text-transform:***REMOVED***uppercase;
-***REMOVED******REMOVED***letter-spacing:***REMOVED***1px;
-}
-
-.nav-list***REMOVED***{
-***REMOVED******REMOVED***list-style:***REMOVED***none;
-***REMOVED******REMOVED***margin:***REMOVED***0;
-***REMOVED******REMOVED***padding:***REMOVED***0;
-}
-
-.nav-item***REMOVED***{
-***REMOVED******REMOVED***margin:***REMOVED***0;
-}
-
-.nav-link***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***12px***REMOVED***20px;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***text-decoration:***REMOVED***none;
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***0.3s***REMOVED***ease;
-***REMOVED******REMOVED***border-left:***REMOVED***3px***REMOVED***solid***REMOVED***transparent;
-}
-
-.nav-link:hover***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#f8f9fa;
-***REMOVED******REMOVED***color:***REMOVED***#333;
-}
-
-.nav-link.active***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***linear-gradient(90deg,***REMOVED***rgba(102,***REMOVED***126,***REMOVED***234,***REMOVED***0.1),***REMOVED***transparent);
-***REMOVED******REMOVED***color:***REMOVED***#667eea;
-***REMOVED******REMOVED***border-left-color:***REMOVED***#667eea;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
-}
-
-.nav-icon***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***18px;
-***REMOVED******REMOVED***margin-right:***REMOVED***12px;
-***REMOVED******REMOVED***width:***REMOVED***20px;
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-}
-
-.nav-text***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-}
-
-/****REMOVED***滚动条样式***REMOVED****/
-.sidebar::-webkit-scrollbar***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***6px;
-}
-
-.sidebar::-webkit-scrollbar-track***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#f1f1f1;
-}
-
-.sidebar::-webkit-scrollbar-thumb***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#c1c1c1;
-***REMOVED******REMOVED***border-radius:***REMOVED***3px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#a8a8a8;
-}
-
-/****REMOVED***响应式设计***REMOVED****/
-@media***REMOVED***(max-width:***REMOVED***768px)***REMOVED***{
-***REMOVED******REMOVED***.sidebar***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***width:***REMOVED***200px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.nav-text***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***font-size:***REMOVED***13px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.nav-icon***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED******REMOVED******REMOVED***margin-right:***REMOVED***10px;
-***REMOVED******REMOVED***}
-}
-</style>
+﻿<template>
+    <aside class="sidebar">
+      <nav class="nav-menu">
+        <div class="nav-section">
+          <h3 class="nav-title">发现音乐</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <router-link 
+                to="/" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'home' }"
+              >
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">首页</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link 
+                to="/discover" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'discover' }"
+              >
+                <span class="nav-icon">🎵</span>
+                <span class="nav-text">发现</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link 
+                to="/playlist" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'playlist' }"
+              >
+                <span class="nav-icon">📋</span>
+                <span class="nav-text">歌单</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link 
+                to="/rank" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'rank' }"
+              >
+                <span class="nav-icon">🏆</span>
+                <span class="nav-text">排行榜</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+  
+        <div class="nav-section">
+          <h3 class="nav-title">我的音乐</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <router-link 
+                to="/my-music" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'my-music' }"
+              >
+                <span class="nav-icon">💿</span>
+                <span class="nav-text">我的音乐</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link 
+                to="/favorites" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'favorites' }"
+              >
+                <span class="nav-icon">❤️</span>
+                <span class="nav-text">我喜欢的</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link 
+                to="/recent" 
+                class="nav-link" 
+                :class="{ active: $route.name === 'recent' }"
+              >
+                <span class="nav-icon">🕒</span>
+                <span class="nav-text">最近播放</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+  
+        <div class="nav-section">
+          <h3 class="nav-title">创建的歌单</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <router-link to="/playlist/1" class="nav-link">
+                <span class="nav-icon">🎶</span>
+                <span class="nav-text">我的收藏</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/playlist/2" class="nav-link">
+                <span class="nav-icon">🎸</span>
+                <span class="nav-text">摇滚精选</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/playlist/3" class="nav-link">
+                <span class="nav-icon">🎹</span>
+                <span class="nav-text">轻音乐</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+  </template>
+  
+  <script setup lang="ts">
+  // 可以在这里添加逻辑，例如：
+  // 1. 从状态管理中获取用户创建的歌单
+  // 2. 处理动态导航逻辑
+  // 3. 实现权限控制等功能
+  </script>
+  
+  <style scoped>
+  .sidebar {
+    width: 240px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  
+  .nav-menu {
+    padding: 20px 0;
+  }
+  
+  .nav-section {
+    margin-bottom: 30px;
+  }
+  
+  .nav-title {
+    font-size: 14px;
+    color: #999;
+    margin: 0 0 15px 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    margin: 0;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+  }
+  
+  .nav-link:hover {
+    background: #f8f9fa;
+    color: #333;
+  }
+  
+  .nav-link.active {
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+    color: #667eea;
+    border-left-color: #667eea;
+    font-weight: 500;
+  }
+  
+  .nav-icon {
+    font-size: 18px;
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .nav-text {
+    font-size: 14px;
+  }
+  
+  /* 滚动条样式 */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 200px;
+    }
+  
+    .nav-text {
+      font-size: 13px;
+    }
+  
+    .nav-icon {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+  }
+  </style>

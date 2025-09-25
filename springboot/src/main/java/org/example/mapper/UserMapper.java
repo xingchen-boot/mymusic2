@@ -1,70 +1,70 @@
-package***REMOVED***org.example.mapper;
+package org.example.mapper;
 
-import***REMOVED***org.apache.ibatis.annotations.*;
-import***REMOVED***org.example.entity.User;
+import org.apache.ibatis.annotations.*;
+import org.example.entity.User;
 
-import***REMOVED***java.util.List;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户数据访问层
-***REMOVED****/
+ * 用户数据访问层
+ */
 @Mapper
-public***REMOVED***interface***REMOVED***UserMapper***REMOVED***{
+public interface UserMapper {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据用户名查询用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user***REMOVED***WHERE***REMOVED***username***REMOVED***=***REMOVED***#{username}***REMOVED***AND***REMOVED***status***REMOVED***=***REMOVED***1")
-***REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***findByUsername(@Param("username")***REMOVED***String***REMOVED***username);
-
-
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据ID查询用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}***REMOVED***AND***REMOVED***status***REMOVED***=***REMOVED***1")
-***REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***findById(@Param("id")***REMOVED***Long***REMOVED***id);
-
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***插入用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***user***REMOVED***(username,***REMOVED***password,***REMOVED***nickname,***REMOVED***avatar,***REMOVED***create_time,***REMOVED***update_time,***REMOVED***status)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{username},***REMOVED***#{password},***REMOVED***#{nickname},***REMOVED***#{avatar},***REMOVED***#{createTime},***REMOVED***#{updateTime},***REMOVED***#{status})")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Options(useGeneratedKeys***REMOVED***=***REMOVED***true,***REMOVED***keyProperty***REMOVED***=***REMOVED***"id")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insert(User***REMOVED***user);
-
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新用户信息（允许部分字段更新）。
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***使用***REMOVED***COALESCE***REMOVED***在传入为***REMOVED***NULL***REMOVED***时保留原值。
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user***REMOVED***SET***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"nickname***REMOVED***=***REMOVED***COALESCE(#{nickname},***REMOVED***nickname),***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"avatar***REMOVED***=***REMOVED***COALESCE(#{avatar},***REMOVED***avatar),***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updateUserInfo(User***REMOVED***user);
-
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新密码
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user***REMOVED***SET***REMOVED***password***REMOVED***=***REMOVED***#{password},***REMOVED***update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updatePassword(@Param("id")***REMOVED***Long***REMOVED***id,***REMOVED***@Param("password")***REMOVED***String***REMOVED***password,***REMOVED***@Param("updateTime")***REMOVED***java.time.LocalDateTime***REMOVED***updateTime);
-
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查用户名是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***COUNT(*)***REMOVED***FROM***REMOVED***user***REMOVED***WHERE***REMOVED***username***REMOVED***=***REMOVED***#{username}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***checkUsernameExists(@Param("username")***REMOVED***String***REMOVED***username);
+    /**
+     * 根据用户名查询用户
+     */
+    @Select("SELECT * FROM user WHERE username = #{username} AND status = 1")
+    User findByUsername(@Param("username") String username);
 
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取所有用户（分页）
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user***REMOVED***WHERE***REMOVED***status***REMOVED***=***REMOVED***1***REMOVED***ORDER***REMOVED***BY***REMOVED***create_time***REMOVED***DESC***REMOVED***LIMIT***REMOVED***#{offset},***REMOVED***#{limit}")
-***REMOVED******REMOVED******REMOVED******REMOVED***List<User>***REMOVED***findAll(@Param("offset")***REMOVED***int***REMOVED***offset,***REMOVED***@Param("limit")***REMOVED***int***REMOVED***limit);
+    /**
+     * 根据ID查询用户
+     */
+    @Select("SELECT * FROM user WHERE id = #{id} AND status = 1")
+    User findById(@Param("id") Long id);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户总数
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***COUNT(*)***REMOVED***FROM***REMOVED***user***REMOVED***WHERE***REMOVED***status***REMOVED***=***REMOVED***1")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***countAll();
+    /**
+     * 插入用户
+     */
+    @Insert("INSERT INTO user (username, password, nickname, avatar, create_time, update_time, status) " +
+            "VALUES (#{username}, #{password}, #{nickname}, #{avatar}, #{createTime}, #{updateTime}, #{status})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(User user);
+
+    /**
+     * 更新用户信息（允许部分字段更新）。
+     * 使用 COALESCE 在传入为 NULL 时保留原值。
+     */
+    @Update("UPDATE user SET " +
+            "nickname = COALESCE(#{nickname}, nickname), " +
+            "avatar = COALESCE(#{avatar}, avatar), " +
+            "update_time = #{updateTime} " +
+            "WHERE id = #{id}")
+    int updateUserInfo(User user);
+
+    /**
+     * 更新密码
+     */
+    @Update("UPDATE user SET password = #{password}, update_time = #{updateTime} WHERE id = #{id}")
+    int updatePassword(@Param("id") Long id, @Param("password") String password, @Param("updateTime") java.time.LocalDateTime updateTime);
+
+    /**
+     * 检查用户名是否存在
+     */
+    @Select("SELECT COUNT(*) FROM user WHERE username = #{username}")
+    int checkUsernameExists(@Param("username") String username);
+
+
+    /**
+     * 获取所有用户（分页）
+     */
+    @Select("SELECT * FROM user WHERE status = 1 ORDER BY create_time DESC LIMIT #{offset}, #{limit}")
+    List<User> findAll(@Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * 获取用户总数
+     */
+    @Select("SELECT COUNT(*) FROM user WHERE status = 1")
+    int countAll();
 }

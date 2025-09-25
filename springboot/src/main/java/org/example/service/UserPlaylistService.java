@@ -1,130 +1,130 @@
-package***REMOVED***org.example.service;
+package org.example.service;
 
-import***REMOVED***org.example.entity.UserPlaylist;
-import***REMOVED***org.example.entity.PlaylistMusic;
-import***REMOVED***org.example.mapper.UserPlaylistMapper;
-import***REMOVED***org.springframework.beans.factory.annotation.Autowired;
-import***REMOVED***org.springframework.stereotype.Service;
+import org.example.entity.UserPlaylist;
+import org.example.entity.PlaylistMusic;
+import org.example.mapper.UserPlaylistMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import***REMOVED***java.time.LocalDateTime;
-import***REMOVED***java.util.List;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户播放列表服务类
-***REMOVED****/
+ * 用户播放列表服务类
+ */
 @Service
-public***REMOVED***class***REMOVED***UserPlaylistService***REMOVED***{
+public class UserPlaylistService {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Autowired
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***UserPlaylistMapper***REMOVED***userPlaylistMapper;
+    @Autowired
+    private UserPlaylistMapper userPlaylistMapper;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户的播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***List<UserPlaylist>***REMOVED***getUserPlaylists(Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.findByUserId(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户的播放列表
+     */
+    public List<UserPlaylist> getUserPlaylists(Long userId) {
+        return userPlaylistMapper.findByUserId(userId);
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据ID获取播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***UserPlaylist***REMOVED***getPlaylistById(Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***UserPlaylist***REMOVED***playlist***REMOVED***=***REMOVED***userPlaylistMapper.findById(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(playlist***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***加载播放列表中的音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<PlaylistMusic>***REMOVED***musicList***REMOVED***=***REMOVED***userPlaylistMapper.findMusicByPlaylistId(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setMusicList(musicList);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***playlist;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 根据ID获取播放列表
+     */
+    public UserPlaylist getPlaylistById(Long id) {
+        UserPlaylist playlist = userPlaylistMapper.findById(id);
+        if (playlist != null) {
+            // 加载播放列表中的音乐
+            List<PlaylistMusic> musicList = userPlaylistMapper.findMusicByPlaylistId(id);
+            playlist.setMusicList(musicList);
+        }
+        return playlist;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***创建播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***UserPlaylist***REMOVED***createPlaylist(Long***REMOVED***userId,***REMOVED***String***REMOVED***name,***REMOVED***String***REMOVED***description)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查名称是否已存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userPlaylistMapper.checkNameExists(userId,***REMOVED***name)***REMOVED***>***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("播放列表名称已存在");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 创建播放列表
+     */
+    public UserPlaylist createPlaylist(Long userId, String name, String description) {
+        // 检查名称是否已存在
+        if (userPlaylistMapper.checkNameExists(userId, name) > 0) {
+            throw new RuntimeException("播放列表名称已存在");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***UserPlaylist***REMOVED***playlist***REMOVED***=***REMOVED***new***REMOVED***UserPlaylist(userId,***REMOVED***name,***REMOVED***description);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userPlaylistMapper.insert(playlist);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***playlist;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        UserPlaylist playlist = new UserPlaylist(userId, name, description);
+        userPlaylistMapper.insert(playlist);
+        return playlist;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***updatePlaylist(Long***REMOVED***id,***REMOVED***String***REMOVED***name,***REMOVED***String***REMOVED***description,***REMOVED***String***REMOVED***coverUrl)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***UserPlaylist***REMOVED***playlist***REMOVED***=***REMOVED***new***REMOVED***UserPlaylist();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setId(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setName(name);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setDescription(description);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setCoverUrl(coverUrl);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playlist.setUpdateTime(LocalDateTime.now());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.update(playlist)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 更新播放列表
+     */
+    public boolean updatePlaylist(Long id, String name, String description, String coverUrl) {
+        UserPlaylist playlist = new UserPlaylist();
+        playlist.setId(id);
+        playlist.setName(name);
+        playlist.setDescription(description);
+        playlist.setCoverUrl(coverUrl);
+        playlist.setUpdateTime(LocalDateTime.now());
+        
+        return userPlaylistMapper.update(playlist) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***删除播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***deletePlaylist(Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.deleteById(id,***REMOVED***LocalDateTime.now())***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 删除播放列表
+     */
+    public boolean deletePlaylist(Long id) {
+        return userPlaylistMapper.deleteById(id, LocalDateTime.now()) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***添加音乐到播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***addMusicToPlaylist(Long***REMOVED***playlistId,***REMOVED***PlaylistMusic***REMOVED***music)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查音乐是否已存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userPlaylistMapper.checkMusicInPlaylist(playlistId,***REMOVED***music.getMusicId())***REMOVED***>***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("音乐已存在于播放列表中");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 添加音乐到播放列表
+     */
+    public boolean addMusicToPlaylist(Long playlistId, PlaylistMusic music) {
+        // 检查音乐是否已存在
+        if (userPlaylistMapper.checkMusicInPlaylist(playlistId, music.getMusicId()) > 0) {
+            throw new RuntimeException("音乐已存在于播放列表中");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setPlaylistId(playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setAddTime(LocalDateTime.now());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***设置排序顺序（添加到末尾）
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<PlaylistMusic>***REMOVED***existingMusic***REMOVED***=***REMOVED***userPlaylistMapper.findMusicByPlaylistId(playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setSortOrder(existingMusic.size());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.addMusicToPlaylist(music)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        music.setPlaylistId(playlistId);
+        music.setAddTime(LocalDateTime.now());
+        
+        // 设置排序顺序（添加到末尾）
+        List<PlaylistMusic> existingMusic = userPlaylistMapper.findMusicByPlaylistId(playlistId);
+        music.setSortOrder(existingMusic.size());
+        
+        return userPlaylistMapper.addMusicToPlaylist(music) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***从播放列表移除音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***removeMusicFromPlaylist(Long***REMOVED***playlistId,***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.removeMusicFromPlaylist(playlistId,***REMOVED***musicId)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 从播放列表移除音乐
+     */
+    public boolean removeMusicFromPlaylist(Long playlistId, String musicId) {
+        return userPlaylistMapper.removeMusicFromPlaylist(playlistId, musicId) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取播放列表中的音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***List<PlaylistMusic>***REMOVED***getPlaylistMusic(Long***REMOVED***playlistId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.findMusicByPlaylistId(playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取播放列表中的音乐
+     */
+    public List<PlaylistMusic> getPlaylistMusic(Long playlistId) {
+        return userPlaylistMapper.findMusicByPlaylistId(playlistId);
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新音乐排序
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***updateMusicSort(Long***REMOVED***musicId,***REMOVED***Integer***REMOVED***sortOrder)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.updateMusicSort(musicId,***REMOVED***sortOrder)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 更新音乐排序
+     */
+    public boolean updateMusicSort(Long musicId, Integer sortOrder) {
+        return userPlaylistMapper.updateMusicSort(musicId, sortOrder) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***清空播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***clearPlaylist(Long***REMOVED***playlistId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.clearPlaylist(playlistId)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 清空播放列表
+     */
+    public boolean clearPlaylist(Long playlistId) {
+        return userPlaylistMapper.clearPlaylist(playlistId) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查音乐是否在播放列表中
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***isMusicInPlaylist(Long***REMOVED***playlistId,***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userPlaylistMapper.checkMusicInPlaylist(playlistId,***REMOVED***musicId)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 检查音乐是否在播放列表中
+     */
+    public boolean isMusicInPlaylist(Long playlistId, String musicId) {
+        return userPlaylistMapper.checkMusicInPlaylist(playlistId, musicId) > 0;
+    }
 }
 

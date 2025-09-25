@@ -1,9 +1,9 @@
-<?xml***REMOVED***version="1.0"***REMOVED***encoding="UTF-8"?>
-<module***REMOVED***type="JAVA_MODULE"***REMOVED***version="4">
-***REMOVED******REMOVED***<component***REMOVED***name="NewModuleRootManager"***REMOVED***inherit-compiler-output="true">
-***REMOVED******REMOVED******REMOVED******REMOVED***<exclude-output***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED***<content***REMOVED***url="file://$MODULE_DIR$"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED***<orderEntry***REMOVED***type="inheritedJdk"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED***<orderEntry***REMOVED***type="sourceFolder"***REMOVED***forTests="false"***REMOVED***/>
-***REMOVED******REMOVED***</component>
-</module>
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  </module>

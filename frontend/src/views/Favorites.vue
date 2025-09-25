@@ -1,522 +1,523 @@
-<template>
-***REMOVED******REMOVED***<div***REMOVED***class="favorites">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="favorites-header">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="header-left">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h1>❤️***REMOVED***我喜欢的</h1>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***v-if="favorites.length***REMOVED***>***REMOVED***0">共***REMOVED***{{***REMOVED***favorites.length***REMOVED***}}***REMOVED***首音乐</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="header-right"***REMOVED***v-if="favorites.length***REMOVED***>***REMOVED***0">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="play-options">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-switch
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-model="playFromFavorites"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***active-text="播放我喜欢的"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***inactive-text="播放队列"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@change="onPlayModeChange"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-if="isLoading"***REMOVED***class="loading">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-loading="true"***REMOVED***element-loading-text="加载中...">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***style="height:***REMOVED***200px;"></div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-else-if="favorites.length***REMOVED***===***REMOVED***0"***REMOVED***class="empty-state">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="empty-icon">🎵</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h3>还没有喜欢的音乐</h3>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p>去发现一些好听的音乐吧！</p>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***v-else***REMOVED***class="favorites-list">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***v-for="(favorite,***REMOVED***index)***REMOVED***in***REMOVED***favorites"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:key="favorite.id"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="favorite-item"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:class="{***REMOVED***'current-playing':***REMOVED***currentMusic?.id***REMOVED***===***REMOVED***parseInt(favorite.musicId)***REMOVED***}"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="item-number">{{***REMOVED***index***REMOVED***+***REMOVED***1***REMOVED***}}</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="item-cover">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="favorite.musicCover"***REMOVED***:alt="favorite.musicSong"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="play-overlay"***REMOVED***@click="playFavorite(favorite)">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<span***REMOVED***class="play-icon">{{***REMOVED***currentMusic?.id***REMOVED***===***REMOVED***parseInt(favorite.musicId)***REMOVED***&&***REMOVED***isPlaying***REMOVED***?***REMOVED***'⏸️'***REMOVED***:***REMOVED***'▶️'***REMOVED***}}</span>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="item-info">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h4***REMOVED***class="song-title">{{***REMOVED***favorite.musicSong***REMOVED***}}</h4>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<p***REMOVED***class="artist-name">{{***REMOVED***favorite.musicSinger***REMOVED***}}</p>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="item-actions">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="text"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="removeFavorite(favorite)"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="remove-btn"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***title="取消收藏"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***❤️
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***type="text"***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@click="downloadFavorite(favorite)"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***class="download-btn"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***title="下载"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***⬇️
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***</div>
-</template>
-
-<script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***ref,***REMOVED***computed,***REMOVED***onMounted,***REMOVED***onUnmounted***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useMusicStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/music'
-import***REMOVED***{***REMOVED***useUserStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/user'
-
-const***REMOVED***musicStore***REMOVED***=***REMOVED***useMusicStore()
-const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
-
-//***REMOVED***响应式数据
-const***REMOVED***favorites***REMOVED***=***REMOVED***ref<any[]>([])
-const***REMOVED***isLoading***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***playFromFavorites***REMOVED***=***REMOVED***ref(false)***REMOVED***//***REMOVED***是否在收藏页面播放
-
-//***REMOVED***计算属性
-const***REMOVED***currentMusic***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.currentMusic)
-const***REMOVED***isPlaying***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***musicStore.isPlaying)
-
-//***REMOVED***方法
-const***REMOVED***loadFavorites***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!userStore.isLoggedIn***REMOVED***||***REMOVED***!userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.log('❌***REMOVED***用户未登录，无法加载收藏列表')
-***REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED***}
-
-***REMOVED******REMOVED***isLoading.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-favorites/user/${userStore.currentUser.id}`)
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(response.ok***REMOVED***&&***REMOVED***result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***favorites.value***REMOVED***=***REMOVED***result.data
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('✅***REMOVED***收藏列表加载成功，共',***REMOVED***result.data.length,***REMOVED***'首音乐')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('❌***REMOVED***收藏列表加载失败:',***REMOVED***result.message)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***favorites.value***REMOVED***=***REMOVED***[]
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.error('❌***REMOVED***收藏列表加载错误:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED***favorites.value***REMOVED***=***REMOVED***[]
-***REMOVED******REMOVED***}***REMOVED***finally***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***isLoading.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED***}
-}
-
-const***REMOVED***playFavorite***REMOVED***=***REMOVED***async***REMOVED***(favorite:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***music***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***id:***REMOVED***parseInt(favorite.musicId),
-***REMOVED******REMOVED******REMOVED******REMOVED***mid:***REMOVED***favorite.musicMid,
-***REMOVED******REMOVED******REMOVED******REMOVED***song:***REMOVED***favorite.musicSong,
-***REMOVED******REMOVED******REMOVED******REMOVED***singer:***REMOVED***favorite.musicSinger,
-***REMOVED******REMOVED******REMOVED******REMOVED***album:***REMOVED***favorite.musicAlbum***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***cover:***REMOVED***favorite.musicCover***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***time:***REMOVED***favorite.musicTime***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***pay:***REMOVED***favorite.musicPay***REMOVED***||***REMOVED***''
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***//***REMOVED***直接播放音乐（会添加到播放队列）
-***REMOVED******REMOVED***await***REMOVED***musicStore.playMusic(music)
-}
-
-
-//***REMOVED***播放模式改变
-const***REMOVED***onPlayModeChange***REMOVED***=***REMOVED***async***REMOVED***(value:***REMOVED***boolean)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***console.log('播放模式改变:',***REMOVED***value***REMOVED***?***REMOVED***'播放我喜欢的'***REMOVED***:***REMOVED***'播放队列')
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***if***REMOVED***(value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***开启临时播放模式***REMOVED***-***REMOVED***切换到播放我喜欢的
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.switchToTempPlayMode(favorites.value)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('已切换到播放我喜欢的音乐')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('切换播放模式失败:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error('切换播放模式失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***切换失败时，将开关状态重置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playFromFavorites.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***关闭临时播放模式***REMOVED***-***REMOVED***恢复原始播放队列
-***REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.restoreOriginalPlayQueue()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('已恢复到原始播放队列')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('切换播放模式失败:',***REMOVED***error)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error('切换播放模式失败')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***切换失败时，将开关状态重置
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***playFromFavorites.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
-}
-
-
-const***REMOVED***removeFavorite***REMOVED***=***REMOVED***async***REMOVED***(favorite:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(!userStore.isLoggedIn***REMOVED***||***REMOVED***!userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.log('❌***REMOVED***用户未登录，无法取消收藏')
-***REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED***}
-
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***response***REMOVED***=***REMOVED***await***REMOVED***fetch(`http://localhost:9092/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${favorite.musicId}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'DELETE'
-***REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***response.json()
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(response.ok***REMOVED***&&***REMOVED***result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***从本地列表中移除
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***index***REMOVED***=***REMOVED***favorites.value.findIndex(item***REMOVED***=>***REMOVED***item.id***REMOVED***===***REMOVED***favorite.id)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(index***REMOVED***>***REMOVED***-1)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***favorites.value.splice(index,***REMOVED***1)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果当前播放的音乐被取消收藏，更新收藏状态
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(currentMusic.value?.id***REMOVED***===***REMOVED***parseInt(favorite.musicId))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.checkCurrentMusicFavoriteStatus()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.log('✅***REMOVED***取消收藏成功')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***显示提示
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('已取消收藏')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***console.error('❌***REMOVED***取消收藏失败:',***REMOVED***result.message)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.error('❌***REMOVED***取消收藏错误:',***REMOVED***error)
-***REMOVED******REMOVED***}
-}
-
-const***REMOVED***downloadFavorite***REMOVED***=***REMOVED***async***REMOVED***(favorite:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***music***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***id:***REMOVED***parseInt(favorite.musicId),
-***REMOVED******REMOVED******REMOVED******REMOVED***mid:***REMOVED***favorite.musicMid,
-***REMOVED******REMOVED******REMOVED******REMOVED***song:***REMOVED***favorite.musicSong,
-***REMOVED******REMOVED******REMOVED******REMOVED***singer:***REMOVED***favorite.musicSinger,
-***REMOVED******REMOVED******REMOVED******REMOVED***album:***REMOVED***favorite.musicAlbum***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***cover:***REMOVED***favorite.musicCover***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***time:***REMOVED***favorite.musicTime***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED***pay:***REMOVED***favorite.musicPay***REMOVED***||***REMOVED***''
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***await***REMOVED***musicStore.downloadMusic(music)
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(error)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***console.error('下载失败:',***REMOVED***error)
-***REMOVED******REMOVED***}
-}
-
-//***REMOVED***收藏状态变化监听器
-const***REMOVED***onFavoriteStatusChange***REMOVED***=***REMOVED***(isLiked:***REMOVED***boolean)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***如果当前播放的音乐被取消收藏，从收藏列表中移除
-***REMOVED******REMOVED***if***REMOVED***(!isLiked***REMOVED***&&***REMOVED***currentMusic.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***index***REMOVED***=***REMOVED***favorites.value.findIndex(item***REMOVED***=>***REMOVED***parseInt(item.musicId)***REMOVED***===***REMOVED***currentMusic.value?.id)
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(index***REMOVED***>***REMOVED***-1)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***favorites.value.splice(index,***REMOVED***1)
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***//***REMOVED***如果当前播放的音乐被添加收藏，重新加载收藏列表
-***REMOVED******REMOVED***else***REMOVED***if***REMOVED***(isLiked***REMOVED***&&***REMOVED***currentMusic.value)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***loadFavorites()
-***REMOVED******REMOVED***}
-}
-
-//***REMOVED***生命周期
-onMounted(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***loadFavorites()
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***//***REMOVED***添加收藏状态监听器
-***REMOVED******REMOVED***musicStore.addFavoriteStatusListener(onFavoriteStatusChange)
-})
-
-//***REMOVED***组件卸载时移除监听器
-onUnmounted(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***musicStore.removeFavoriteStatusListener(onFavoriteStatusChange)
-***REMOVED******REMOVED***//***REMOVED***如果还在临时播放模式，自动恢复原始播放队列
-***REMOVED******REMOVED***if***REMOVED***(musicStore.isInTempPlayMode)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***musicStore.restoreOriginalPlayQueue()
-***REMOVED******REMOVED***}
-})
-</script>
-
-<style***REMOVED***scoped>
-.favorites***REMOVED***{
-***REMOVED******REMOVED***padding:***REMOVED***20px;
-***REMOVED******REMOVED***max-width:***REMOVED***1200px;
-***REMOVED******REMOVED***margin:***REMOVED***0***REMOVED***auto;
-}
-
-.favorites-header***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***justify-content:***REMOVED***space-between;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***30px;
-***REMOVED******REMOVED***padding:***REMOVED***20px;
-***REMOVED******REMOVED***background:***REMOVED***white;
-***REMOVED******REMOVED***border-radius:***REMOVED***12px;
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***2px***REMOVED***8px***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.1);
-}
-
-.header-left***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***left;
-}
-
-.header-left***REMOVED***h1***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#333;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***8px;
-***REMOVED******REMOVED***font-size:***REMOVED***28px;
-}
-
-.header-left***REMOVED***p***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***margin:***REMOVED***0;
-}
-
-.header-right***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***gap:***REMOVED***20px;
-}
-
-.play-options***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-}
-
-.loading***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***40px;
-}
-
-.empty-state***REMOVED***{
-***REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***60px***REMOVED***20px;
-***REMOVED******REMOVED***color:***REMOVED***#999;
-}
-
-.empty-icon***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***64px;
-***REMOVED******REMOVED***margin-bottom:***REMOVED***20px;
-}
-
-.empty-state***REMOVED***h3***REMOVED***{
-***REMOVED******REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***10px***REMOVED***0;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-}
-
-.empty-state***REMOVED***p***REMOVED***{
-***REMOVED******REMOVED***margin:***REMOVED***0;
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-}
-
-.favorites-list***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***flex-direction:***REMOVED***column;
-***REMOVED******REMOVED***gap:***REMOVED***12px;
-}
-
-.favorite-item***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***padding:***REMOVED***12px***REMOVED***16px;
-***REMOVED******REMOVED***background:***REMOVED***white;
-***REMOVED******REMOVED***border-radius:***REMOVED***8px;
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***2px***REMOVED***8px***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.1);
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***0.2s***REMOVED***ease;
-***REMOVED******REMOVED***border:***REMOVED***2px***REMOVED***solid***REMOVED***transparent;
-}
-
-.favorite-item:hover***REMOVED***{
-***REMOVED******REMOVED***transform:***REMOVED***translateY(-2px);
-***REMOVED******REMOVED***box-shadow:***REMOVED***0***REMOVED***4px***REMOVED***16px***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.15);
-}
-
-.favorite-item.current-playing***REMOVED***{
-***REMOVED******REMOVED***border-color:***REMOVED***#667eea;
-***REMOVED******REMOVED***background:***REMOVED***linear-gradient(135deg,***REMOVED***#f8f9ff***REMOVED***0%,***REMOVED***#e3f2fd***REMOVED***100%);
-}
-
-.item-number***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***24px;
-***REMOVED******REMOVED***height:***REMOVED***24px;
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***justify-content:***REMOVED***center;
-***REMOVED******REMOVED***background:***REMOVED***#f0f0f0;
-***REMOVED******REMOVED***border-radius:***REMOVED***50%;
-***REMOVED******REMOVED***font-size:***REMOVED***12px;
-***REMOVED******REMOVED***font-weight:***REMOVED***600;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***margin-right:***REMOVED***16px;
-}
-
-.favorite-item.current-playing***REMOVED***.item-number***REMOVED***{
-***REMOVED******REMOVED***background:***REMOVED***#667eea;
-***REMOVED******REMOVED***color:***REMOVED***white;
-}
-
-.item-cover***REMOVED***{
-***REMOVED******REMOVED***position:***REMOVED***relative;
-***REMOVED******REMOVED***width:***REMOVED***50px;
-***REMOVED******REMOVED***height:***REMOVED***50px;
-***REMOVED******REMOVED***margin-right:***REMOVED***16px;
-***REMOVED******REMOVED***border-radius:***REMOVED***8px;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-}
-
-.item-cover***REMOVED***img***REMOVED***{
-***REMOVED******REMOVED***width:***REMOVED***100%;
-***REMOVED******REMOVED***height:***REMOVED***100%;
-***REMOVED******REMOVED***object-fit:***REMOVED***cover;
-}
-
-.play-overlay***REMOVED***{
-***REMOVED******REMOVED***position:***REMOVED***absolute;
-***REMOVED******REMOVED***top:***REMOVED***0;
-***REMOVED******REMOVED***left:***REMOVED***0;
-***REMOVED******REMOVED***right:***REMOVED***0;
-***REMOVED******REMOVED***bottom:***REMOVED***0;
-***REMOVED******REMOVED***background:***REMOVED***rgba(0,***REMOVED***0,***REMOVED***0,***REMOVED***0.5);
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***justify-content:***REMOVED***center;
-***REMOVED******REMOVED***opacity:***REMOVED***0;
-***REMOVED******REMOVED***transition:***REMOVED***opacity***REMOVED***0.2s***REMOVED***ease;
-***REMOVED******REMOVED***cursor:***REMOVED***pointer;
-}
-
-.item-cover:hover***REMOVED***.play-overlay***REMOVED***{
-***REMOVED******REMOVED***opacity:***REMOVED***1;
-}
-
-.play-icon***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***18px;
-***REMOVED******REMOVED***color:***REMOVED***white;
-}
-
-.item-info***REMOVED***{
-***REMOVED******REMOVED***flex:***REMOVED***1;
-***REMOVED******REMOVED***min-width:***REMOVED***0;
-***REMOVED******REMOVED***text-align:***REMOVED***left;
-}
-
-.song-title***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***font-weight:***REMOVED***500;
-***REMOVED******REMOVED***color:***REMOVED***#333;
-***REMOVED******REMOVED***margin:***REMOVED***0***REMOVED***0***REMOVED***4px***REMOVED***0;
-***REMOVED******REMOVED***white-space:***REMOVED***nowrap;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-***REMOVED******REMOVED***text-overflow:***REMOVED***ellipsis;
-}
-
-.artist-name***REMOVED***{
-***REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***margin:***REMOVED***0;
-***REMOVED******REMOVED***white-space:***REMOVED***nowrap;
-***REMOVED******REMOVED***overflow:***REMOVED***hidden;
-***REMOVED******REMOVED***text-overflow:***REMOVED***ellipsis;
-}
-
-.item-actions***REMOVED***{
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***gap:***REMOVED***8px;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-}
-
-.remove-btn,***REMOVED***.download-btn***REMOVED***{
-***REMOVED******REMOVED***padding:***REMOVED***8px;
-***REMOVED******REMOVED***font-size:***REMOVED***16px;
-***REMOVED******REMOVED***color:***REMOVED***#666;
-***REMOVED******REMOVED***display:***REMOVED***flex;
-***REMOVED******REMOVED***align-items:***REMOVED***center;
-***REMOVED******REMOVED***justify-content:***REMOVED***center;
-***REMOVED******REMOVED***border-radius:***REMOVED***6px;
-***REMOVED******REMOVED***transition:***REMOVED***all***REMOVED***0.2s***REMOVED***ease;
-}
-
-.remove-btn:hover***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#ff4757;
-***REMOVED******REMOVED***background-color:***REMOVED***rgba(255,***REMOVED***71,***REMOVED***87,***REMOVED***0.1);
-}
-
-.download-btn:hover***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#667eea;
-***REMOVED******REMOVED***background-color:***REMOVED***rgba(102,***REMOVED***126,***REMOVED***234,***REMOVED***0.1);
-}
-
-/****REMOVED***Element***REMOVED***Plus***REMOVED***样式覆盖***REMOVED****/
-:deep(.el-button--text)***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#666;
-}
-
-:deep(.el-button--text:hover)***REMOVED***{
-***REMOVED******REMOVED***color:***REMOVED***#333;
-}
-
-/****REMOVED***响应式设计***REMOVED****/
-@media***REMOVED***(max-width:***REMOVED***768px)***REMOVED***{
-***REMOVED******REMOVED***.favorites***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***padding:***REMOVED***15px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.favorites-header***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***flex-direction:***REMOVED***column;
-***REMOVED******REMOVED******REMOVED******REMOVED***gap:***REMOVED***15px;
-***REMOVED******REMOVED******REMOVED******REMOVED***text-align:***REMOVED***center;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.header-right***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***flex-direction:***REMOVED***column;
-***REMOVED******REMOVED******REMOVED******REMOVED***gap:***REMOVED***10px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.favorite-item***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***padding:***REMOVED***10px***REMOVED***12px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.item-cover***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***width:***REMOVED***40px;
-***REMOVED******REMOVED******REMOVED******REMOVED***height:***REMOVED***40px;
-***REMOVED******REMOVED******REMOVED******REMOVED***margin-right:***REMOVED***12px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.song-title***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.artist-name***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***font-size:***REMOVED***12px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.item-actions***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***gap:***REMOVED***4px;
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***
-***REMOVED******REMOVED***.remove-btn,***REMOVED***.download-btn***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***padding:***REMOVED***6px;
-***REMOVED******REMOVED******REMOVED******REMOVED***font-size:***REMOVED***14px;
-***REMOVED******REMOVED***}
-}
-</style>
+﻿<template>
+    <div class="favorites">
+      <div class="favorites-header">
+        <div class="header-left">
+          <h1>❤️我喜欢的</h1>
+          <p v-if="favorites.length > 0">共{{ favorites.length }}首音乐</p>
+        </div>
+  
+        <div class="header-right" v-if="favorites.length > 0">
+          <div class="play-options">
+            <el-switch
+              v-model="playFromFavorites"
+              active-text="播放我喜欢的"
+              inactive-text="播放队列"
+              @change="onPlayModeChange"
+            />
+          </div>
+        </div>
+      </div>
+  
+      <div v-if="isLoading" class="loading">
+        <div v-loading="true" element-loading-text="加载中...">
+          <div style="height: 200px;"></div>
+        </div>
+      </div>
+  
+      <div v-else-if="favorites.length === 0" class="empty-state">
+        <div class="empty-icon">🎵</div>
+        <h3>还没有喜欢的音乐</h3>
+        <p>去发现一些好听的音乐吧！</p>
+      </div>
+  
+      <div v-else class="favorites-list">
+        <div
+          v-for="(favorite, index) in favorites"
+          :key="favorite.id"
+          class="favorite-item"
+          :class="{'current-playing': currentMusic?.id === parseInt(favorite.musicId)}"
+        >
+          <div class="item-number">{{ index + 1 }}</div>
+  
+          <div class="item-cover">
+            <img :src="favorite.musicCover" :alt="favorite.musicSong" />
+            <div class="play-overlay" @click="playFavorite(favorite)">
+              <span class="play-icon">{{ currentMusic?.id === parseInt(favorite.musicId) && isPlaying ? '⏸️' : '▶️' }}</span>
+            </div>
+          </div>
+  
+          <div class="item-info">
+            <h4 class="song-title">{{ favorite.musicSong }}</h4>
+            <p class="artist-name">{{ favorite.musicSinger }}</p>
+          </div>
+  
+          <div class="item-actions">
+            <el-button
+              type="text"
+              @click="removeFavorite(favorite)"
+              class="remove-btn"
+              title="取消收藏"
+            >
+              ❤️
+            </el-button>
+            <el-button
+              type="text"
+              @click="downloadFavorite(favorite)"
+              class="download-btn"
+              title="下载"
+            >
+              ⬇️
+            </el-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, computed, onMounted, onUnmounted } from 'vue'
+  import { useMusicStore } from '@/stores/music'
+  import { useUserStore } from '@/stores/user'
+  
+  const musicStore = useMusicStore()
+  const userStore = useUserStore()
+  
+  // 响应式数据
+  const favorites = ref<any[]>([])
+  const isLoading = ref(false)
+  const playFromFavorites = ref(false) // 是否在收藏页面播放
+  
+  // 计算属性
+  const currentMusic = computed(() => musicStore.currentMusic)
+  const isPlaying = computed(() => musicStore.isPlaying)
+  
+  // 方法
+  const loadFavorites = async () => {
+    if (!userStore.isLoggedIn || !userStore.currentUser) {
+      console.log('❌用户未登录，无法加载收藏列表')
+      return
+    }
+  
+    isLoading.value = true
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-favorites/user/${userStore.currentUser.id}`)
+      const result = await response.json()
+  
+      if (response.ok && result.code === 200) {
+        favorites.value = result.data
+        console.log('✅收藏列表加载成功，共', result.data.length, '首音乐')
+      } else {
+        console.error('❌收藏列表加载失败:', result.message)
+        favorites.value = []
+      }
+    } catch (error) {
+      console.error('❌收藏列表加载错误:', error)
+      favorites.value = []
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
+  const playFavorite = async (favorite: any) => {
+    const music = {
+      id: parseInt(favorite.musicId),
+      mid: favorite.musicMid,
+      song: favorite.musicSong,
+      singer: favorite.musicSinger,
+      album: favorite.musicAlbum || '',
+      cover: favorite.musicCover || '',
+      time: favorite.musicTime || '',
+      pay: favorite.musicPay || ''
+    }
+  
+    // 直接播放音乐（会添加到播放队列）
+    await musicStore.playMusic(music)
+  }
+  
+  
+  // 播放模式改变
+  const onPlayModeChange = async (value: boolean) => {
+    console.log('播放模式改变:', value ? '播放我喜欢的' : '播放队列')
+  
+    if (value) {
+      // 开启临时播放模式-切换到播放我喜欢的
+      try {
+        await musicStore.switchToTempPlayMode(favorites.value)
+        const { ElMessage } = await import('element-plus')
+        ElMessage.success('已切换到播放我喜欢的音乐')
+      } catch (error) {
+        console.error('切换播放模式失败:', error)
+        const { ElMessage } = await import('element-plus')
+        ElMessage.error('切换播放模式失败')
+        // 切换失败时，将开关状态重置
+        playFromFavorites.value = false
+      }
+    } else {
+      // 关闭临时播放模式-恢复原始播放队列
+      try {
+        await musicStore.restoreOriginalPlayQueue()
+        const { ElMessage } = await import('element-plus')
+        ElMessage.success('已恢复到原始播放队列')
+      } catch (error) {
+        console.error('切换播放模式失败:', error)
+        const { ElMessage } = await import('element-plus')
+        ElMessage.error('切换播放模式失败')
+        // 切换失败时，将开关状态重置
+        playFromFavorites.value = true
+      }
+    }
+  }
+  
+  
+  const removeFavorite = async (favorite: any) => {
+    if (!userStore.isLoggedIn || !userStore.currentUser) {
+      console.log('❌用户未登录，无法取消收藏')
+      return
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:9092/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${favorite.musicId}`, {
+        method: 'DELETE'
+      })
+      const result = await response.json()
+  
+      if (response.ok && result.code === 200) {
+        // 从本地列表中移除
+        const index = favorites.value.findIndex(item => item.id === favorite.id)
+        if (index > -1) {
+          favorites.value.splice(index, 1)
+        }
+  
+        // 如果当前播放的音乐被取消收藏，更新收藏状态
+        if (currentMusic.value?.id === parseInt(favorite.musicId)) {
+          await musicStore.checkCurrentMusicFavoriteStatus()
+        }
+  
+        console.log('✅取消收藏成功')
+  
+        // 显示提示
+        const { ElMessage } = await import('element-plus')
+        ElMessage.success('已取消收藏')
+      } else {
+        console.error('❌取消收藏失败:', result.message)
+      }
+    } catch (error) {
+      console.error('❌取消收藏错误:', error)
+    }
+  }
+  
+  const downloadFavorite = async (favorite: any) => {
+    const music = {
+      id: parseInt(favorite.musicId),
+      mid: favorite.musicMid,
+      song: favorite.musicSong,
+      singer: favorite.musicSinger,
+      album: favorite.musicAlbum || '',
+      cover: favorite.musicCover || '',
+      time: favorite.musicTime || '',
+      pay: favorite.musicPay || ''
+    }
+  
+    try {
+      await musicStore.downloadMusic(music)
+    } catch (error) {
+      console.error('下载失败:', error)
+    }
+  }
+  
+  // 收藏状态变化监听器
+  const onFavoriteStatusChange = (isLiked: boolean) => {
+    // 如果当前播放的音乐被取消收藏，从收藏列表中移除
+    if (!isLiked && currentMusic.value) {
+      const index = favorites.value.findIndex(item => parseInt(item.musicId) === currentMusic.value?.id)
+      if (index > -1) {
+        favorites.value.splice(index, 1)
+      }
+    }
+    // 如果当前播放的音乐被添加收藏，重新加载收藏列表
+    else if (isLiked && currentMusic.value) {
+      loadFavorites()
+    }
+  }
+  
+  // 生命周期
+  onMounted(() => {
+    loadFavorites()
+  
+    // 添加收藏状态监听器
+    musicStore.addFavoriteStatusListener(onFavoriteStatusChange)
+  })
+  
+  // 组件卸载时移除监听器
+  onUnmounted(() => {
+    musicStore.removeFavoriteStatusListener(onFavoriteStatusChange)
+    // 如果还在临时播放模式，自动恢复原始播放队列
+    if (musicStore.isInTempPlayMode) {
+      musicStore.restoreOriginalPlayQueue()
+    }
+  })
+  </script>
+  
+  <style scoped>
+  .favorites {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-left {
+    text-align: left;
+  }
+  
+  .header-left h1 {
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 28px;
+  }
+  
+  .header-left p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .play-options {
+    display: flex;
+    align-items: center;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 40px;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+  }
+  
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
+  
+  .empty-state h3 {
+    margin: 0 0 10px 0;
+    color: #666;
+  }
+  
+  .empty-state p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .favorite-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+  }
+  
+  .favorite-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .favorite-item.current-playing {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+  }
+  
+  .item-number {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-right: 16px;
+  }
+  
+  .favorite-item.current-playing .item-number {
+    background: #667eea;
+    color: white;
+  }
+  
+  .item-cover {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-right: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .item-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .item-cover:hover .play-overlay {
+    opacity: 1;
+  }
+  
+  .play-icon {
+    font-size: 18px;
+    color: white;
+  }
+  
+  .item-info {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+  
+  .song-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .artist-name {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .remove-btn, .download-btn {
+    padding: 8px;
+    font-size: 16px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .remove-btn:hover {
+    color: #ff4757;
+    background-color: rgba(255, 71, 87, 0.1);
+  }
+  
+  .download-btn:hover {
+    color: #667eea;
+    background-color: rgba(102, 126, 234, 0.1);
+  }
+  
+  /* Element Plus样式覆盖 */
+  :deep(.el-button--text) {
+    color: #666;
+  }
+  
+  :deep(.el-button--text:hover) {
+    color: #333;
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .favorites {
+      padding: 15px;
+    }
+  
+    .favorites-header {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+  
+    .header-right {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .favorite-item {
+      padding: 10px 12px;
+    }
+  
+    .item-cover {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+    }
+  
+    .song-title {
+      font-size: 14px;
+    }
+  
+    .artist-name {
+      font-size: 12px;
+    }
+  
+    .item-actions {
+      gap: 4px;
+    }
+  
+    .remove-btn, .download-btn {
+      padding: 6px;
+      font-size: 14px;
+    }
+  }
+  </style>
+  

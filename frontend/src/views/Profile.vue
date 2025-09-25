@@ -1,250 +1,393 @@
-<template>
-***REMOVED******REMOVED***<div***REMOVED***class="profile">
-***REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="card">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="card-header">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<h1>个人中心</h1>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="sub">管理你的头像与昵称信息</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form***REMOVED***:model="form"***REMOVED***label-width="90px"***REMOVED***class="profile-form">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***label="头像">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="avatar-row">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="avatar-shadow">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<img***REMOVED***:src="avatarSrc"***REMOVED***class="avatar"***REMOVED***alt="avatar"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="avatar-actions">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-upload
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:show-file-list="false"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:before-upload="beforeUpload"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***:http-request="customUpload"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***accept="image/*"
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***plain>上传头像</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-upload>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="tip">支持***REMOVED***JPG/PNG，≤***REMOVED***2MB</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item***REMOVED***label="昵称">
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-input***REMOVED***v-model.trim="form.nickname"***REMOVED***maxlength="20"***REMOVED***show-word-limit***REMOVED***placeholder="请输入昵称"***REMOVED***/>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***type="primary"***REMOVED***:loading="saving"***REMOVED***:disabled="!canSave"***REMOVED***@click="save">保存</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<el-button***REMOVED***@click="reset">重置</el-button>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***<div***REMOVED***class="tip">可以单独修改头像或昵称，也可以同时修改</div>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form-item>
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***</el-form>
-***REMOVED******REMOVED******REMOVED******REMOVED***</div>
-***REMOVED******REMOVED***</div>
-</template>
-
-<script***REMOVED***setup***REMOVED***lang="ts">
-import***REMOVED***{***REMOVED***ref,***REMOVED***computed,***REMOVED***onMounted,***REMOVED***watch***REMOVED***}***REMOVED***from***REMOVED***'vue'
-import***REMOVED***{***REMOVED***useUserStore***REMOVED***}***REMOVED***from***REMOVED***'@/stores/user'
-
-const***REMOVED***userStore***REMOVED***=***REMOVED***useUserStore()
-const***REMOVED***defaultAvatar***REMOVED***=***REMOVED***'https://picsum.photos/80/80?random=3'
-
-const***REMOVED***form***REMOVED***=***REMOVED***ref({
-***REMOVED******REMOVED***//***REMOVED***avatar***REMOVED***字段可为***REMOVED***File***REMOVED***或***REMOVED***string(URL)
-***REMOVED******REMOVED***avatar:***REMOVED***'',
-***REMOVED******REMOVED***nickname:***REMOVED***''
-})
-const***REMOVED***previewUrl***REMOVED***=***REMOVED***ref<string>(defaultAvatar)
-const***REMOVED***origin***REMOVED***=***REMOVED***ref({
-***REMOVED******REMOVED***avatar:***REMOVED***'',
-***REMOVED******REMOVED***nickname:***REMOVED***''
-})
-
-//***REMOVED***初始化表单数据
-const***REMOVED***initForm***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***form.value***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***avatar:***REMOVED***(userStore.currentUser.avatar***REMOVED***as***REMOVED***any)***REMOVED***||***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname:***REMOVED***userStore.currentUser.nickname***REMOVED***||***REMOVED***''
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***previewUrl.value***REMOVED***=***REMOVED***userStore.currentUser.avatar***REMOVED***||***REMOVED***defaultAvatar
-***REMOVED******REMOVED******REMOVED******REMOVED***origin.value***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***avatar:***REMOVED***typeof***REMOVED***form.value.avatar***REMOVED***===***REMOVED***'string'***REMOVED***?***REMOVED***(form.value.avatar***REMOVED***as***REMOVED***string)***REMOVED***:***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname:***REMOVED***form.value.nickname
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}
-}
-
-//***REMOVED***监听用户信息变化
-watch(()***REMOVED***=>***REMOVED***userStore.currentUser,***REMOVED***(newUser)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***if***REMOVED***(newUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***initForm()
-***REMOVED******REMOVED***}
-},***REMOVED***{***REMOVED***immediate:***REMOVED***true***REMOVED***})
-
-onMounted(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***确保用户信息已加载
-***REMOVED******REMOVED***if***REMOVED***(userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***initForm()
-***REMOVED******REMOVED***}
-})
-const***REMOVED***avatarSrc***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***如果***REMOVED***form.avatar***REMOVED***是字符串（Base64***REMOVED***或***REMOVED***URL），直接使用
-***REMOVED******REMOVED***if***REMOVED***(typeof***REMOVED***form.value.avatar***REMOVED***===***REMOVED***'string'***REMOVED***&&***REMOVED***form.value.avatar)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***form.value.avatar
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***//***REMOVED***如果***REMOVED***form.avatar***REMOVED***是***REMOVED***File***REMOVED***对象，使用***REMOVED***previewUrl
-***REMOVED******REMOVED***if***REMOVED***(typeof***REMOVED***form.value.avatar***REMOVED***===***REMOVED***'object'***REMOVED***&&***REMOVED***form.value.avatar)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***previewUrl.value***REMOVED***||***REMOVED***defaultAvatar
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***//***REMOVED***默认情况，使用用户存储的头像或默认头像
-***REMOVED******REMOVED***return***REMOVED***userStore.currentUser?.avatar***REMOVED***||***REMOVED***defaultAvatar
-})
-const***REMOVED***saving***REMOVED***=***REMOVED***ref(false)
-const***REMOVED***canSave***REMOVED***=***REMOVED***computed(()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***//***REMOVED***只要有昵称或头像的变化就可以保存
-***REMOVED******REMOVED***return***REMOVED***(form.value.nickname***REMOVED***!==***REMOVED***origin.value.nickname***REMOVED***||***REMOVED***form.value.avatar***REMOVED***!==***REMOVED***origin.value.avatar)
-})
-
-const***REMOVED***beforeUpload***REMOVED***=***REMOVED***(file:***REMOVED***File)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***isImage***REMOVED***=***REMOVED***file.type.startsWith('image/')
-***REMOVED******REMOVED***const***REMOVED***isLt2M***REMOVED***=***REMOVED***file.size***REMOVED***/***REMOVED***1024***REMOVED***/***REMOVED***1024***REMOVED***<***REMOVED***2
-***REMOVED******REMOVED***if***REMOVED***(!isImage)***REMOVED***alert('请上传图片文件')
-***REMOVED******REMOVED***if***REMOVED***(!isLt2M)***REMOVED***alert('图片大小需小于2MB')
-***REMOVED******REMOVED***return***REMOVED***isImage***REMOVED***&&***REMOVED***isLt2M
-}
-
-const***REMOVED***customUpload***REMOVED***=***REMOVED***async***REMOVED***(options:***REMOVED***any)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***const***REMOVED***file***REMOVED***=***REMOVED***options.file***REMOVED***as***REMOVED***File
-***REMOVED******REMOVED***//***REMOVED***仅做本地预览与缓存***REMOVED***File；真正保存时上传到***REMOVED***OSS
-***REMOVED******REMOVED***if***REMOVED***(previewUrl.value***REMOVED***&&***REMOVED***previewUrl.value.startsWith('blob:'))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***URL.revokeObjectURL(previewUrl.value)
-***REMOVED******REMOVED***}
-***REMOVED******REMOVED***previewUrl.value***REMOVED***=***REMOVED***URL.createObjectURL(file)
-***REMOVED******REMOVED***form.value.avatar***REMOVED***=***REMOVED***file***REMOVED***as***REMOVED***any
-***REMOVED******REMOVED***options.onSuccess***REMOVED***&&***REMOVED***options.onSuccess({},***REMOVED***file)
-}
-
-const***REMOVED***save***REMOVED***=***REMOVED***async***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!form.value.nickname)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.warning('请输入昵称')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***saving.value***REMOVED***=***REMOVED***true
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***若头像为***REMOVED***File，转换为压缩的***REMOVED***Base64***REMOVED***保存到数据库
-***REMOVED******REMOVED******REMOVED******REMOVED***let***REMOVED***avatarUrl:***REMOVED***string***REMOVED***|***REMOVED***undefined
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(form.value.avatar***REMOVED***&&***REMOVED***typeof***REMOVED***form.value.avatar***REMOVED***!==***REMOVED***'string')***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***file***REMOVED***=***REMOVED***form.value.avatar***REMOVED***as***REMOVED***File
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查文件大小，限制在***REMOVED***1MB***REMOVED***以内
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(file.size***REMOVED***>***REMOVED***1024***REMOVED*******REMOVED***1024)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error('头像文件大小不能超过***REMOVED***1MB')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***saving.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***压缩图片并转换为***REMOVED***Base64
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***avatarUrl***REMOVED***=***REMOVED***await***REMOVED***new***REMOVED***Promise<string>((resolve,***REMOVED***reject)***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***canvas***REMOVED***=***REMOVED***document.createElement('canvas')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***ctx***REMOVED***=***REMOVED***canvas.getContext('2d')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***img***REMOVED***=***REMOVED***new***REMOVED***Image()
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***img.onload***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***计算保持比例的尺寸
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***maxSize***REMOVED***=***REMOVED***200
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***let***REMOVED***{***REMOVED***width,***REMOVED***height***REMOVED***}***REMOVED***=***REMOVED***img
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果图片比最大尺寸小，保持原尺寸
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(width***REMOVED***<=***REMOVED***maxSize***REMOVED***&&***REMOVED***height***REMOVED***<=***REMOVED***maxSize)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***canvas.width***REMOVED***=***REMOVED***width
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***canvas.height***REMOVED***=***REMOVED***height
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ctx?.drawImage(img,***REMOVED***0,***REMOVED***0,***REMOVED***width,***REMOVED***height)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***按比例缩放到最大尺寸
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***ratio***REMOVED***=***REMOVED***Math.min(maxSize***REMOVED***/***REMOVED***width,***REMOVED***maxSize***REMOVED***/***REMOVED***height)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***newWidth***REMOVED***=***REMOVED***Math.round(width***REMOVED*******REMOVED***ratio)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***newHeight***REMOVED***=***REMOVED***Math.round(height***REMOVED*******REMOVED***ratio)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***canvas.width***REMOVED***=***REMOVED***newWidth
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***canvas.height***REMOVED***=***REMOVED***newHeight
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ctx?.drawImage(img,***REMOVED***0,***REMOVED***0,***REMOVED***newWidth,***REMOVED***newHeight)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***转换为***REMOVED***Base64，使用较低的质量
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***compressedBase64***REMOVED***=***REMOVED***canvas.toDataURL('image/jpeg',***REMOVED***0.7)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***resolve(compressedBase64)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***img.onerror***REMOVED***=***REMOVED***reject
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***img.src***REMOVED***=***REMOVED***URL.createObjectURL(file)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***仅提交有改动的字段，未改动传***REMOVED***null（后端***REMOVED***COALESCE***REMOVED***保持原值）
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***payload:***REMOVED***any***REMOVED***=***REMOVED***{}
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(form.value.nickname***REMOVED***!==***REMOVED***origin.value.nickname)***REMOVED***payload.nickname***REMOVED***=***REMOVED***form.value.nickname
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(avatarUrl)***REMOVED***payload.avatar***REMOVED***=***REMOVED***avatarUrl
-***REMOVED******REMOVED******REMOVED******REMOVED***else***REMOVED***if***REMOVED***(typeof***REMOVED***form.value.avatar***REMOVED***===***REMOVED***'string'***REMOVED***&&***REMOVED***form.value.avatar***REMOVED***!==***REMOVED***origin.value.avatar)***REMOVED***payload.avatar***REMOVED***=***REMOVED***form.value.avatar
-
-
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***resp***REMOVED***=***REMOVED***await***REMOVED***fetch(`/api/user/info/${userStore.currentUser?.id}`,***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***method:***REMOVED***'PUT',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***headers:***REMOVED***{***REMOVED***'Content-Type':***REMOVED***'application/json'***REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***body:***REMOVED***JSON.stringify(Object.keys(payload).length***REMOVED***?***REMOVED***payload***REMOVED***:***REMOVED***{***REMOVED***nickname:***REMOVED***null,***REMOVED***avatar:***REMOVED***null***REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***result***REMOVED***=***REMOVED***await***REMOVED***resp.json()
-***REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(result.code***REMOVED***===***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***更新本地用户信息（仅同步改动字段）
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userStore.currentUser)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(payload.nickname***REMOVED***!==***REMOVED***undefined)***REMOVED***userStore.currentUser.nickname***REMOVED***=***REMOVED***form.value.nickname
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(payload.avatar***REMOVED***!==***REMOVED***undefined)***REMOVED***userStore.currentUser.avatar***REMOVED***=***REMOVED***payload.avatar
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***同步到本地存储
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***localStorage.setItem('userInfo',***REMOVED***JSON.stringify(userStore.currentUser))
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***保存后，将本地状态归一化为***REMOVED***Base64***REMOVED***字符串
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(payload.avatar)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***form.value.avatar***REMOVED***=***REMOVED***payload.avatar
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***清理***REMOVED***blob***REMOVED***URL
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(previewUrl.value***REMOVED***&&***REMOVED***previewUrl.value.startsWith('blob:'))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***URL.revokeObjectURL(previewUrl.value)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***更新预览***REMOVED***URL***REMOVED***为保存的***REMOVED***Base64
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***previewUrl.value***REMOVED***=***REMOVED***payload.avatar
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***更新原始状态，避免重复保存
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***origin.value***REMOVED***=***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***avatar:***REMOVED***payload.avatar***REMOVED***||***REMOVED***form.value.avatar,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname:***REMOVED***form.value.nickname
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.success('保存成功')
-***REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error(result.message***REMOVED***||***REMOVED***'保存失败')
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***const***REMOVED***{***REMOVED***ElMessage***REMOVED***}***REMOVED***=***REMOVED***await***REMOVED***import('element-plus')
-***REMOVED******REMOVED******REMOVED******REMOVED***ElMessage.error('网络异常')
-***REMOVED******REMOVED***}***REMOVED***finally***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***saving.value***REMOVED***=***REMOVED***false
-***REMOVED******REMOVED***}
-}
-
-const***REMOVED***reset***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***{
-***REMOVED******REMOVED***form.value***REMOVED***=***REMOVED***{***REMOVED***...origin.value***REMOVED***}
-}
-</script>
-
-<style***REMOVED***scoped>
-.profile***REMOVED***{***REMOVED***max-width:***REMOVED***840px;***REMOVED***margin:***REMOVED***24px***REMOVED***auto;***REMOVED***padding:***REMOVED***0***REMOVED***16px;***REMOVED***}
-.card***REMOVED***{***REMOVED***background:***REMOVED***#fff;***REMOVED***border-radius:***REMOVED***16px;***REMOVED***box-shadow:***REMOVED***0***REMOVED***8px***REMOVED***24px***REMOVED***rgba(0,0,0,.06);***REMOVED***overflow:***REMOVED***hidden;***REMOVED***}
-.card-header***REMOVED***{***REMOVED***padding:***REMOVED***20px***REMOVED***24px***REMOVED***0***REMOVED***24px;***REMOVED***}
-.card-header***REMOVED***h1***REMOVED***{***REMOVED***margin:***REMOVED***0;***REMOVED***color:***REMOVED***#1f2328;***REMOVED***font-size:***REMOVED***28px;***REMOVED***}
-.card-header***REMOVED***.sub***REMOVED***{***REMOVED***color:***REMOVED***#8a919f;***REMOVED***font-size:***REMOVED***13px;***REMOVED***margin-top:***REMOVED***6px;***REMOVED***}
-.profile-form***REMOVED***{***REMOVED***padding:***REMOVED***16px***REMOVED***24px***REMOVED***24px;***REMOVED***}
-.avatar-row***REMOVED***{***REMOVED***display:***REMOVED***flex;***REMOVED***align-items:***REMOVED***center;***REMOVED***gap:***REMOVED***16px;***REMOVED***}
-.avatar-shadow***REMOVED***{***REMOVED***width:***REMOVED***96px;***REMOVED***height:***REMOVED***96px;***REMOVED***border-radius:***REMOVED***50%;***REMOVED***padding:***REMOVED***2px;***REMOVED***background:***REMOVED***linear-gradient(135deg,#e3e8ef,#f5f7fb);***REMOVED***box-shadow:***REMOVED***0***REMOVED***6px***REMOVED***16px***REMOVED***rgba(0,0,0,.08);***REMOVED***}
-.avatar***REMOVED***{***REMOVED***width:***REMOVED***92px;***REMOVED***height:***REMOVED***92px;***REMOVED***border-radius:***REMOVED***50%;***REMOVED***object-fit:***REMOVED***cover;***REMOVED***display:***REMOVED***block;***REMOVED***}
-.avatar-actions***REMOVED***{***REMOVED***display:***REMOVED***flex;***REMOVED***flex-direction:***REMOVED***column;***REMOVED***gap:***REMOVED***6px;***REMOVED***}
-.tip***REMOVED***{***REMOVED***font-size:***REMOVED***12px;***REMOVED***color:***REMOVED***#9aa5b1;***REMOVED***}
-</style>
-
+﻿<template>
+    <div class="profile">
+      <div class="card">
+        <div class="card-header">
+          <h1>个人中心</h1>
+          <div class="sub">管理你的头像与昵称信息</div>
+        </div>
+        
+        <el-form :model="form" label-width="90px" class="profile-form">
+          <!-- 头像上传区域 -->
+          <el-form-item label="头像">
+            <div class="avatar-row">
+              <div class="avatar-shadow">
+                <img :src="avatarSrc" class="avatar" alt="用户头像" />
+              </div>
+              <div class="avatar-actions">
+                <el-upload
+                  :show-file-list="false"
+                  :before-upload="beforeUpload"
+                  :http-request="customUpload"
+                  accept="image/*"
+                >
+                  <el-button type="primary" plain>上传头像</el-button>
+                </el-upload>
+                <div class="tip">支持JPG/PNG，≤2MB</div>
+              </div>
+            </div>
+          </el-form-item>
+          
+          <!-- 昵称输入区域 -->
+          <el-form-item label="昵称">
+            <el-input 
+              v-model.trim="form.nickname" 
+              maxlength="20" 
+              show-word-limit 
+              placeholder="请输入昵称" 
+            />
+          </el-form-item>
+          
+          <!-- 操作按钮区域 -->
+          <el-form-item>
+            <el-button 
+              type="primary" 
+              :loading="saving" 
+              :disabled="!canSave" 
+              @click="save"
+            >
+              保存
+            </el-button>
+            <el-button @click="reset">重置</el-button>
+            <div class="tip">可以单独修改头像或昵称，也可以同时修改</div>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, computed, onMounted, watch } from 'vue'
+  import { useUserStore } from '@/stores/user'
+  import { ElMessage } from 'element-plus'
+  
+  // 用户状态管理
+  const userStore = useUserStore()
+  const defaultAvatar = 'https://picsum.photos/80/80?random=3'
+  
+  // 表单数据
+  const form = ref({
+    avatar: '',       // 可为File对象或字符串(URL/Base64)
+    nickname: ''      // 用户昵称
+  })
+  
+  // 预览URL（用于头像本地预览）
+  const previewUrl = ref<string>(defaultAvatar)
+  
+  // 原始数据（用于判断是否有修改）
+  const origin = ref({
+    avatar: '',
+    nickname: ''
+  })
+  
+  /**
+   * 初始化表单数据
+   */
+  const initForm = () => {
+    if (userStore.currentUser) {
+      form.value = {
+        avatar: (userStore.currentUser.avatar as any) || '',
+        nickname: userStore.currentUser.nickname || ''
+      }
+      previewUrl.value = userStore.currentUser.avatar || defaultAvatar
+      origin.value = {
+        avatar: typeof form.value.avatar === 'string' ? (form.value.avatar as string) : '',
+        nickname: form.value.nickname
+      }
+    }
+  }
+  
+  // 监听用户信息变化，重新初始化表单
+  watch(
+    () => userStore.currentUser,
+    (newUser) => {
+      if (newUser) {
+        initForm()
+      }
+    },
+    { immediate: true }
+  )
+  
+  // 组件挂载时初始化
+  onMounted(() => {
+    if (userStore.currentUser) {
+      initForm()
+    }
+  })
+  
+  /**
+   * 计算当前显示的头像URL
+   */
+  const avatarSrc = computed(() => {
+    // 如果是字符串类型的头像（URL或Base64）
+    if (typeof form.value.avatar === 'string' && form.value.avatar) {
+      return form.value.avatar
+    }
+    
+    // 如果是File对象，使用预览URL
+    if (typeof form.value.avatar === 'object' && form.value.avatar) {
+      return previewUrl.value || defaultAvatar
+    }
+    
+    // 默认情况
+    return userStore.currentUser?.avatar || defaultAvatar
+  })
+  
+  // 保存状态
+  const saving = ref(false)
+  
+  /**
+   * 判断是否可以保存（检测数据是否有变化）
+   */
+  const canSave = computed(() => {
+    return form.value.nickname !== origin.value.nickname || 
+           form.value.avatar !== origin.value.avatar
+  })
+  
+  /**
+   * 上传前校验
+   * @param file 上传的文件
+   * @returns 是否允许上传
+   */
+  const beforeUpload = (file: File) => {
+    const isImage = file.type.startsWith('image/')
+    const isLt2M = file.size / 1024 / 1024 < 2
+    
+    if (!isImage) ElMessage.error('请上传图片文件')
+    if (!isLt2M) ElMessage.error('图片大小需小于2MB')
+    
+    return isImage && isLt2M
+  }
+  
+  /**
+   * 自定义上传处理（仅本地预览）
+   * @param options 上传选项
+   */
+  const customUpload = async (options: any) => {
+    const file = options.file as File
+    
+    // 释放之前的blob URL，避免内存泄漏
+    if (previewUrl.value && previewUrl.value.startsWith('blob:')) {
+      URL.revokeObjectURL(previewUrl.value)
+    }
+    
+    // 创建新的预览URL
+    previewUrl.value = URL.createObjectURL(file)
+    form.value.avatar = file as any
+    
+    // 通知上传成功
+    options.onSuccess && options.onSuccess({}, file)
+  }
+  
+  /**
+   * 保存用户信息
+   */
+  const save = async () => {
+    try {
+      // 验证昵称
+      if (!form.value.nickname) {
+        ElMessage.warning('请输入昵称')
+        return
+      }
+      
+      saving.value = true
+      let avatarUrl: string | undefined
+      
+      // 处理头像（如果是File对象则压缩）
+      if (form.value.avatar && typeof form.value.avatar !== 'string') {
+        const file = form.value.avatar as File
+        
+        // 检查文件大小
+        if (file.size > 1024 * 1024) {
+          ElMessage.error('头像文件大小不能超过1MB')
+          saving.value = false
+          return
+        }
+        
+        // 压缩图片并转换为Base64
+        avatarUrl = await compressImage(file)
+      }
+      
+      // 构建请求参数（只包含有变化的字段）
+      const payload: any = {}
+      if (form.value.nickname !== origin.value.nickname) {
+        payload.nickname = form.value.nickname
+      }
+      if (avatarUrl) {
+        payload.avatar = avatarUrl
+      } else if (typeof form.value.avatar === 'string' && form.value.avatar !== origin.value.avatar) {
+        payload.avatar = form.value.avatar
+      }
+      
+      // 发送请求
+      const resp = await fetch(`/api/user/info/${userStore.currentUser?.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.keys(payload).length ? payload : { nickname: null, avatar: null })
+      })
+      
+      const result = await resp.json()
+      
+      if (result.code === 200) {
+        // 更新本地用户信息
+        if (userStore.currentUser) {
+          if (payload.nickname !== undefined) {
+            userStore.currentUser.nickname = form.value.nickname
+          }
+          if (payload.avatar !== undefined) {
+            userStore.currentUser.avatar = payload.avatar
+          }
+          // 同步到本地存储
+          localStorage.setItem('userInfo', JSON.stringify(userStore.currentUser))
+        }
+        
+        // 更新本地状态
+        if (payload.avatar) {
+          form.value.avatar = payload.avatar
+          // 清理blob URL
+          if (previewUrl.value && previewUrl.value.startsWith('blob:')) {
+            URL.revokeObjectURL(previewUrl.value)
+          }
+          previewUrl.value = payload.avatar
+        }
+        
+        // 更新原始状态
+        origin.value = {
+          avatar: payload.avatar || form.value.avatar,
+          nickname: form.value.nickname
+        }
+        
+        ElMessage.success('保存成功')
+      } else {
+        ElMessage.error(result.message || '保存失败')
+      }
+    } catch (e) {
+      console.error('保存失败:', e)
+      ElMessage.error('网络异常')
+    } finally {
+      saving.value = false
+    }
+  }
+  
+  /**
+   * 压缩图片并转换为Base64
+   * @param file 图片文件
+   * @returns 压缩后的Base64字符串
+   */
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      const img = new Image()
+      
+      img.onload = () => {
+        // 计算保持比例的尺寸
+        const maxSize = 200
+        let { width, height } = img
+        
+        // 如果图片尺寸小于最大限制，保持原尺寸
+        if (width <= maxSize && height <= maxSize) {
+          canvas.width = width
+          canvas.height = height
+        } else {
+          // 按比例缩放到最大尺寸
+          const ratio = Math.min(maxSize / width, maxSize / height)
+          canvas.width = Math.round(width * ratio)
+          canvas.height = Math.round(height * ratio)
+        }
+        
+        // 绘制图片
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height)
+        
+        // 转换为Base64，质量0.7
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7)
+        resolve(compressedBase64)
+      }
+      
+      img.onerror = reject
+      img.src = URL.createObjectURL(file)
+    })
+  }
+  
+  /**
+   * 重置表单
+   */
+  const reset = () => {
+    form.value = { ...origin.value }
+  }
+  </script>
+  
+  <style scoped>
+  .profile {
+    max-width: 840px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+  
+  .card-header {
+    padding: 20px 24px 0 24px;
+  }
+  
+  .card-header h1 {
+    margin: 0;
+    color: #1f2328;
+    font-size: 28px;
+  }
+  
+  .card-header .sub {
+    color: #8a919f;
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  
+  .profile-form {
+    padding: 16px 24px 24px;
+  }
+  
+  .avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .avatar-shadow {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, #e3e8ef, #f5f7fb);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .avatar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .tip {
+    font-size: 12px;
+    color: #9aa5b1;
+    margin-top: 8px;
+  }
+  
+  /* 按钮样式调整 */
+  :deep(.el-button) + .el-button {
+    margin-left: 12px;
+  }
+  </style>
+      

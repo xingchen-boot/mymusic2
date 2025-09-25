@@ -1,93 +1,93 @@
-package***REMOVED***org.example.mapper;
+package org.example.mapper;
 
-import***REMOVED***org.apache.ibatis.annotations.*;
-import***REMOVED***org.example.entity.UserPlaylist;
-import***REMOVED***org.example.entity.PlaylistMusic;
+import org.apache.ibatis.annotations.*;
+import org.example.entity.UserPlaylist;
+import org.example.entity.PlaylistMusic;
 
-import***REMOVED***java.util.List;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户播放列表数据访问层
-***REMOVED****/
+ * 用户播放列表数据访问层
+ */
 @Mapper
-public***REMOVED***interface***REMOVED***UserPlaylistMapper***REMOVED***{
+public interface UserPlaylistMapper {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据用户ID查询播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user_playlist***REMOVED***WHERE***REMOVED***user_id***REMOVED***=***REMOVED***#{userId}***REMOVED***AND***REMOVED***status***REMOVED***=***REMOVED***1***REMOVED***ORDER***REMOVED***BY***REMOVED***create_time***REMOVED***DESC")
-***REMOVED******REMOVED******REMOVED******REMOVED***List<UserPlaylist>***REMOVED***findByUserId(@Param("userId")***REMOVED***Long***REMOVED***userId);
+    /**
+     * 根据用户ID查询播放列表
+     */
+    @Select("SELECT * FROM user_playlist WHERE user_id = #{userId} AND status = 1 ORDER BY create_time DESC")
+    List<UserPlaylist> findByUserId(@Param("userId") Long userId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据ID查询播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***user_playlist***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}***REMOVED***AND***REMOVED***status***REMOVED***=***REMOVED***1")
-***REMOVED******REMOVED******REMOVED******REMOVED***UserPlaylist***REMOVED***findById(@Param("id")***REMOVED***Long***REMOVED***id);
+    /**
+     * 根据ID查询播放列表
+     */
+    @Select("SELECT * FROM user_playlist WHERE id = #{id} AND status = 1")
+    UserPlaylist findById(@Param("id") Long id);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***插入播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***user_playlist***REMOVED***(user_id,***REMOVED***name,***REMOVED***description,***REMOVED***cover_url,***REMOVED***create_time,***REMOVED***update_time,***REMOVED***status)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{userId},***REMOVED***#{name},***REMOVED***#{description},***REMOVED***#{coverUrl},***REMOVED***#{createTime},***REMOVED***#{updateTime},***REMOVED***#{status})")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Options(useGeneratedKeys***REMOVED***=***REMOVED***true,***REMOVED***keyProperty***REMOVED***=***REMOVED***"id")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insert(UserPlaylist***REMOVED***playlist);
+    /**
+     * 插入播放列表
+     */
+    @Insert("INSERT INTO user_playlist (user_id, name, description, cover_url, create_time, update_time, status) " +
+            "VALUES (#{userId}, #{name}, #{description}, #{coverUrl}, #{createTime}, #{updateTime}, #{status})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(UserPlaylist playlist);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新播放列表信息
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user_playlist***REMOVED***SET***REMOVED***name***REMOVED***=***REMOVED***#{name},***REMOVED***description***REMOVED***=***REMOVED***#{description},***REMOVED***cover_url***REMOVED***=***REMOVED***#{coverUrl},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***update(UserPlaylist***REMOVED***playlist);
+    /**
+     * 更新播放列表信息
+     */
+    @Update("UPDATE user_playlist SET name = #{name}, description = #{description}, cover_url = #{coverUrl}, " +
+            "update_time = #{updateTime} WHERE id = #{id}")
+    int update(UserPlaylist playlist);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***删除播放列表（软删除）
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***user_playlist***REMOVED***SET***REMOVED***status***REMOVED***=***REMOVED***0,***REMOVED***update_time***REMOVED***=***REMOVED***#{updateTime}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***deleteById(@Param("id")***REMOVED***Long***REMOVED***id,***REMOVED***@Param("updateTime")***REMOVED***java.time.LocalDateTime***REMOVED***updateTime);
+    /**
+     * 删除播放列表（软删除）
+     */
+    @Update("UPDATE user_playlist SET status = 0, update_time = #{updateTime} WHERE id = #{id}")
+    int deleteById(@Param("id") Long id, @Param("updateTime") java.time.LocalDateTime updateTime);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查播放列表名称是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***COUNT(*)***REMOVED***FROM***REMOVED***user_playlist***REMOVED***WHERE***REMOVED***user_id***REMOVED***=***REMOVED***#{userId}***REMOVED***AND***REMOVED***name***REMOVED***=***REMOVED***#{name}***REMOVED***AND***REMOVED***status***REMOVED***=***REMOVED***1")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***checkNameExists(@Param("userId")***REMOVED***Long***REMOVED***userId,***REMOVED***@Param("name")***REMOVED***String***REMOVED***name);
+    /**
+     * 检查播放列表名称是否存在
+     */
+    @Select("SELECT COUNT(*) FROM user_playlist WHERE user_id = #{userId} AND name = #{name} AND status = 1")
+    int checkNameExists(@Param("userId") Long userId, @Param("name") String name);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***添加音乐到播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***playlist_music***REMOVED***(playlist_id,***REMOVED***music_id,***REMOVED***music_name,***REMOVED***artist_name,***REMOVED***album_name,***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"duration,***REMOVED***music_url,***REMOVED***cover_url,***REMOVED***add_time,***REMOVED***sort_order)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{playlistId},***REMOVED***#{musicId},***REMOVED***#{musicName},***REMOVED***#{artistName},***REMOVED***#{albumName},***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"#{duration},***REMOVED***#{musicUrl},***REMOVED***#{coverUrl},***REMOVED***#{addTime},***REMOVED***#{sortOrder})")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***addMusicToPlaylist(PlaylistMusic***REMOVED***music);
+    /**
+     * 添加音乐到播放列表
+     */
+    @Insert("INSERT INTO playlist_music (playlist_id, music_id, music_name, artist_name, album_name, " +
+            "duration, music_url, cover_url, add_time, sort_order) " +
+            "VALUES (#{playlistId}, #{musicId}, #{musicName}, #{artistName}, #{albumName}, " +
+            "#{duration}, #{musicUrl}, #{coverUrl}, #{addTime}, #{sortOrder})")
+    int addMusicToPlaylist(PlaylistMusic music);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***从播放列表移除音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***AND***REMOVED***music_id***REMOVED***=***REMOVED***#{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***removeMusicFromPlaylist(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId,***REMOVED***@Param("musicId")***REMOVED***String***REMOVED***musicId);
+    /**
+     * 从播放列表移除音乐
+     */
+    @Delete("DELETE FROM playlist_music WHERE playlist_id = #{playlistId} AND music_id = #{musicId}")
+    int removeMusicFromPlaylist(@Param("playlistId") Long playlistId, @Param("musicId") String musicId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***查询播放列表中的音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***ORDER***REMOVED***BY***REMOVED***sort_order***REMOVED***ASC,***REMOVED***add_time***REMOVED***ASC")
-***REMOVED******REMOVED******REMOVED******REMOVED***List<PlaylistMusic>***REMOVED***findMusicByPlaylistId(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId);
+    /**
+     * 查询播放列表中的音乐
+     */
+    @Select("SELECT * FROM playlist_music WHERE playlist_id = #{playlistId} ORDER BY sort_order ASC, add_time ASC")
+    List<PlaylistMusic> findMusicByPlaylistId(@Param("playlistId") Long playlistId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新音乐排序
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***playlist_music***REMOVED***SET***REMOVED***sort_order***REMOVED***=***REMOVED***#{sortOrder}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updateMusicSort(@Param("id")***REMOVED***Long***REMOVED***id,***REMOVED***@Param("sortOrder")***REMOVED***Integer***REMOVED***sortOrder);
+    /**
+     * 更新音乐排序
+     */
+    @Update("UPDATE playlist_music SET sort_order = #{sortOrder} WHERE id = #{id}")
+    int updateMusicSort(@Param("id") Long id, @Param("sortOrder") Integer sortOrder);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***清空播放列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***clearPlaylist(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId);
+    /**
+     * 清空播放列表
+     */
+    @Delete("DELETE FROM playlist_music WHERE playlist_id = #{playlistId}")
+    int clearPlaylist(@Param("playlistId") Long playlistId);
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查音乐是否在播放列表中
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***COUNT(*)***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***AND***REMOVED***music_id***REMOVED***=***REMOVED***#{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***checkMusicInPlaylist(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId,***REMOVED***@Param("musicId")***REMOVED***String***REMOVED***musicId);
+    /**
+     * 检查音乐是否在播放列表中
+     */
+    @Select("SELECT COUNT(*) FROM playlist_music WHERE playlist_id = #{playlistId} AND music_id = #{musicId}")
+    int checkMusicInPlaylist(@Param("playlistId") Long playlistId, @Param("musicId") String musicId);
 }
 

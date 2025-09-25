@@ -1,250 +1,250 @@
-package***REMOVED***org.example.service;
+package org.example.service;
 
-import***REMOVED***com.fasterxml.jackson.databind.JsonNode;
-import***REMOVED***com.fasterxml.jackson.databind.ObjectMapper;
-import***REMOVED***com.fasterxml.jackson.core.type.TypeReference;
-import***REMOVED***org.example.entity.Music;
-import***REMOVED***org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.example.entity.Music;
+import org.springframework.stereotype.Service;
 
-import***REMOVED***java.io.BufferedReader;
-import***REMOVED***java.io.InputStreamReader;
-import***REMOVED***java.net.HttpURLConnection;
-import***REMOVED***java.net.URL;
-import***REMOVED***java.net.URLEncoder;
-import***REMOVED***java.nio.charset.StandardCharsets;
-import***REMOVED***java.util.HashMap;
-import***REMOVED***java.util.List;
-import***REMOVED***java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
-public***REMOVED***class***REMOVED***MusicApiService***REMOVED***{
+public class MusicApiService {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***static***REMOVED***final***REMOVED***String***REMOVED***API_BASE_URL***REMOVED***=***REMOVED***"https://api.vkeys.cn";
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***final***REMOVED***ObjectMapper***REMOVED***objectMapper***REMOVED***=***REMOVED***new***REMOVED***ObjectMapper();
+    private static final String API_BASE_URL = "https://api.vkeys.cn";
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***搜索音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***searchMusic(String***REMOVED***keyword,***REMOVED***Integer***REMOVED***page,***REMOVED***Integer***REMOVED***size)***REMOVED***throws***REMOVED***Exception***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***encodedKeyword***REMOVED***=***REMOVED***URLEncoder.encode(keyword,***REMOVED***StandardCharsets.UTF_8.toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***urlString***REMOVED***=***REMOVED***API_BASE_URL***REMOVED***+***REMOVED***"/v2/music/tencent?word="***REMOVED***+***REMOVED***encodedKeyword***REMOVED***+***REMOVED***"&page="***REMOVED***+***REMOVED***page***REMOVED***+***REMOVED***"&num="***REMOVED***+***REMOVED***size;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("调用外部API:***REMOVED***"***REMOVED***+***REMOVED***urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***URL***REMOVED***url***REMOVED***=***REMOVED***new***REMOVED***URL(urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***HttpURLConnection***REMOVED***connection***REMOVED***=***REMOVED***(HttpURLConnection)***REMOVED***url.openConnection();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***设置请求头
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestMethod("GET");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestProperty("User-Agent",***REMOVED***"Mozilla/5.0***REMOVED***(Windows***REMOVED***NT***REMOVED***10.0;***REMOVED***Win64;***REMOVED***x64)***REMOVED***AppleWebKit/537.36");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestProperty("Accept",***REMOVED***"application/json");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setConnectTimeout(10000);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setReadTimeout(30000);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***读取响应
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***BufferedReader***REMOVED***reader***REMOVED***=***REMOVED***new***REMOVED***BufferedReader(new***REMOVED***InputStreamReader(connection.getInputStream()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***StringBuilder***REMOVED***response***REMOVED***=***REMOVED***new***REMOVED***StringBuilder();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***line;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***while***REMOVED***((line***REMOVED***=***REMOVED***reader.readLine())***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.append(line);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***reader.close();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***responseString***REMOVED***=***REMOVED***response.toString();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("API响应:***REMOVED***"***REMOVED***+***REMOVED***responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(responseString***REMOVED***==***REMOVED***null***REMOVED***||***REMOVED***responseString.trim().isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("外部API返回空响应");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***jsonNode***REMOVED***=***REMOVED***objectMapper.readTree(responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(jsonNode.get("code").asInt()***REMOVED***!=***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("API调用失败:***REMOVED***"***REMOVED***+***REMOVED***jsonNode.get("message").asText());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***将JSON数据转换为Music实体列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<Music>***REMOVED***musicList***REMOVED***=***REMOVED***objectMapper.readValue(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***jsonNode.get("data").toString(),***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***new***REMOVED***TypeReference<List<Music>>()***REMOVED***{}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("data",***REMOVED***musicList);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("total",***REMOVED***musicList.size());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 搜索音乐
+     */
+    public Map<String, Object> searchMusic(String keyword, Integer page, Integer size) throws Exception {
+        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString());
+        String urlString = API_BASE_URL + "/v2/music/tencent?word=" + encodedKeyword + "&page=" + page + "&num=" + size;
+        
+        System.out.println("调用外部API: " + urlString);
+        
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        
+        // 设置请求头
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setConnectTimeout(10000);
+        connection.setReadTimeout(30000);
+        
+        // 读取响应
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        
+        String responseString = response.toString();
+        System.out.println("API响应: " + responseString);
+        
+        if (responseString == null || responseString.trim().isEmpty()) {
+            throw new Exception("外部API返回空响应");
+        }
+        
+        JsonNode jsonNode = objectMapper.readTree(responseString);
+        
+        if (jsonNode.get("code").asInt() != 200) {
+            throw new Exception("API调用失败: " + jsonNode.get("message").asText());
+        }
+        
+        // 将JSON数据转换为Music实体列表
+        List<Music> musicList = objectMapper.readValue(
+            jsonNode.get("data").toString(), 
+            new TypeReference<List<Music>>() {}
+        );
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", musicList);
+        result.put("total", musicList.size());
+        
+        return result;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取音乐播放URL
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***getMusicUrl(String***REMOVED***mid,***REMOVED***String***REMOVED***id)***REMOVED***throws***REMOVED***Exception***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***urlString***REMOVED***=***REMOVED***API_BASE_URL***REMOVED***+***REMOVED***"/v2/music/tencent/geturl";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(mid***REMOVED***!=***REMOVED***null***REMOVED***&&***REMOVED***!mid.isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***urlString***REMOVED***+=***REMOVED***"?mid="***REMOVED***+***REMOVED***mid;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***if***REMOVED***(id***REMOVED***!=***REMOVED***null***REMOVED***&&***REMOVED***!id.isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***urlString***REMOVED***+=***REMOVED***"?id="***REMOVED***+***REMOVED***id;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("mid或id参数不能为空");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("获取播放URL:***REMOVED***"***REMOVED***+***REMOVED***urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***URL***REMOVED***url***REMOVED***=***REMOVED***new***REMOVED***URL(urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***HttpURLConnection***REMOVED***connection***REMOVED***=***REMOVED***(HttpURLConnection)***REMOVED***url.openConnection();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestMethod("GET");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestProperty("User-Agent",***REMOVED***"Mozilla/5.0***REMOVED***(Windows***REMOVED***NT***REMOVED***10.0;***REMOVED***Win64;***REMOVED***x64)***REMOVED***AppleWebKit/537.36");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***BufferedReader***REMOVED***reader***REMOVED***=***REMOVED***new***REMOVED***BufferedReader(new***REMOVED***InputStreamReader(connection.getInputStream()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***StringBuilder***REMOVED***response***REMOVED***=***REMOVED***new***REMOVED***StringBuilder();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***line;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***while***REMOVED***((line***REMOVED***=***REMOVED***reader.readLine())***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.append(line);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***reader.close();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***responseString***REMOVED***=***REMOVED***response.toString();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("播放URL响应:***REMOVED***"***REMOVED***+***REMOVED***responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***jsonNode***REMOVED***=***REMOVED***objectMapper.readTree(responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(jsonNode.get("code").asInt()***REMOVED***!=***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("获取播放URL失败:***REMOVED***"***REMOVED***+***REMOVED***jsonNode.get("message").asText());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查data字段是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***dataNode***REMOVED***=***REMOVED***jsonNode.get("data");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(dataNode***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查url字段是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***urlNode***REMOVED***=***REMOVED***dataNode.get("url");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(urlNode***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("url",***REMOVED***urlNode.asText());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***如果没有url字段，可能直接返回的是URL字符串
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("url",***REMOVED***dataNode.asText());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查format字段是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***formatNode***REMOVED***=***REMOVED***dataNode.get("format");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(formatNode***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("format",***REMOVED***formatNode.asText());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("format",***REMOVED***"mp3");***REMOVED***//***REMOVED***默认格式
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("API响应中缺少data字段");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取音乐播放URL
+     */
+    public Map<String, Object> getMusicUrl(String mid, String id) throws Exception {
+        String urlString = API_BASE_URL + "/v2/music/tencent/geturl";
+        if (mid != null && !mid.isEmpty()) {
+            urlString += "?mid=" + mid;
+        } else if (id != null && !id.isEmpty()) {
+            urlString += "?id=" + id;
+        } else {
+            throw new Exception("mid或id参数不能为空");
+        }
+        
+        System.out.println("获取播放URL: " + urlString);
+        
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        
+        String responseString = response.toString();
+        System.out.println("播放URL响应: " + responseString);
+        
+        JsonNode jsonNode = objectMapper.readTree(responseString);
+        
+        if (jsonNode.get("code").asInt() != 200) {
+            throw new Exception("获取播放URL失败: " + jsonNode.get("message").asText());
+        }
+        
+        Map<String, Object> result = new HashMap<>();
+        
+        // 检查data字段是否存在
+        JsonNode dataNode = jsonNode.get("data");
+        if (dataNode != null) {
+            // 检查url字段是否存在
+            JsonNode urlNode = dataNode.get("url");
+            if (urlNode != null) {
+                result.put("url", urlNode.asText());
+            } else {
+                // 如果没有url字段，可能直接返回的是URL字符串
+                result.put("url", dataNode.asText());
+            }
+            
+            // 检查format字段是否存在
+            JsonNode formatNode = dataNode.get("format");
+            if (formatNode != null) {
+                result.put("format", formatNode.asText());
+            } else {
+                result.put("format", "mp3"); // 默认格式
+            }
+        } else {
+            throw new Exception("API响应中缺少data字段");
+        }
+        
+        return result;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取搜索建议
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***getSearchSuggestions(String***REMOVED***word)***REMOVED***throws***REMOVED***Exception***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***urlString***REMOVED***=***REMOVED***API_BASE_URL***REMOVED***+***REMOVED***"/v2/music/tencent/search/smartbox";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(word***REMOVED***!=***REMOVED***null***REMOVED***&&***REMOVED***!word.isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***urlString***REMOVED***+=***REMOVED***"?word="***REMOVED***+***REMOVED***URLEncoder.encode(word,***REMOVED***StandardCharsets.UTF_8);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("搜索词不能为空");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("获取搜索建议:***REMOVED***"***REMOVED***+***REMOVED***urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***URL***REMOVED***url***REMOVED***=***REMOVED***new***REMOVED***URL(urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***HttpURLConnection***REMOVED***connection***REMOVED***=***REMOVED***(HttpURLConnection)***REMOVED***url.openConnection();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestMethod("GET");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestProperty("User-Agent",***REMOVED***"Mozilla/5.0***REMOVED***(Windows***REMOVED***NT***REMOVED***10.0;***REMOVED***Win64;***REMOVED***x64)***REMOVED***AppleWebKit/537.36");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***BufferedReader***REMOVED***reader***REMOVED***=***REMOVED***new***REMOVED***BufferedReader(new***REMOVED***InputStreamReader(connection.getInputStream()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***StringBuilder***REMOVED***response***REMOVED***=***REMOVED***new***REMOVED***StringBuilder();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***line;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***while***REMOVED***((line***REMOVED***=***REMOVED***reader.readLine())***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.append(line);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***reader.close();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***responseString***REMOVED***=***REMOVED***response.toString();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("搜索建议响应:***REMOVED***"***REMOVED***+***REMOVED***responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***jsonNode***REMOVED***=***REMOVED***objectMapper.readTree(responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(jsonNode.get("code").asInt()***REMOVED***!=***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***errorMessage***REMOVED***=***REMOVED***jsonNode.get("message")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***jsonNode.get("message").asText()***REMOVED***:***REMOVED***"未知错误";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("搜索建议API错误:***REMOVED***"***REMOVED***+***REMOVED***errorMessage);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("获取搜索建议失败:***REMOVED***"***REMOVED***+***REMOVED***errorMessage);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查data字段是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***dataNode***REMOVED***=***REMOVED***jsonNode.get("data");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(dataNode***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***直接返回完整的搜索建议数据
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("song",***REMOVED***dataNode.get("song")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("song")***REMOVED***:***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("singer",***REMOVED***dataNode.get("singer")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("singer")***REMOVED***:***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("album",***REMOVED***dataNode.get("album")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("album")***REMOVED***:***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("mv",***REMOVED***dataNode.get("mv")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("mv")***REMOVED***:***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("API响应中缺少data字段");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取搜索建议
+     */
+    public Map<String, Object> getSearchSuggestions(String word) throws Exception {
+        String urlString = API_BASE_URL + "/v2/music/tencent/search/smartbox";
+        if (word != null && !word.isEmpty()) {
+            urlString += "?word=" + URLEncoder.encode(word, StandardCharsets.UTF_8);
+        } else {
+            throw new Exception("搜索词不能为空");
+        }
+        
+        System.out.println("获取搜索建议: " + urlString);
+        
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        
+        String responseString = response.toString();
+        System.out.println("搜索建议响应: " + responseString);
+        
+        JsonNode jsonNode = objectMapper.readTree(responseString);
+        
+        if (jsonNode.get("code").asInt() != 200) {
+            String errorMessage = jsonNode.get("message") != null ? jsonNode.get("message").asText() : "未知错误";
+            System.out.println("搜索建议API错误: " + errorMessage);
+            throw new Exception("获取搜索建议失败: " + errorMessage);
+        }
+        
+        // 检查data字段是否存在
+        JsonNode dataNode = jsonNode.get("data");
+        if (dataNode != null) {
+            // 直接返回完整的搜索建议数据
+            Map<String, Object> result = new HashMap<>();
+            result.put("song", dataNode.get("song") != null ? dataNode.get("song") : null);
+            result.put("singer", dataNode.get("singer") != null ? dataNode.get("singer") : null);
+            result.put("album", dataNode.get("album") != null ? dataNode.get("album") : null);
+            result.put("mv", dataNode.get("mv") != null ? dataNode.get("mv") : null);
+            return result;
+        } else {
+            throw new Exception("API响应中缺少data字段");
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取歌词
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***Map<String,***REMOVED***Object>***REMOVED***getLyrics(String***REMOVED***mid,***REMOVED***String***REMOVED***id)***REMOVED***throws***REMOVED***Exception***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***urlString***REMOVED***=***REMOVED***API_BASE_URL***REMOVED***+***REMOVED***"/v2/music/tencent/lyric";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***优先使用id参数，因为id是数字类型，mid是字符串类型
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(id***REMOVED***!=***REMOVED***null***REMOVED***&&***REMOVED***!id.isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***urlString***REMOVED***+=***REMOVED***"?id="***REMOVED***+***REMOVED***id;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***if***REMOVED***(mid***REMOVED***!=***REMOVED***null***REMOVED***&&***REMOVED***!mid.isEmpty())***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***urlString***REMOVED***+=***REMOVED***"?mid="***REMOVED***+***REMOVED***mid;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("mid或id参数不能为空");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("获取歌词:***REMOVED***"***REMOVED***+***REMOVED***urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***URL***REMOVED***url***REMOVED***=***REMOVED***new***REMOVED***URL(urlString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***HttpURLConnection***REMOVED***connection***REMOVED***=***REMOVED***(HttpURLConnection)***REMOVED***url.openConnection();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestMethod("GET");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***connection.setRequestProperty("User-Agent",***REMOVED***"Mozilla/5.0***REMOVED***(Windows***REMOVED***NT***REMOVED***10.0;***REMOVED***Win64;***REMOVED***x64)***REMOVED***AppleWebKit/537.36");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***BufferedReader***REMOVED***reader***REMOVED***=***REMOVED***new***REMOVED***BufferedReader(new***REMOVED***InputStreamReader(connection.getInputStream()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***StringBuilder***REMOVED***response***REMOVED***=***REMOVED***new***REMOVED***StringBuilder();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***line;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***while***REMOVED***((line***REMOVED***=***REMOVED***reader.readLine())***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.append(line);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***reader.close();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***responseString***REMOVED***=***REMOVED***response.toString();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("歌词响应:***REMOVED***"***REMOVED***+***REMOVED***responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***jsonNode***REMOVED***=***REMOVED***objectMapper.readTree(responseString);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(jsonNode.get("code").asInt()***REMOVED***!=***REMOVED***200)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***errorMessage***REMOVED***=***REMOVED***jsonNode.get("message")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***jsonNode.get("message").asText()***REMOVED***:***REMOVED***"未知错误";
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***System.out.println("歌词API错误:***REMOVED***"***REMOVED***+***REMOVED***errorMessage);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("获取歌词失败:***REMOVED***"***REMOVED***+***REMOVED***errorMessage);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查data字段是否存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***JsonNode***REMOVED***dataNode***REMOVED***=***REMOVED***jsonNode.get("data");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(dataNode***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***直接返回完整的歌词数据，包含lrc、trans、yrc、roma等字段
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***new***REMOVED***HashMap<>();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("lrc",***REMOVED***dataNode.get("lrc")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("lrc").asText()***REMOVED***:***REMOVED***"");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("trans",***REMOVED***dataNode.get("trans")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("trans").asText()***REMOVED***:***REMOVED***"");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("yrc",***REMOVED***dataNode.get("yrc")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("yrc").asText()***REMOVED***:***REMOVED***"");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***result.put("roma",***REMOVED***dataNode.get("roma")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***dataNode.get("roma").asText()***REMOVED***:***REMOVED***"");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***result;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***Exception("API响应中缺少data字段");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取歌词
+     */
+    public Map<String, Object> getLyrics(String mid, String id) throws Exception {
+        String urlString = API_BASE_URL + "/v2/music/tencent/lyric";
+        // 优先使用id参数，因为id是数字类型，mid是字符串类型
+        if (id != null && !id.isEmpty()) {
+            urlString += "?id=" + id;
+        } else if (mid != null && !mid.isEmpty()) {
+            urlString += "?mid=" + mid;
+        } else {
+            throw new Exception("mid或id参数不能为空");
+        }
+        
+        System.out.println("获取歌词: " + urlString);
+        
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+        
+        String responseString = response.toString();
+        System.out.println("歌词响应: " + responseString);
+        
+        JsonNode jsonNode = objectMapper.readTree(responseString);
+        
+        if (jsonNode.get("code").asInt() != 200) {
+            String errorMessage = jsonNode.get("message") != null ? jsonNode.get("message").asText() : "未知错误";
+            System.out.println("歌词API错误: " + errorMessage);
+            throw new Exception("获取歌词失败: " + errorMessage);
+        }
+        
+        // 检查data字段是否存在
+        JsonNode dataNode = jsonNode.get("data");
+        if (dataNode != null) {
+            // 直接返回完整的歌词数据，包含lrc、trans、yrc、roma等字段
+            Map<String, Object> result = new HashMap<>();
+            result.put("lrc", dataNode.get("lrc") != null ? dataNode.get("lrc").asText() : "");
+            result.put("trans", dataNode.get("trans") != null ? dataNode.get("trans").asText() : "");
+            result.put("yrc", dataNode.get("yrc") != null ? dataNode.get("yrc").asText() : "");
+            result.put("roma", dataNode.get("roma") != null ? dataNode.get("roma").asText() : "");
+            return result;
+        } else {
+            throw new Exception("API响应中缺少data字段");
+        }
+    }
 }

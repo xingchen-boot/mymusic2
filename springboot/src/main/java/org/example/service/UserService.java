@@ -1,129 +1,129 @@
-package***REMOVED***org.example.service;
+package org.example.service;
 
-import***REMOVED***org.example.entity.User;
-import***REMOVED***org.example.mapper.UserMapper;
-import***REMOVED***org.springframework.beans.factory.annotation.Autowired;
-import***REMOVED***org.springframework.stereotype.Service;
-import***REMOVED***org.springframework.util.DigestUtils;
+import org.example.entity.User;
+import org.example.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
-import***REMOVED***java.time.LocalDateTime;
-import***REMOVED***java.util.List;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***用户服务类
-***REMOVED****/
+ * 用户服务类
+ */
 @Service
-public***REMOVED***class***REMOVED***UserService***REMOVED***{
+public class UserService {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Autowired
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***UserMapper***REMOVED***userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***用户注册
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***User***REMOVED***register(String***REMOVED***username,***REMOVED***String***REMOVED***password,***REMOVED***String***REMOVED***nickname)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***检查用户名是否已存在
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(userMapper.checkUsernameExists(username)***REMOVED***>***REMOVED***0)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("用户名已存在");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 用户注册
+     */
+    public User register(String username, String password, String nickname) {
+        // 检查用户名是否已存在
+        if (userMapper.checkUsernameExists(username) > 0) {
+            throw new RuntimeException("用户名已存在");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***创建新用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***user***REMOVED***=***REMOVED***new***REMOVED***User(username,***REMOVED***password,***REMOVED***nickname);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***简单的密码加密（实际项目中应使用更安全的加密方式）
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***userMapper.insert(user);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***user;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        // 创建新用户
+        User user = new User(username, password, nickname);
+        // 简单的密码加密（实际项目中应使用更安全的加密方式）
+        user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+        
+        userMapper.insert(user);
+        return user;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***用户登录
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***User***REMOVED***login(String***REMOVED***username,***REMOVED***String***REMOVED***password)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***user***REMOVED***=***REMOVED***userMapper.findByUsername(username);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(user***REMOVED***==***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("用户不存在");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 用户登录
+     */
+    public User login(String username, String password) {
+        User user = userMapper.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***验证密码
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***encryptedPassword***REMOVED***=***REMOVED***DigestUtils.md5DigestAsHex(password.getBytes());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!encryptedPassword.equals(user.getPassword()))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("密码错误");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+        // 验证密码
+        String encryptedPassword = DigestUtils.md5DigestAsHex(password.getBytes());
+        if (!encryptedPassword.equals(user.getPassword())) {
+            throw new RuntimeException("密码错误");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***user;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        return user;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据用户名查找用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***User***REMOVED***findByUsername(String***REMOVED***username)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.findByUsername(username);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 根据用户名查找用户
+     */
+    public User findByUsername(String username) {
+        return userMapper.findByUsername(username);
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***根据ID查找用户
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***User***REMOVED***findById(Long***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.findById(id);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 根据ID查找用户
+     */
+    public User findById(Long id) {
+        return userMapper.findById(id);
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新用户信息
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***updateUserInfo(Long***REMOVED***id,***REMOVED***String***REMOVED***nickname,***REMOVED***String***REMOVED***avatar)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***允许部分更新：若前端不想改某字段，则传***REMOVED***null
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(nickname***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***nickname***REMOVED***=***REMOVED***nickname.trim();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(nickname.isEmpty())***REMOVED***nickname***REMOVED***=***REMOVED***null;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(avatar***REMOVED***!=***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***若***REMOVED***Base64***REMOVED***过大，可在此做阈值校验或改为存储URL
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(avatar.length()***REMOVED***>***REMOVED***1024***REMOVED*******REMOVED***1024)***REMOVED***{***REMOVED***//***REMOVED***1MB字符长度保护
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("头像数据过大，请压缩后重试");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 更新用户信息
+     */
+    public boolean updateUserInfo(Long id, String nickname, String avatar) {
+        // 允许部分更新：若前端不想改某字段，则传 null
+        if (nickname != null) {
+            nickname = nickname.trim();
+            if (nickname.isEmpty()) nickname = null;
+        }
+        if (avatar != null) {
+            // 若 Base64 过大，可在此做阈值校验或改为存储URL
+            if (avatar.length() > 1024 * 1024) { // 1MB字符长度保护
+                throw new RuntimeException("头像数据过大，请压缩后重试");
+            }
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***user***REMOVED***=***REMOVED***new***REMOVED***User();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***user.setId(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***user.setNickname(nickname);***REMOVED***//***REMOVED***可能为***REMOVED***null，COALESCE***REMOVED***保留原值
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***user.setAvatar(avatar);***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***可能为***REMOVED***null，COALESCE***REMOVED***保留原值
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***user.setUpdateTime(LocalDateTime.now());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.updateUserInfo(user)***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        User user = new User();
+        user.setId(id);
+        user.setNickname(nickname); // 可能为 null，COALESCE 保留原值
+        user.setAvatar(avatar);     // 可能为 null，COALESCE 保留原值
+        user.setUpdateTime(LocalDateTime.now());
+        return userMapper.updateUserInfo(user) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***修改密码
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***boolean***REMOVED***changePassword(Long***REMOVED***id,***REMOVED***String***REMOVED***oldPassword,***REMOVED***String***REMOVED***newPassword)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***User***REMOVED***user***REMOVED***=***REMOVED***userMapper.findById(id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(user***REMOVED***==***REMOVED***null)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("用户不存在");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 修改密码
+     */
+    public boolean changePassword(Long id, String oldPassword, String newPassword) {
+        User user = userMapper.findById(id);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***验证旧密码
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***encryptedOldPassword***REMOVED***=***REMOVED***DigestUtils.md5DigestAsHex(oldPassword.getBytes());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(!encryptedOldPassword.equals(user.getPassword()))***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***throw***REMOVED***new***REMOVED***RuntimeException("原密码错误");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
+        // 验证旧密码
+        String encryptedOldPassword = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+        if (!encryptedOldPassword.equals(user.getPassword())) {
+            throw new RuntimeException("原密码错误");
+        }
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***更新新密码
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***String***REMOVED***encryptedNewPassword***REMOVED***=***REMOVED***DigestUtils.md5DigestAsHex(newPassword.getBytes());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.updatePassword(id,***REMOVED***encryptedNewPassword,***REMOVED***LocalDateTime.now())***REMOVED***>***REMOVED***0;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+        // 更新新密码
+        String encryptedNewPassword = DigestUtils.md5DigestAsHex(newPassword.getBytes());
+        return userMapper.updatePassword(id, encryptedNewPassword, LocalDateTime.now()) > 0;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户列表
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***List<User>***REMOVED***getUserList(int***REMOVED***page,***REMOVED***int***REMOVED***size)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***offset***REMOVED***=***REMOVED***(page***REMOVED***-***REMOVED***1)***REMOVED*******REMOVED***size;
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.findAll(offset,***REMOVED***size);
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户列表
+     */
+    public List<User> getUserList(int page, int size) {
+        int offset = (page - 1) * size;
+        return userMapper.findAll(offset, size);
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户总数
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***int***REMOVED***getUserCount()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***userMapper.countAll();
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户总数
+     */
+    public int getUserCount() {
+        return userMapper.countAll();
+    }
 }

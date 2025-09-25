@@ -1,83 +1,83 @@
-package***REMOVED***org.example.mapper;
+package org.example.mapper;
 
-import***REMOVED***org.apache.ibatis.annotations.*;
-import***REMOVED***org.example.entity.Playlist;
-import***REMOVED***org.example.entity.PlaylistMusic;
+import org.apache.ibatis.annotations.*;
+import org.example.entity.Playlist;
+import org.example.entity.PlaylistMusic;
 
-import***REMOVED***java.util.List;
+import java.util.List;
 
 /**
-***REMOVED*******REMOVED***播放列表Mapper接口
-***REMOVED****/
+ * 播放列表Mapper接口
+ */
 @Mapper
-public***REMOVED***interface***REMOVED***PlaylistMapper***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放列表相关操作
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***playlists***REMOVED***(name,***REMOVED***description,***REMOVED***cover,***REMOVED***user_id)***REMOVED***VALUES***REMOVED***(#{name},***REMOVED***#{description},***REMOVED***#{cover},***REMOVED***#{userId})")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Options(useGeneratedKeys***REMOVED***=***REMOVED***true,***REMOVED***keyProperty***REMOVED***=***REMOVED***"id")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insertPlaylist(Playlist***REMOVED***playlist);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***playlists***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Results({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"id",***REMOVED***column***REMOVED***=***REMOVED***"id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"name",***REMOVED***column***REMOVED***=***REMOVED***"name"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"description",***REMOVED***column***REMOVED***=***REMOVED***"description"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"cover",***REMOVED***column***REMOVED***=***REMOVED***"cover"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"userId",***REMOVED***column***REMOVED***=***REMOVED***"user_id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"createdAt",***REMOVED***column***REMOVED***=***REMOVED***"created_at"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"updatedAt",***REMOVED***column***REMOVED***=***REMOVED***"updated_at")
-***REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***Playlist***REMOVED***selectPlaylistById(Long***REMOVED***id);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***playlists***REMOVED***ORDER***REMOVED***BY***REMOVED***created_at***REMOVED***DESC")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Results({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"id",***REMOVED***column***REMOVED***=***REMOVED***"id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"name",***REMOVED***column***REMOVED***=***REMOVED***"name"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"description",***REMOVED***column***REMOVED***=***REMOVED***"description"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"cover",***REMOVED***column***REMOVED***=***REMOVED***"cover"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"userId",***REMOVED***column***REMOVED***=***REMOVED***"user_id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"createdAt",***REMOVED***column***REMOVED***=***REMOVED***"created_at"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"updatedAt",***REMOVED***column***REMOVED***=***REMOVED***"updated_at")
-***REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***List<Playlist>***REMOVED***selectAllPlaylists();
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Update("UPDATE***REMOVED***playlists***REMOVED***SET***REMOVED***name***REMOVED***=***REMOVED***#{name},***REMOVED***description***REMOVED***=***REMOVED***#{description},***REMOVED***cover***REMOVED***=***REMOVED***#{cover}***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***updatePlaylist(Playlist***REMOVED***playlist);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***playlists***REMOVED***WHERE***REMOVED***id***REMOVED***=***REMOVED***#{id}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***deletePlaylist(Long***REMOVED***id);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放列表音乐相关操作
-***REMOVED******REMOVED******REMOVED******REMOVED***@Insert("INSERT***REMOVED***INTO***REMOVED***playlist_music***REMOVED***(playlist_id,***REMOVED***music_id,***REMOVED***music_mid,***REMOVED***music_song,***REMOVED***music_singer,***REMOVED***music_album,***REMOVED***music_cover,***REMOVED***music_url,***REMOVED***sort_order)***REMOVED***"***REMOVED***+
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***"VALUES***REMOVED***(#{playlistId},***REMOVED***#{musicId},***REMOVED***#{musicMid},***REMOVED***#{musicSong},***REMOVED***#{musicSinger},***REMOVED***#{musicAlbum},***REMOVED***#{musicCover},***REMOVED***#{musicUrl},***REMOVED***#{sortOrder})")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Options(useGeneratedKeys***REMOVED***=***REMOVED***true,***REMOVED***keyProperty***REMOVED***=***REMOVED***"id")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***insertPlaylistMusic(PlaylistMusic***REMOVED***playlistMusic);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED*******REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***ORDER***REMOVED***BY***REMOVED***sort_order***REMOVED***ASC,***REMOVED***added_at***REMOVED***ASC")
-***REMOVED******REMOVED******REMOVED******REMOVED***@Results({
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"id",***REMOVED***column***REMOVED***=***REMOVED***"id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"playlistId",***REMOVED***column***REMOVED***=***REMOVED***"playlist_id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicId",***REMOVED***column***REMOVED***=***REMOVED***"music_id"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicMid",***REMOVED***column***REMOVED***=***REMOVED***"music_mid"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicSong",***REMOVED***column***REMOVED***=***REMOVED***"music_song"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicSinger",***REMOVED***column***REMOVED***=***REMOVED***"music_singer"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicAlbum",***REMOVED***column***REMOVED***=***REMOVED***"music_album"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicCover",***REMOVED***column***REMOVED***=***REMOVED***"music_cover"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"musicUrl",***REMOVED***column***REMOVED***=***REMOVED***"music_url"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"sortOrder",***REMOVED***column***REMOVED***=***REMOVED***"sort_order"),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@Result(property***REMOVED***=***REMOVED***"addedAt",***REMOVED***column***REMOVED***=***REMOVED***"added_at")
-***REMOVED******REMOVED******REMOVED******REMOVED***})
-***REMOVED******REMOVED******REMOVED******REMOVED***List<PlaylistMusic>***REMOVED***selectMusicByPlaylistId(Long***REMOVED***playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***COUNT(*)***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***countMusicByPlaylistId(Long***REMOVED***playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***AND***REMOVED***music_id***REMOVED***=***REMOVED***#{musicId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***deleteMusicFromPlaylist(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId,***REMOVED***@Param("musicId")***REMOVED***Long***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Delete("DELETE***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***int***REMOVED***deleteAllMusicFromPlaylist(Long***REMOVED***playlistId);
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***@Select("SELECT***REMOVED***EXISTS(SELECT***REMOVED***1***REMOVED***FROM***REMOVED***playlist_music***REMOVED***WHERE***REMOVED***playlist_id***REMOVED***=***REMOVED***#{playlistId}***REMOVED***AND***REMOVED***music_id***REMOVED***=***REMOVED***#{musicId})")
-***REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***existsMusicInPlaylist(@Param("playlistId")***REMOVED***Long***REMOVED***playlistId,***REMOVED***@Param("musicId")***REMOVED***Long***REMOVED***musicId);
+public interface PlaylistMapper {
+    
+    // 播放列表相关操作
+    @Insert("INSERT INTO playlists (name, description, cover, user_id) VALUES (#{name}, #{description}, #{cover}, #{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insertPlaylist(Playlist playlist);
+    
+    @Select("SELECT * FROM playlists WHERE id = #{id}")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "name", column = "name"),
+        @Result(property = "description", column = "description"),
+        @Result(property = "cover", column = "cover"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at")
+    })
+    Playlist selectPlaylistById(Long id);
+    
+    @Select("SELECT * FROM playlists ORDER BY created_at DESC")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "name", column = "name"),
+        @Result(property = "description", column = "description"),
+        @Result(property = "cover", column = "cover"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at")
+    })
+    List<Playlist> selectAllPlaylists();
+    
+    @Update("UPDATE playlists SET name = #{name}, description = #{description}, cover = #{cover} WHERE id = #{id}")
+    int updatePlaylist(Playlist playlist);
+    
+    @Delete("DELETE FROM playlists WHERE id = #{id}")
+    int deletePlaylist(Long id);
+    
+    // 播放列表音乐相关操作
+    @Insert("INSERT INTO playlist_music (playlist_id, music_id, music_mid, music_song, music_singer, music_album, music_cover, music_url, sort_order) " +
+            "VALUES (#{playlistId}, #{musicId}, #{musicMid}, #{musicSong}, #{musicSinger}, #{musicAlbum}, #{musicCover}, #{musicUrl}, #{sortOrder})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insertPlaylistMusic(PlaylistMusic playlistMusic);
+    
+    @Select("SELECT * FROM playlist_music WHERE playlist_id = #{playlistId} ORDER BY sort_order ASC, added_at ASC")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "playlistId", column = "playlist_id"),
+        @Result(property = "musicId", column = "music_id"),
+        @Result(property = "musicMid", column = "music_mid"),
+        @Result(property = "musicSong", column = "music_song"),
+        @Result(property = "musicSinger", column = "music_singer"),
+        @Result(property = "musicAlbum", column = "music_album"),
+        @Result(property = "musicCover", column = "music_cover"),
+        @Result(property = "musicUrl", column = "music_url"),
+        @Result(property = "sortOrder", column = "sort_order"),
+        @Result(property = "addedAt", column = "added_at")
+    })
+    List<PlaylistMusic> selectMusicByPlaylistId(Long playlistId);
+    
+    @Select("SELECT COUNT(*) FROM playlist_music WHERE playlist_id = #{playlistId}")
+    int countMusicByPlaylistId(Long playlistId);
+    
+    @Delete("DELETE FROM playlist_music WHERE playlist_id = #{playlistId} AND music_id = #{musicId}")
+    int deleteMusicFromPlaylist(@Param("playlistId") Long playlistId, @Param("musicId") Long musicId);
+    
+    @Delete("DELETE FROM playlist_music WHERE playlist_id = #{playlistId}")
+    int deleteAllMusicFromPlaylist(Long playlistId);
+    
+    @Select("SELECT EXISTS(SELECT 1 FROM playlist_music WHERE playlist_id = #{playlistId} AND music_id = #{musicId})")
+    boolean existsMusicInPlaylist(@Param("playlistId") Long playlistId, @Param("musicId") Long musicId);
 }

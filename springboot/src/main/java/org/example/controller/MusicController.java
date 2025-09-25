@@ -1,93 +1,93 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.example.entity.ApiResponse;
-import***REMOVED***org.example.entity.Music;
-import***REMOVED***org.example.service.MusicApiService;
-import***REMOVED***org.springframework.http.ResponseEntity;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import org.example.entity.ApiResponse;
+import org.example.entity.Music;
+import org.example.service.MusicApiService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***java.util.List;
-import***REMOVED***java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/music")
-@CrossOrigin(origins***REMOVED***=***REMOVED***"*")
-public***REMOVED***class***REMOVED***MusicController***REMOVED***{
+@CrossOrigin(origins = "*")
+public class MusicController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***final***REMOVED***MusicApiService***REMOVED***musicApiService;
-***REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***MusicController(MusicApiService***REMOVED***musicApiService)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***this.musicApiService***REMOVED***=***REMOVED***musicApiService;
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    private final MusicApiService musicApiService;
+    
+    public MusicController(MusicApiService musicApiService) {
+        this.musicApiService = musicApiService;
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***搜索音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/search")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<List<Music>>>***REMOVED***searchMusic(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***keyword,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(defaultValue***REMOVED***=***REMOVED***"1")***REMOVED***Integer***REMOVED***page,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(defaultValue***REMOVED***=***REMOVED***"20")***REMOVED***Integer***REMOVED***size)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***musicApiService.searchMusic(keyword,***REMOVED***page,***REMOVED***size);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<Music>***REMOVED***musicList***REMOVED***=***REMOVED***(List<Music>)***REMOVED***result.get("data");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***ApiResponse<List<Music>>***REMOVED***response***REMOVED***=***REMOVED***ApiResponse.success("搜索成功",***REMOVED***musicList);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.setTotal(result.get("total"));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.setPage(page);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***response.setSize(size);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(response);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("搜索失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 搜索音乐
+     */
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<Music>>> searchMusic(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "20") Integer size) {
+        
+        try {
+            Map<String, Object> result = musicApiService.searchMusic(keyword, page, size);
+            List<Music> musicList = (List<Music>) result.get("data");
+            
+            ApiResponse<List<Music>> response = ApiResponse.success("搜索成功", musicList);
+            response.setTotal(result.get("total"));
+            response.setPage(page);
+            response.setSize(size);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("搜索失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取音乐播放URL
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/url")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***getMusicUrl(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***mid,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***musicApiService.getMusicUrl(mid,***REMOVED***id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***result));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取音乐播放URL
+     */
+    @GetMapping("/url")
+    public ResponseEntity<ApiResponse<Object>> getMusicUrl(
+            @RequestParam(required = false) String mid,
+            @RequestParam(required = false) String id) {
+        
+        try {
+            Map<String, Object> result = musicApiService.getMusicUrl(mid, id);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", result));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取搜索建议
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/suggestions")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***getSearchSuggestions(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam***REMOVED***String***REMOVED***word)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***musicApiService.getSearchSuggestions(word);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***result));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取搜索建议
+     */
+    @GetMapping("/suggestions")
+    public ResponseEntity<ApiResponse<Object>> getSearchSuggestions(
+            @RequestParam String word) {
+        
+        try {
+            Map<String, Object> result = musicApiService.getSearchSuggestions(word);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", result));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取歌词
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/lyrics")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ResponseEntity<ApiResponse<Object>>***REMOVED***getLyrics(
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***mid,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***@RequestParam(required***REMOVED***=***REMOVED***false)***REMOVED***String***REMOVED***id)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Object>***REMOVED***result***REMOVED***=***REMOVED***musicApiService.getLyrics(mid,***REMOVED***id);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.success("获取成功",***REMOVED***result));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ResponseEntity.ok(ApiResponse.error("获取失败:***REMOVED***"***REMOVED***+***REMOVED***e.getMessage()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取歌词
+     */
+    @GetMapping("/lyrics")
+    public ResponseEntity<ApiResponse<Object>> getLyrics(
+            @RequestParam(required = false) String mid,
+            @RequestParam(required = false) String id) {
+        
+        try {
+            Map<String, Object> result = musicApiService.getLyrics(mid, id);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", result));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
 }

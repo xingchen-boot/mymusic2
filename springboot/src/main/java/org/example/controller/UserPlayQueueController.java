@@ -1,132 +1,132 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.example.entity.ApiResponse;
-import***REMOVED***org.example.entity.Music;
-import***REMOVED***org.example.entity.UserPlayQueue;
-import***REMOVED***org.example.service.UserPlayQueueService;
-import***REMOVED***org.springframework.beans.factory.annotation.Autowired;
-import***REMOVED***org.springframework.web.bind.annotation.*;
+import org.example.entity.ApiResponse;
+import org.example.entity.Music;
+import org.example.entity.UserPlayQueue;
+import org.example.service.UserPlayQueueService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import***REMOVED***java.util.List;
-import***REMOVED***java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 /**
-***REMOVED*******REMOVED***用户播放队列控制器
-***REMOVED****/
+ * 用户播放队列控制器
+ */
 @RestController
 @RequestMapping("/api/user-play-queue")
-@CrossOrigin(origins***REMOVED***=***REMOVED***"*")
-public***REMOVED***class***REMOVED***UserPlayQueueController***REMOVED***{
+@CrossOrigin(origins = "*")
+public class UserPlayQueueController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@Autowired
-***REMOVED******REMOVED******REMOVED******REMOVED***private***REMOVED***UserPlayQueueService***REMOVED***userPlayQueueService;
+    @Autowired
+    private UserPlayQueueService userPlayQueueService;
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***获取用户播放队列
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/user/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<List<Music>>***REMOVED***getUserPlayQueue(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***List<Music>***REMOVED***musicList***REMOVED***=***REMOVED***userPlayQueueService.getQueueMusicList(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("获取成功",***REMOVED***musicList);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 获取用户播放队列
+     */
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<Music>> getUserPlayQueue(@PathVariable Long userId) {
+        try {
+            List<Music> musicList = userPlayQueueService.getQueueMusicList(userId);
+            return ApiResponse.success("获取成功", musicList);
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***添加音乐到播放队列
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PostMapping("/add")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<String>***REMOVED***addMusicToQueue(@RequestBody***REMOVED***Map<String,***REMOVED***Object>***REMOVED***request)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Long***REMOVED***userId***REMOVED***=***REMOVED***Long.valueOf(request.get("userId").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Integer***REMOVED***insertIndex***REMOVED***=***REMOVED***request.get("insertIndex")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Integer.valueOf(request.get("insertIndex").toString())***REMOVED***:***REMOVED***null;
+    /**
+     * 添加音乐到播放队列
+     */
+    @PostMapping("/add")
+    public ApiResponse<String> addMusicToQueue(@RequestBody Map<String, Object> request) {
+        try {
+            Long userId = Long.valueOf(request.get("userId").toString());
+            Integer insertIndex = request.get("insertIndex") != null ? 
+                Integer.valueOf(request.get("insertIndex").toString()) : null;
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***构建Music对象
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Music***REMOVED***music***REMOVED***=***REMOVED***new***REMOVED***Music();
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setId(Long.valueOf(request.get("id").toString()));
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setMid(request.get("mid").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setSong(request.get("song").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setSinger(request.get("singer").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setAlbum(request.get("album").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setCover(request.get("cover").toString());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***music.setPlayUrl(request.get("playUrl")***REMOVED***!=***REMOVED***null***REMOVED***?***REMOVED***request.get("playUrl").toString()***REMOVED***:***REMOVED***"");
+            // 构建Music对象
+            Music music = new Music();
+            music.setId(Long.valueOf(request.get("id").toString()));
+            music.setMid(request.get("mid").toString());
+            music.setSong(request.get("song").toString());
+            music.setSinger(request.get("singer").toString());
+            music.setAlbum(request.get("album").toString());
+            music.setCover(request.get("cover").toString());
+            music.setPlayUrl(request.get("playUrl") != null ? request.get("playUrl").toString() : "");
 
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userPlayQueueService.addMusicToQueue(userId,***REMOVED***music,***REMOVED***insertIndex);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("添加成功",***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("音乐已存在于播放队列中");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+            boolean success = userPlayQueueService.addMusicToQueue(userId, music, insertIndex);
+            if (success) {
+                return ApiResponse.success("添加成功", null);
+            } else {
+                return ApiResponse.error("音乐已存在于播放队列中");
+            }
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***从播放队列移除音乐
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/remove")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<String>***REMOVED***removeMusicFromQueue(@RequestParam***REMOVED***Long***REMOVED***userId,***REMOVED***@RequestParam***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userPlayQueueService.removeMusicFromQueue(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("移除成功",***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("移除失败");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 从播放队列移除音乐
+     */
+    @DeleteMapping("/remove")
+    public ApiResponse<String> removeMusicFromQueue(@RequestParam Long userId, @RequestParam String musicId) {
+        try {
+            boolean success = userPlayQueueService.removeMusicFromQueue(userId, musicId);
+            if (success) {
+                return ApiResponse.success("移除成功", null);
+            } else {
+                return ApiResponse.error("移除失败");
+            }
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***清空播放队列
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@DeleteMapping("/clear/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<String>***REMOVED***clearPlayQueue(@PathVariable***REMOVED***Long***REMOVED***userId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userPlayQueueService.clearPlayQueue(userId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("清空成功",***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("清空失败");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 清空播放队列
+     */
+    @DeleteMapping("/clear/{userId}")
+    public ApiResponse<String> clearPlayQueue(@PathVariable Long userId) {
+        try {
+            boolean success = userPlayQueueService.clearPlayQueue(userId);
+            if (success) {
+                return ApiResponse.success("清空成功", null);
+            } else {
+                return ApiResponse.error("清空失败");
+            }
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***更新播放队列排序
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@PutMapping("/reorder/{userId}")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<String>***REMOVED***updateQueueOrder(@PathVariable***REMOVED***Long***REMOVED***userId,***REMOVED***@RequestBody***REMOVED***List<Music>***REMOVED***musicList)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***success***REMOVED***=***REMOVED***userPlayQueueService.updateQueueOrder(userId,***REMOVED***musicList);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***if***REMOVED***(success)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("排序更新成功",***REMOVED***null);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***else***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error("排序更新失败");
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 更新播放队列排序
+     */
+    @PutMapping("/reorder/{userId}")
+    public ApiResponse<String> updateQueueOrder(@PathVariable Long userId, @RequestBody List<Music> musicList) {
+        try {
+            boolean success = userPlayQueueService.updateQueueOrder(userId, musicList);
+            if (success) {
+                return ApiResponse.success("排序更新成功", null);
+            } else {
+                return ApiResponse.error("排序更新失败");
+            }
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***/**
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*******REMOVED***检查音乐是否在播放队列中
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED****/
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/check")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***ApiResponse<Map<String,***REMOVED***Boolean>>***REMOVED***checkMusicInQueue(@RequestParam***REMOVED***Long***REMOVED***userId,***REMOVED***@RequestParam***REMOVED***String***REMOVED***musicId)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***try***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***boolean***REMOVED***exists***REMOVED***=***REMOVED***userPlayQueueService.isMusicInQueue(userId,***REMOVED***musicId);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***Map<String,***REMOVED***Boolean>***REMOVED***result***REMOVED***=***REMOVED***Map.of("exists",***REMOVED***exists);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.success("检查完成",***REMOVED***result);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}***REMOVED***catch***REMOVED***(Exception***REMOVED***e)***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***ApiResponse.error(e.getMessage());
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    /**
+     * 检查音乐是否在播放队列中
+     */
+    @GetMapping("/check")
+    public ApiResponse<Map<String, Boolean>> checkMusicInQueue(@RequestParam Long userId, @RequestParam String musicId) {
+        try {
+            boolean exists = userPlayQueueService.isMusicInQueue(userId, musicId);
+            Map<String, Boolean> result = Map.of("exists", exists);
+            return ApiResponse.success("检查完成", result);
+        } catch (Exception e) {
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 }

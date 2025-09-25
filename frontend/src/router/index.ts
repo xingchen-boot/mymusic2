@@ -1,110 +1,110 @@
-import***REMOVED***{***REMOVED***createRouter,***REMOVED***createWebHistory***REMOVED***}***REMOVED***from***REMOVED***'vue-router'
-import***REMOVED***MainLayout***REMOVED***from***REMOVED***'@/layouts/MainLayout.vue'
-import***REMOVED***Home***REMOVED***from***REMOVED***'@/views/Home.vue'
-import***REMOVED***Search***REMOVED***from***REMOVED***'@/views/Search.vue'
-import***REMOVED***Discover***REMOVED***from***REMOVED***'@/views/Discover.vue'
-import***REMOVED***Playlist***REMOVED***from***REMOVED***'@/views/Playlist.vue'
-import***REMOVED***Rank***REMOVED***from***REMOVED***'@/views/Rank.vue'
-import***REMOVED***MyMusic***REMOVED***from***REMOVED***'@/views/MyMusic.vue'
-import***REMOVED***Favorites***REMOVED***from***REMOVED***'@/views/Favorites.vue'
-import***REMOVED***Recent***REMOVED***from***REMOVED***'@/views/Recent.vue'
-import***REMOVED***Profile***REMOVED***from***REMOVED***'@/views/Profile.vue'
-import***REMOVED***Login***REMOVED***from***REMOVED***'@/views/Login.vue'
-import***REMOVED***Register***REMOVED***from***REMOVED***'@/views/Register.vue'
-//***REMOVED***Player***REMOVED***view***REMOVED***(full-screen***REMOVED***like***REMOVED***detail)
-//***REMOVED***@ts-ignore
-const***REMOVED***Player***REMOVED***=***REMOVED***()***REMOVED***=>***REMOVED***import('@/views/Player.vue')
+import { createRouter, createWebHistory } from 'vue-router'
+import MainLayout from '@/layouts/MainLayout.vue'
+import Home from '@/views/Home.vue'
+import Search from '@/views/Search.vue'
+import Discover from '@/views/Discover.vue'
+import Playlist from '@/views/Playlist.vue'
+import Rank from '@/views/Rank.vue'
+import MyMusic from '@/views/MyMusic.vue'
+import Favorites from '@/views/Favorites.vue'
+import Recent from '@/views/Recent.vue'
+import Profile from '@/views/Profile.vue'
+import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
+// Player view (full-screen like detail)
+// @ts-ignore
+const Player = () => import('@/views/Player.vue')
 
-const***REMOVED***router***REMOVED***=***REMOVED***createRouter({
-***REMOVED******REMOVED***history:***REMOVED***createWebHistory(),
-***REMOVED******REMOVED***routes:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***认证相关路由（独立布局）
-***REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/login',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'login',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***()***REMOVED***=>***REMOVED***import('@/layouts/AuthLayout.vue'),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***children:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Login
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***]
-***REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***播放器详情（独立顶级路由）
-***REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/player',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'player',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Player
-***REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/register',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'register',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***()***REMOVED***=>***REMOVED***import('@/layouts/AuthLayout.vue'),
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***children:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Register
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***]
-***REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED***//***REMOVED***主应用路由（带完整布局）
-***REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'/',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***MainLayout,
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***children:***REMOVED***[
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'home',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Home
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'search',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'search',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Search
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'discover',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'discover',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Discover
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'playlist',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'playlist',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Playlist
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'playlist/:id',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'playlist-detail',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Playlist
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'rank',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'rank',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Rank
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'my-music',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'my-music',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***MyMusic
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'favorites',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'favorites',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Favorites
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'recent',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'recent',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Recent
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***},
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***path:***REMOVED***'profile',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***name:***REMOVED***'profile',
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***component:***REMOVED***Profile
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***]
-***REMOVED******REMOVED******REMOVED******REMOVED***}
-***REMOVED******REMOVED***]
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    // 认证相关路由（独立布局）
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/layouts/AuthLayout.vue'),
+      children: [
+        {
+          path: '',
+          component: Login
+        }
+      ]
+    },
+    // 播放器详情（独立顶级路由）
+    {
+      path: '/player',
+      name: 'player',
+      component: Player
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/layouts/AuthLayout.vue'),
+      children: [
+        {
+          path: '',
+          component: Register
+        }
+      ]
+    },
+    // 主应用路由（带完整布局）
+    {
+      path: '/',
+      component: MainLayout,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: Home
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: Search
+        },
+        {
+          path: 'discover',
+          name: 'discover',
+          component: Discover
+        },
+        {
+          path: 'playlist',
+          name: 'playlist',
+          component: Playlist
+        },
+        {
+          path: 'playlist/:id',
+          name: 'playlist-detail',
+          component: Playlist
+        },
+        {
+          path: 'rank',
+          name: 'rank',
+          component: Rank
+        },
+        {
+          path: 'my-music',
+          name: 'my-music',
+          component: MyMusic
+        },
+        {
+          path: 'favorites',
+          name: 'favorites',
+          component: Favorites
+        },
+        {
+          path: 'recent',
+          name: 'recent',
+          component: Recent
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: Profile
+        }
+      ]
+    }
+  ]
 })
 
-export***REMOVED***default***REMOVED***router
+export default router

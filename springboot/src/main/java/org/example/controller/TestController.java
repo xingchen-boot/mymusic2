@@ -1,20 +1,20 @@
-package***REMOVED***org.example.controller;
+package org.example.controller;
 
-import***REMOVED***org.springframework.web.bind.annotation.GetMapping;
-import***REMOVED***org.springframework.web.bind.annotation.RequestMapping;
-import***REMOVED***org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public***REMOVED***class***REMOVED***TestController***REMOVED***{
+public class TestController {
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/hello")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***hello()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***"Hello,***REMOVED***MyMusic***REMOVED***Spring***REMOVED***Boot***REMOVED***Application***REMOVED***is***REMOVED***running!";
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, MyMusic Spring Boot Application is running!";
+    }
 
-***REMOVED******REMOVED******REMOVED******REMOVED***@GetMapping("/")
-***REMOVED******REMOVED******REMOVED******REMOVED***public***REMOVED***String***REMOVED***home()***REMOVED***{
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***return***REMOVED***"Welcome***REMOVED***to***REMOVED***MyMusic***REMOVED***API!***REMOVED***Ready***REMOVED***for***REMOVED***your***REMOVED***implementation.";
-***REMOVED******REMOVED******REMOVED******REMOVED***}
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to MyMusic API! Ready for your implementation.";
+    }
 }

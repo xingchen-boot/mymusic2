@@ -1,34 +1,34 @@
---***REMOVED***创建用户播放列表表
-CREATE***REMOVED***TABLE***REMOVED***IF***REMOVED***NOT***REMOVED***EXISTS***REMOVED***`user_playlist`***REMOVED***(
-***REMOVED******REMOVED******REMOVED******REMOVED***`id`***REMOVED***BIGINT***REMOVED***AUTO_INCREMENT***REMOVED***PRIMARY***REMOVED***KEY***REMOVED***COMMENT***REMOVED***'播放列表ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`user_id`***REMOVED***BIGINT***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'用户ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`name`***REMOVED***VARCHAR(100)***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'播放列表名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`description`***REMOVED***TEXT***REMOVED***COMMENT***REMOVED***'播放列表描述',
-***REMOVED******REMOVED******REMOVED******REMOVED***`cover_url`***REMOVED***VARCHAR(255)***REMOVED***COMMENT***REMOVED***'封面图片URL',
-***REMOVED******REMOVED******REMOVED******REMOVED***`create_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'创建时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***`update_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***ON***REMOVED***UPDATE***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'更新时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***`status`***REMOVED***TINYINT***REMOVED***DEFAULT***REMOVED***1***REMOVED***COMMENT***REMOVED***'状态：0-删除，1-正常',
-***REMOVED******REMOVED******REMOVED******REMOVED***FOREIGN***REMOVED***KEY***REMOVED***(`user_id`)***REMOVED***REFERENCES***REMOVED***`user`(`id`)***REMOVED***ON***REMOVED***DELETE***REMOVED***CASCADE
-)***REMOVED***ENGINE=InnoDB***REMOVED***DEFAULT***REMOVED***CHARSET=utf8mb4***REMOVED***COLLATE=utf8mb4_unicode_ci***REMOVED***COMMENT='用户播放列表表';
+﻿-- 创建用户播放列表表
+CREATE TABLE IF NOT EXISTS `user_playlist` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '播放列表ID',
+    `user_id` BIGINT NOT NULL COMMENT '用户ID',
+    `name` VARCHAR(100) NOT NULL COMMENT '播放列表名称',
+    `description` TEXT COMMENT '播放列表描述',
+    `cover_url` VARCHAR(255) COMMENT '封面图片URL',
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `status` TINYINT DEFAULT 1 COMMENT '状态：0-删除，1-正常',
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户播放列表表';
 
---***REMOVED***创建播放列表音乐关联表
-CREATE***REMOVED***TABLE***REMOVED***IF***REMOVED***NOT***REMOVED***EXISTS***REMOVED***`playlist_music`***REMOVED***(
-***REMOVED******REMOVED******REMOVED******REMOVED***`id`***REMOVED***BIGINT***REMOVED***AUTO_INCREMENT***REMOVED***PRIMARY***REMOVED***KEY***REMOVED***COMMENT***REMOVED***'关联ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`playlist_id`***REMOVED***BIGINT***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'播放列表ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_id`***REMOVED***VARCHAR(100)***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'音乐ID',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_name`***REMOVED***VARCHAR(200)***REMOVED***NOT***REMOVED***NULL***REMOVED***COMMENT***REMOVED***'音乐名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`artist_name`***REMOVED***VARCHAR(200)***REMOVED***COMMENT***REMOVED***'艺术家名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`album_name`***REMOVED***VARCHAR(200)***REMOVED***COMMENT***REMOVED***'专辑名称',
-***REMOVED******REMOVED******REMOVED******REMOVED***`duration`***REMOVED***INT***REMOVED***COMMENT***REMOVED***'时长（秒）',
-***REMOVED******REMOVED******REMOVED******REMOVED***`music_url`***REMOVED***VARCHAR(500)***REMOVED***COMMENT***REMOVED***'音乐文件URL',
-***REMOVED******REMOVED******REMOVED******REMOVED***`cover_url`***REMOVED***VARCHAR(500)***REMOVED***COMMENT***REMOVED***'封面图片URL',
-***REMOVED******REMOVED******REMOVED******REMOVED***`add_time`***REMOVED***DATETIME***REMOVED***DEFAULT***REMOVED***CURRENT_TIMESTAMP***REMOVED***COMMENT***REMOVED***'添加时间',
-***REMOVED******REMOVED******REMOVED******REMOVED***`sort_order`***REMOVED***INT***REMOVED***DEFAULT***REMOVED***0***REMOVED***COMMENT***REMOVED***'排序顺序',
-***REMOVED******REMOVED******REMOVED******REMOVED***FOREIGN***REMOVED***KEY***REMOVED***(`playlist_id`)***REMOVED***REFERENCES***REMOVED***`user_playlist`(`id`)***REMOVED***ON***REMOVED***DELETE***REMOVED***CASCADE
-)***REMOVED***ENGINE=InnoDB***REMOVED***DEFAULT***REMOVED***CHARSET=utf8mb4***REMOVED***COLLATE=utf8mb4_unicode_ci***REMOVED***COMMENT='播放列表音乐关联表';
+-- 创建播放列表音乐关联表
+CREATE TABLE IF NOT EXISTS `playlist_music` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '关联ID',
+    `playlist_id` BIGINT NOT NULL COMMENT '播放列表ID',
+    `music_id` VARCHAR(100) NOT NULL COMMENT '音乐ID',
+    `music_name` VARCHAR(200) NOT NULL COMMENT '音乐名称',
+    `artist_name` VARCHAR(200) COMMENT '艺术家名称',
+    `album_name` VARCHAR(200) COMMENT '专辑名称',
+    `duration` INT COMMENT '时长（秒）',
+    `music_url` VARCHAR(500) COMMENT '音乐文件URL',
+    `cover_url` VARCHAR(500) COMMENT '封面图片URL',
+    `add_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+    `sort_order` INT DEFAULT 0 COMMENT '排序顺序',
+    FOREIGN KEY (`playlist_id`) REFERENCES `user_playlist`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='播放列表音乐关联表';
 
---***REMOVED***创建索引
-CREATE***REMOVED***INDEX***REMOVED***idx_user_playlist_user_id***REMOVED***ON***REMOVED***`user_playlist`(`user_id`);
-CREATE***REMOVED***INDEX***REMOVED***idx_playlist_music_playlist_id***REMOVED***ON***REMOVED***`playlist_music`(`playlist_id`);
-CREATE***REMOVED***INDEX***REMOVED***idx_playlist_music_sort***REMOVED***ON***REMOVED***`playlist_music`(`playlist_id`,***REMOVED***`sort_order`);
+-- 创建索引
+CREATE INDEX idx_user_playlist_user_id ON `user_playlist`(`user_id`);
+CREATE INDEX idx_playlist_music_playlist_id ON `playlist_music`(`playlist_id`);
+CREATE INDEX idx_playlist_music_sort ON `playlist_music`(`playlist_id`, `sort_order`);
 
