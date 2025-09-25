@@ -95,10 +95,10 @@
           </div>
           <div class="queue-list">
             <div 
-              v-for="(item, index) in musicStore.queue" 
+              v-for="(item, index) in musicStore.playQueue" 
               :key="item.id || index" 
               class="queue-item"
-              :class="{ current: index === musicStore.currentIndex }"
+              :class="{ current: item?.id === currentMusic?.id }"
             >
               <div class="queue-number">{{ index + 1 }}</div>
               <img :src="item.cover" :alt="item.song" class="queue-cover" />
@@ -110,20 +110,20 @@
                 <el-button 
                   type="text" 
                   class="play-btn" 
-                  @click="musicStore.playByIndex(index)"
+                  @click="musicStore.playMusic(item)"
                 >
-                  {{ index === musicStore.currentIndex && isPlaying ? '⏸️' : '▶️' }}
+                  {{ (item?.id === currentMusic?.id) && isPlaying ? '⏸️' : '▶️' }}
                 </el-button>
                 <el-button 
                   type="text" 
                   class="remove-btn" 
-                  @click="musicStore.removeFromQueue(index)"
+                  @click="musicStore.removeFromQueue(item.id)"
                 >
                   ❌
                 </el-button>
               </div>
             </div>
-            <div class="empty-queue" v-if="musicStore.queue.length === 0">
+            <div class="empty-queue" v-if="(musicStore.playQueue?.length ?? 0) === 0">
               <p>队列是空的</p>
               <p>添加歌曲到队列吧~</p>
             </div>

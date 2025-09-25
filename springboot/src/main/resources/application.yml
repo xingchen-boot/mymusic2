@@ -1,17 +1,12 @@
-﻿# Spring Boot 应用配置
+﻿# Spring Boot 应用配置（公共部分）
 server:
   port: 9092
 
 spring:
   application:
     name: mymusic-springboot
-  
-  # 数据源配置
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mymusic?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password: admin123
+  profiles:
+    active: dev  # 默认使用开发环境，可通过命令覆盖
 
 # MyBatis配置
 mybatis:

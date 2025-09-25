@@ -61,13 +61,20 @@ npm install
 # rm -rf node_modules       (Git Bash/PowerShell)
 ```
 
-2) 开发运行
+2) 本地开发与代理
 
 ```bash
 npm run dev
 ```
 
 Vite 默认使用 `3000` 端口，如被占用会自动改用下一个空闲端口（见终端输出）。
+
+本项目已在 `vite.config.ts` 配置了基于环境变量的代理：
+
+- `.env.development`: `VITE_API_BASE=http://localhost:9092`
+- `.env.production`: `VITE_API_BASE=http://111.230.34.90`
+
+前端代码使用统一的 `/api/...` 接口前缀，开发环境由 Vite 代理到 `VITE_API_BASE`，生产环境建议通过 Nginx 反向代理 `/api` 到后端服务。
 
 3) 构建与预览
 
@@ -77,6 +84,30 @@ npm run preview
 ```
 
 ## 常见问题（FAQ）
+- 生产部署与反向代理
+  - 前端打包产物位于 `frontend/dist/`。推荐用 Nginx 提供静态资源，并将 `/api` 反向代理到后端（默认 9092 或你的部署端口）。
+  - Nginx 样例：
+
+```nginx
+server {
+    listen 80;
+    server_name 111.230.34.90;
+
+    location / {
+        root  /var/www/mymusic/frontend/dist; # 修改为你的部署路径
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:9092/; # 修改为后端实际监听地址
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
 
 - 端口占用（如 3000 或 8080）
   - Windows 查看端口占用：`netstat -ano | findstr :3000`

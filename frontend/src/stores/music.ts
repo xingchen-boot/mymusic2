@@ -959,7 +959,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-play-settings/volume/${userStore.currentUser.id}?volume=${volume.value}`,
+        `/api/user-play-settings/volume/${userStore.currentUser.id}?volume=${volume.value}`,
         { method: 'PUT' }
       )
 
@@ -984,7 +984,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-play-settings/mute/${userStore.currentUser.id}?isMuted=${isMuted.value}`,
+        `/api/user-play-settings/mute/${userStore.currentUser.id}?isMuted=${isMuted.value}`,
         { method: 'PUT' }
       )
 
@@ -1009,7 +1009,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-play-settings/play-mode/${userStore.currentUser.id}?playMode=${playMode.value}`,
+        `/api/user-play-settings/play-mode/${userStore.currentUser.id}?playMode=${playMode.value}`,
         { method: 'PUT' }
       )
 
@@ -1040,7 +1040,7 @@ export const useMusicStore = defineStore('music', () => {
     // 设置新的定时器，200ms后执行同步
     progressSyncTimer = setTimeout(async () => {
       try {
-        const url = `http://localhost:9092/api/user-play-settings/play-progress/${userStore.currentUser?.id}?playProgress=${progress.value}&playTime=${currentTime.value}`
+        const url = `/api/user-play-settings/play-progress/${userStore.currentUser?.id}?playProgress=${progress.value}&playTime=${currentTime.value}`
 
         // 使用fetch with keepalive确保请求能完成
         const response = await fetch(url, {
@@ -1073,7 +1073,7 @@ export const useMusicStore = defineStore('music', () => {
     }
 
     try {
-      const url = `http://localhost:9092/api/user-play-settings/play-progress/${userStore.currentUser.id}?playProgress=${progress.value}&playTime=${currentTime.value}`
+      const url = `/api/user-play-settings/play-progress/${userStore.currentUser.id}?playProgress=${progress.value}&playTime=${currentTime.value}`
 
       // 使用同步请求确保数据能发送出去
       const xhr = new XMLHttpRequest()
@@ -1100,7 +1100,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-play-settings/current-music/${userStore.currentUser.id}?musicId=${music.id}&musicName=${encodeURIComponent(music.song)}&musicArtist=${encodeURIComponent(music.singer)}&musicCover=${encodeURIComponent(music.cover)}&musicUrl=${encodeURIComponent(musicUrl)}`,
+        `/api/user-play-settings/current-music/${userStore.currentUser.id}?musicId=${music.id}&musicName=${encodeURIComponent(music.song)}&musicArtist=${encodeURIComponent(music.singer)}&musicCover=${encodeURIComponent(music.cover)}&musicUrl=${encodeURIComponent(musicUrl)}`,
         { method: 'PUT' }
       )
 
@@ -1125,7 +1125,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-play-settings/play-status/${userStore.currentUser.id}?isPlaying=${isPlaying.value}`,
+        `/api/user-play-settings/play-status/${userStore.currentUser.id}?isPlaying=${isPlaying.value}`,
         { method: 'PUT' }
       )
 
@@ -1156,7 +1156,7 @@ export const useMusicStore = defineStore('music', () => {
     console.log('🔄开始加载用户播放设置，用户ID:', userStore.currentUser.id)
 
     try {
-      const response = await fetch(`http://localhost:9092/api/user-play-settings/user/${userStore.currentUser.id}`)
+      const response = await fetch(`/api/user-play-settings/user/${userStore.currentUser.id}`)
       const result = await response.json()
 
       console.log('📡播放设置API响应:', result)
@@ -1434,7 +1434,7 @@ export const useMusicStore = defineStore('music', () => {
       // 清空数据库中的播放队列
       console.log('🗑️清空数据库中的播放队列...')
       const clearResponse = await fetch(
-        `http://localhost:9092/api/user-play-queue/clear/${userStore.currentUser.id}`,
+        `/api/user-play-queue/clear/${userStore.currentUser.id}`,
         { method: 'DELETE' }
       )
       console.log('清空响应状态:', clearResponse.status)
@@ -1443,13 +1443,11 @@ export const useMusicStore = defineStore('music', () => {
       if (playQueue.value.length > 0) {
         console.log('📤同步播放队列到数据库...')
         const response = await fetch(
-          `http://localhost:9092/api/user-play-queue/reorder/${userStore.currentUser.id}`,
+          `/api/user-play-queue/reorder/${userStore.currentUser.id}`,
           {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(playQueue.value)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ musicIds: playQueue.value.map(m => m.id) })
           }
         )
 
@@ -1479,7 +1477,7 @@ export const useMusicStore = defineStore('music', () => {
     console.log('🔄开始加载用户播放队列，用户ID:', userStore.currentUser.id)
 
     try {
-      const response = await fetch(`http://localhost:9092/api/user-play-queue/user/${userStore.currentUser.id}`)
+      const response = await fetch(`/api/user-play-queue/user/${userStore.currentUser.id}`)
       const result = await response.json()
 
       console.log('📡播放队列API响应:', result)
@@ -1539,7 +1537,7 @@ export const useMusicStore = defineStore('music', () => {
 
     try {
       const response = await fetch(
-        `http://localhost:9092/api/user-favorites/check?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}`
+        `/api/user-favorites/check?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}`
       )
       const result = await response.json()
 
@@ -1567,7 +1565,7 @@ export const useMusicStore = defineStore('music', () => {
       if (isCurrentMusicLiked.value) {
         // 取消收藏
         const response = await fetch(
-          `http://localhost:9092/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}`,
+          `/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}`,
           { method: 'DELETE' }
         )
         const result = await response.json()
@@ -1588,7 +1586,7 @@ export const useMusicStore = defineStore('music', () => {
       } else {
         // 添加收藏
         const response = await fetch(
-          `http://localhost:9092/api/user-favorites/add?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}&musicMid=${currentMusic.value.mid}&musicSong=${encodeURIComponent(currentMusic.value.song)}&musicSinger=${encodeURIComponent(currentMusic.value.singer)}&musicAlbum=${encodeURIComponent(currentMusic.value.album || '')}&musicCover=${encodeURIComponent(currentMusic.value.cover || '')}&musicTime=${encodeURIComponent(currentMusic.value.time || '')}&musicPay=${encodeURIComponent(currentMusic.value.pay || '')}`,
+          `/api/user-favorites/add?userId=${userStore.currentUser.id}&musicId=${currentMusic.value.id}&musicMid=${currentMusic.value.mid}&musicSong=${encodeURIComponent(currentMusic.value.song)}&musicSinger=${encodeURIComponent(currentMusic.value.singer)}&musicAlbum=${encodeURIComponent(currentMusic.value.album || '')}&musicCover=${encodeURIComponent(currentMusic.value.cover || '')}&musicTime=${encodeURIComponent(currentMusic.value.time || '')}&musicPay=${encodeURIComponent(currentMusic.value.pay || '')}`,
           { method: 'POST' }
         )
         const result = await response.json()

@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', () => {
   // 登录
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch('http://localhost:9092/api/user/login', {
+      const response = await fetch('/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export const useUserStore = defineStore('user', () => {
   // 注册
   const register = async (username: string, password: string, nickname?: string): Promise<boolean> => {
     try {
-      const response = await fetch('http://localhost:9092/api/user/register', {
+      const response = await fetch('/api/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:9092/api/user/info/${userInfo.value.id}`, {
+      const response = await fetch(`/api/user/info/${userInfo.value.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:9092/api/user/password/${userInfo.value.id}`, {
+      const response = await fetch(`/api/user/password/${userInfo.value.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ export const useUserStore = defineStore('user', () => {
   // 检查用户名是否存在
   const checkUsername = async (username: string): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:9092/api/user/check-username?username=${encodeURIComponent(username)}`)
+      const response = await fetch(`/api/user/check-username?username=${encodeURIComponent(username)}`)
       const result = await response.json()
 
       if (result.code === 200) {
@@ -226,7 +226,7 @@ export const useUserStore = defineStore('user', () => {
     if (!userInfo.value) return
 
     try {
-      const response = await fetch(`http://localhost:9092/api/user-playlist/user/${userInfo.value.id}`)
+      const response = await fetch(`/api/user-playlist/user/${userInfo.value.id}`)
       const result = await response.json()
 
       if (result.code === 200) {
@@ -273,7 +273,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      const response = await fetch('http://localhost:9092/api/user-playlist/create', {
+      const response = await fetch('/api/user-playlist/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -303,7 +303,7 @@ export const useUserStore = defineStore('user', () => {
   // 添加音乐到播放列表
   const addMusicToPlaylist = async (playlistId: number, music: PlaylistMusic): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music`, {
+      const response = await fetch(`/api/user-playlist/${playlistId}/music`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -329,7 +329,7 @@ export const useUserStore = defineStore('user', () => {
   // 从播放列表移除音乐
   const removeMusicFromPlaylist = async (playlistId: number, musicId: string): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}/music/${musicId}`, {
+      const response = await fetch(`/api/user-playlist/${playlistId}/music/${musicId}`, {
         method: 'DELETE'
       })
 
@@ -351,7 +351,7 @@ export const useUserStore = defineStore('user', () => {
   // 删除播放列表
   const deletePlaylist = async (playlistId: number): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:9092/api/user-playlist/${playlistId}`, {
+      const response = await fetch(`/api/user-playlist/${playlistId}`, {
         method: 'DELETE'
       })
 

@@ -76,8 +76,8 @@
   
   <script setup lang="ts">
   import { ref, computed, onMounted, onUnmounted } from 'vue'
-  import { useMusicStore } from '@/stores/music'
-  import { useUserStore } from '@/stores/user'
+  import { useMusicStore } from '../stores/music'
+  import { useUserStore } from '../stores/user'
   
   const musicStore = useMusicStore()
   const userStore = useUserStore()
@@ -100,7 +100,7 @@
   
     isLoading.value = true
     try {
-      const response = await fetch(`http://localhost:9092/api/user-favorites/user/${userStore.currentUser.id}`)
+      const response = await fetch(`/api/user-favorites/user/${userStore.currentUser.id}`)
       const result = await response.json()
   
       if (response.ok && result.code === 200) {
@@ -176,7 +176,7 @@
     }
   
     try {
-      const response = await fetch(`http://localhost:9092/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${favorite.musicId}`, {
+      const response = await fetch(`/api/user-favorites/remove?userId=${userStore.currentUser.id}&musicId=${favorite.musicId}`, {
         method: 'DELETE'
       })
       const result = await response.json()
