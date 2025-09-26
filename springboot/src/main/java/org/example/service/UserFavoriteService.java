@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.entity.UserFavorite;
+import org.example.mapper.MusicFavoriteStatsMapper;
 import org.example.mapper.UserFavoriteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,11 @@ public class UserFavoriteService {
 
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
+
+    @Autowired
+    private MusicFavoriteStatsMapper musicFavoriteStatsMapper;
+
+    // rollback: remove stats mapper
 
     /**
      * 获取用户收藏列表
@@ -40,7 +46,18 @@ public class UserFavoriteService {
                     musicSinger, musicAlbum, musicCover, musicTime, musicPay);
             
             int result = userFavoriteMapper.insert(userFavorite);
-            return result > 0;
+            if (result > 0) {
+                // 统计表：若不存在则插入并计数为1，存在则+1
+                musicFavoriteStatsMapper.incrementFavorite(
+                        musicId,
+                        musicSong,
+                        musicSinger,
+                        musicAlbum,
+                        musicCover
+                );
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             System.err.println("添加收藏失败: " + e.getMessage());
             return false;
@@ -53,12 +70,19 @@ public class UserFavoriteService {
     public boolean removeFavorite(Long userId, String musicId) {
         try {
             int result = userFavoriteMapper.deleteByUserIdAndMusicId(userId, musicId);
-            return result > 0;
+            if (result > 0) {
+                // 统计表：计数-1（不小于0）
+                musicFavoriteStatsMapper.decrementFavorite(musicId);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             System.err.println("删除收藏失败: " + e.getMessage());
             return false;
         }
     }
+
+    // no-op
 
     /**
      * 检查是否已收藏

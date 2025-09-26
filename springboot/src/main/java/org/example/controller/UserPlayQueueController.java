@@ -2,7 +2,6 @@ package org.example.controller;
 
 import org.example.entity.ApiResponse;
 import org.example.entity.Music;
-import org.example.entity.UserPlayQueue;
 import org.example.service.UserPlayQueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1195,6 +1195,8 @@ export const useMusicStore = defineStore('music', () => {
           // 仅在当前没有播放源时恢复，避免覆盖正在播放的进度
           if (!currentMusic.value) {
             currentMusic.value = music
+            // 恢复当前歌曲后同步收藏状态，避免刷新后爱心状态丢失
+            await checkCurrentMusicFavoriteStatus()
           }
 
           // 如果有播放URL，设置音频源
@@ -1447,7 +1449,7 @@ export const useMusicStore = defineStore('music', () => {
           {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ musicIds: playQueue.value.map(m => m.id) })
+            body: JSON.stringify(playQueue.value)
           }
         )
 

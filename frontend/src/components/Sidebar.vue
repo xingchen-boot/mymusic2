@@ -2,7 +2,7 @@
     <aside class="sidebar">
       <nav class="nav-menu">
         <div class="nav-section">
-          <h3 class="nav-title">发现音乐</h3>
+          <!-- 去掉分组标题“发现音乐” -->
           <ul class="nav-list">
             <li class="nav-item">
               <router-link 
@@ -12,16 +12,6 @@
               >
                 <span class="nav-icon">🏠</span>
                 <span class="nav-text">首页</span>
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link 
-                to="/discover" 
-                class="nav-link" 
-                :class="{ active: $route.name === 'discover' }"
-              >
-                <span class="nav-icon">🎵</span>
-                <span class="nav-text">发现</span>
               </router-link>
             </li>
             <li class="nav-item">
@@ -48,18 +38,8 @@
         </div>
   
         <div class="nav-section">
-          <h3 class="nav-title">我的音乐</h3>
+          <!-- 去掉分组标题“我的音乐” -->
           <ul class="nav-list">
-            <li class="nav-item">
-              <router-link 
-                to="/my-music" 
-                class="nav-link" 
-                :class="{ active: $route.name === 'my-music' }"
-              >
-                <span class="nav-icon">💿</span>
-                <span class="nav-text">我的音乐</span>
-              </router-link>
-            </li>
             <li class="nav-item">
               <router-link 
                 to="/favorites" 
@@ -90,12 +70,6 @@
               <router-link to="/playlist/1" class="nav-link">
                 <span class="nav-icon">🎶</span>
                 <span class="nav-text">我的收藏</span>
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/playlist/2" class="nav-link">
-                <span class="nav-icon">🎸</span>
-                <span class="nav-text">摇滚精选</span>
               </router-link>
             </li>
             <li class="nav-item">

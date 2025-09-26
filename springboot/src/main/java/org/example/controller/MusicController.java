@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.entity.ApiResponse;
 import org.example.entity.Music;
 import org.example.service.MusicApiService;
+import org.example.service.MusicService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,11 @@ import java.util.Map;
 public class MusicController {
 
     private final MusicApiService musicApiService;
+    private final MusicService musicService;
     
-    public MusicController(MusicApiService musicApiService) {
+    public MusicController(MusicApiService musicApiService, MusicService musicService) {
         this.musicApiService = musicApiService;
+        this.musicService = musicService;
     }
 
     /**
@@ -86,6 +89,19 @@ public class MusicController {
         try {
             Map<String, Object> result = musicApiService.getLyrics(mid, id);
             return ResponseEntity.ok(ApiResponse.success("获取成功", result));
+        } catch (Exception e) {
+            return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
+        }
+    }
+
+    /**
+     * 热门推荐（基于全局统计表）
+     */
+    @GetMapping("/hot")
+    public ResponseEntity<ApiResponse<List<Music>>> getHot(@RequestParam(defaultValue = "20") Integer limit) {
+        try {
+            List<Music> list = musicService.getHotFromStats(limit);
+            return ResponseEntity.ok(ApiResponse.success("获取成功", list));
         } catch (Exception e) {
             return ResponseEntity.ok(ApiResponse.error("获取失败: " + e.getMessage()));
         }

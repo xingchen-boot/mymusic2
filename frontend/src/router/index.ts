@@ -11,6 +11,7 @@ import Recent from '@/views/Recent.vue'
 import Profile from '@/views/Profile.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
+import HotAll from '@/views/HotAll.vue'
 // Player view (full-screen like detail)
 // @ts-ignore
 const Player = () => import('@/views/Player.vue')
@@ -101,6 +102,11 @@ const router = createRouter({
           path: 'profile',
           name: 'profile',
           component: Profile
+        },
+        {
+          path: 'hot',
+          name: 'hot-all',
+          component: HotAll
         }
       ]
     }
