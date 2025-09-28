@@ -143,6 +143,115 @@
             </div>
           </div>
         </div>
+
+        <!-- 移动端专用布局 -->
+        <div class="mobile-layout">
+          <!-- 封面 -->
+          <div class="mobile-cover">
+            <div 
+              class="disc spinning" 
+              :class="{ paused: !isPlaying }" 
+              @click="() => handleTap(handleDiscDoubleTap)"
+            >
+              <img :src="current.cover" alt="cover" />
+              <div class="center-hole"></div>
+            </div>
+          </div>
+
+          <!-- 当前歌词（一句） -->
+          <div class="mobile-current-lyric">
+            <div v-if="isLoadingLyrics" class="loading">
+              <div class="loading-spinner">⏳</div>
+              <div>正在加载歌词...</div>
+            </div>
+            <div v-else-if="lyricsLines.length === 0" class="empty">
+              <div class="empty-icon">🎵</div>
+              <div>暂无歌词</div>
+            </div>
+            <div v-else-if="activeLineIndex >= 0 && lyricsLines[activeLineIndex]">
+              <div class="current-lyric-text">
+                {{ showTranslation && lyricsLines[activeLineIndex].translation 
+                   ? lyricsLines[activeLineIndex].translation 
+                   : lyricsLines[activeLineIndex].text }}
+              </div>
+            </div>
+            <div v-else class="no-lyric">
+              暂无当前歌词
+            </div>
+          </div>
+
+          <!-- 歌名 -->
+          <div class="mobile-song-title">
+            {{ current.song }}
+          </div>
+
+          <!-- 歌手名 -->
+          <div class="mobile-artist">
+            {{ current.singer }}
+          </div>
+
+          <!-- 进度条 -->
+          <div class="mobile-progress">
+            <span class="time">{{ formatTime(currentTime) }}</span>
+            <el-slider 
+              :model-value="progress" 
+              @input="setProgress" 
+              :show-tooltip="false" 
+            />
+            <span class="time">{{ formatTime(duration) }}</span>
+          </div>
+
+          <!-- 播放控制 -->
+          <div class="mobile-controls">
+            <el-button 
+              type="text" 
+              class="control-btn" 
+              @click="playPrevious"
+            >
+              ⏮️
+            </el-button>
+            <el-button 
+              type="primary" 
+              class="play-btn" 
+              @click="togglePlay"
+              circle
+            >
+              {{ isPlaying ? '⏸️' : '▶️' }}
+            </el-button>
+            <el-button 
+              type="text" 
+              class="control-btn" 
+              @click="playNext"
+            >
+              ⏭️
+            </el-button>
+          </div>
+
+          <!-- 额外控制 -->
+          <div class="mobile-extra-controls">
+            <el-button 
+              type="text" 
+              class="extra-btn" 
+              @click="musicStore.togglePlayQueue"
+            >
+              📋
+            </el-button>
+            <el-button 
+              type="text" 
+              class="extra-btn" 
+              @click="musicStore.togglePlayMode"
+            >
+              {{ musicStore.playModeIcon }}
+            </el-button>
+            <el-button 
+              type="text" 
+              class="extra-btn" 
+              @click="showTranslation = !showTranslation"
+            >
+              {{ showTranslation ? '🌐隐藏翻译' : '🌐显示翻译' }}
+            </el-button>
+          </div>
+        </div>
       </div>
   
       <!-- 无播放内容提示 -->
@@ -237,6 +346,48 @@
   const currentTime = computed(() => musicStore.currentTime)
   const duration = computed(() => musicStore.duration)
   
+  // 清理 Element Plus 悬浮容器，避免留下空的 el-popper-container
+  const removeEpPopperContainers = () => {
+    const nodes = document.querySelectorAll('[id^="el-popper-container"]')
+    nodes.forEach(node => node.parentElement?.removeChild(node))
+  }
+
+  // 使用 MutationObserver 实时监控和清理弹层容器
+  let observer: MutationObserver | null = null
+  const startPopperCleanup = () => {
+    observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const element = node as Element
+              if (element.id && element.id.startsWith('el-popper-container')) {
+                // 延迟清理，确保 Element Plus 完成渲染
+                setTimeout(() => {
+                  if (element.parentElement && element.children.length === 0) {
+                    element.parentElement.removeChild(element)
+                  }
+                }, 100)
+              }
+            }
+          })
+        }
+      })
+    })
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    })
+  }
+
+  const stopPopperCleanup = () => {
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+  }
+
   // 歌词相关状态
   const lyricsLines = ref<Array<{ 
     time: number; 
@@ -433,6 +584,12 @@
    * 组件挂载时初始化
    */
   onMounted(async () => {
+    // 移除残留的 Element Plus 弹层容器
+    removeEpPopperContainers()
+    
+    // 启动实时监控清理
+    startPopperCleanup()
+
     // 初始化音频实例（避免重复初始化）
     if (!(musicStore as any).audio) {
       musicStore.initAudio()
@@ -459,13 +616,21 @@
       removeGestureListeners(playerElement as HTMLElement)
       playerElement.removeEventListener('swipe', handleSwipe as EventListener)
     }
+    
+    // 停止监控清理
+    stopPopperCleanup()
+    
+    // 页面离开时也清理一次
+    removeEpPopperContainers()
   })
   </script>
   
   <style scoped>
   /* 播放器外层容器 */
-  .player-shell {
-    min-height: calc(100vh - 80px);
+.player-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
     background: radial-gradient(
       1200px 600px at 20% 10%, 
       #7c83ff 0%, 
@@ -473,26 +638,214 @@
       #6f42c1 55%, 
       #51327a 100%
     );
-    padding: 24px 0;
+  padding: 16px 0 0;
   }
   
   /* 播放器主内容区（左右布局） */
   .player-page {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 40px 24px ;
     display: grid;
-    grid-template-columns: 560px 1fr;
+    grid-template-columns: 560px minmax(640px, 1fr);
     gap: 28px;
   }
   
   /* 移动端垂直布局 */
   @media (max-width: 768px) {
+  /* 移动端使用动态视口高度，避免地址栏伸缩引起的底部空白 */
+  .player-shell {
+    min-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+  .player-shell {
+    min-height: auto;
+    padding-bottom: 0;
+  }
     .player-page {
-      padding: 0 16px;
+      padding: 32px 16px 8px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 12px;
+      flex: 1;
+    }
+
+  /* 避免最后一块产生额外间距 */
+  .mobile-extra-controls {
+    margin-bottom: 0;
+  }
+
+    /* 隐藏桌面端布局 - 使用更高优先级 */
+    .player-page .left,
+    .player-page .right {
+      display: none !important;
+    }
+
+    /* 显示移动端布局 */
+    .player-page .mobile-layout {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0 0;
+    }
+  }
+
+  /* 桌面端隐藏移动端布局 */
+  @media (min-width: 769px) {
+    .player-page .mobile-layout {
+      display: none !important;
+    }
+
+    /* 确保桌面端布局显示 */
+    .player-page .left,
+    .player-page .right {
+      display: flex !important;
+    }
+  }
+
+  /* 移动端布局样式 */
+  .mobile-cover {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .mobile-cover .disc {
+    width: 200px;
+    height: 200px;
+  }
+
+  .mobile-current-lyric {
+    text-align: center;
+    margin-bottom: 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .current-lyric-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.5;
+    padding: 0 12px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-song-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-artist {
+    font-size: 16px;
+    color: #e5e7eb;
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-progress {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .mobile-progress .time {
+    font-size: 12px;
+    color: #e5e7eb;
+    min-width: 36px;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .mobile-controls .control-btn {
+    font-size: 22px;
+    padding: 6px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-controls .control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+
+  .mobile-controls .play-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+  }
+
+  .mobile-extra-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .mobile-extra-controls .extra-btn {
+    font-size: 16px;
+    padding: 8px 12px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-extra-controls .extra-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+
+  /* 移动端当前歌词样式优化 */
+  @media (max-width: 768px) {
+    .mobile-current-lyric .loading,
+    .mobile-current-lyric .empty {
+      color: #e5e7eb;
+      font-size: 14px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-current-lyric .no-lyric {
+      color: #d1d5db;
+      font-size: 14px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .current-lyric-text {
+      font-size: 16px;
+      padding: 0 16px;
+    }
+
+    .mobile-song-title {
+      font-size: 20px;
+    }
+
+    .mobile-artist {
+      font-size: 14px;
     }
   }
   
@@ -752,7 +1105,9 @@
       max-height: 400px;
       padding: 12px;
       margin-top: 16px;
-      -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch; /* 惯性滚动 */
+      overscroll-behavior: contain; /* 阻止滚动链，避免整个页面被带动抖动 */
+      touch-action: pan-y; /* 仅允许纵向滚动 */
     }
     
     .lyric-text {
@@ -771,6 +1126,8 @@
       height: 350px;
       min-height: 350px;
       max-height: 350px;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
     }
     
     .lyric-text {
@@ -1068,7 +1425,7 @@
   
   /* 无播放内容提示 */
   .empty {
-    min-height: calc(100vh - 80px);
+  min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;

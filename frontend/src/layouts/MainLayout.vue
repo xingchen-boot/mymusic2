@@ -8,7 +8,7 @@
       <Sidebar class="desktop-sidebar" />
       
       <!-- 主内容区域 -->
-      <div class="content-area">
+      <div class="content-area" :class="{ 'no-bottom-padding': isPlayerRoute }">
         <Container />
       </div>
     </div>
@@ -77,7 +77,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useMusicStore } from '@/stores/music'
 import { useUserStore } from '@/stores/user'
 import Header from '@/components/Header.vue'
@@ -88,6 +89,9 @@ import MobileBottomNav from '@/components/MobileBottomNav.vue'
 
 const musicStore = useMusicStore()
 const userStore = useUserStore()
+const route = useRoute()
+
+const isPlayerRoute = computed(() => route.name === 'player')
 
 onMounted(async () => {
   // 初始化用户信息（全局唯一初始化迁移至main.ts）
@@ -113,6 +117,10 @@ onMounted(async () => {
   overflow-y: auto;
   padding: 20px;
   background: #f5f5f5;
+}
+
+.content-area.no-bottom-padding {
+  padding-bottom: 20px;
 }
 
 /* 桌面端播放队列面板样式 */
@@ -286,6 +294,10 @@ onMounted(async () => {
   .content-area {
     padding: 16px;
     padding-bottom: 120px; /* 为底部播放器和导航栏留出空间 */
+  }
+
+  .content-area.no-bottom-padding {
+    padding-bottom: 16px; /* 播放页不额外预留空间 */
   }
 }
 </style>
