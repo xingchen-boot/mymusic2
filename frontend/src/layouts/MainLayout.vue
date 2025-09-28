@@ -19,9 +19,9 @@
     <!-- 移动端底部导航栏 -->
     <MobileBottomNav :class="{ 'has-player': musicStore.hasCurrentMusic }" />
     
-    <!-- 播放队列面板 -->
+    <!-- 桌面端播放队列面板 -->
     <transition name="queue-panel">
-      <div v-if="musicStore.showPlayQueue" class="play-queue-panel">
+      <div v-if="musicStore.showPlayQueue" class="play-queue-panel desktop-only">
         <div class="queue-header">
           <h3>播放队列 ({{ musicStore.queueCount }})</h3>
           <div class="queue-actions">
@@ -115,7 +115,7 @@ onMounted(async () => {
   background: #f5f5f5;
 }
 
-/* 播放队列面板样式 */
+/* 桌面端播放队列面板样式 */
 .play-queue-panel {
   position: fixed;
   bottom: 80px;
@@ -268,6 +268,13 @@ onMounted(async () => {
 .empty-queue p {
   margin: 0;
   font-size: 14px;
+}
+
+/* 移动端隐藏桌面端播放队列面板 */
+@media (max-width: 768px) {
+  .play-queue-panel.desktop-only {
+    display: none !important;
+  }
 }
 
 /* 移动端隐藏侧边栏 */

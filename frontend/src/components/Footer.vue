@@ -99,9 +99,9 @@
 
       </div>
   
-      <!-- 播放队列面板 -->
+      <!-- 移动端播放队列面板 -->
       <transition name="queue-panel">
-        <div class="play-queue-panel" v-if="musicStore.showPlayQueue">
+        <div class="play-queue-panel mobile-only" v-if="musicStore.showPlayQueue">
           <div class="queue-header">
             <h3>播放队列</h3>
             <div class="queue-actions">
@@ -541,13 +541,14 @@
     background: linear-gradient(45deg, #764ba2, #667eea);
   }
   
-  /* 播放队列面板样式 */
+  /* 移动端播放队列面板样式 */
   .play-queue-panel {
     position: fixed;
     bottom: 80px;
-    right: 20px;
-    width: 400px;
-    max-height: 500px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-height: 60vh;
     background: white;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -555,16 +556,15 @@
     overflow: hidden;
   }
   
+  /* 桌面端隐藏移动端播放队列面板 */
+  @media (min-width: 769px) {
+    .play-queue-panel.mobile-only {
+      display: none !important;
+    }
+  }
+  
   /* 移动端播放队列面板优化 */
   @media (max-width: 768px) {
-    .play-queue-panel {
-      bottom: 80px;
-      left: 16px;
-      right: 16px;
-      width: auto;
-      max-height: 60vh;
-    }
-    
     .queue-item {
       padding: 16px;
     }
@@ -618,6 +618,15 @@
     margin: 0;
     font-size: 16px;
     font-weight: 600;
+  }
+  /* 队列头部右侧操作按钮在移动端使用白色文字，提升可读性 */
+  .queue-header .el-button {
+    color: #fff !important;
+    font-weight: 500;
+  }
+  .queue-header .el-button:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
   }
   
   /* 队列列表区域 */

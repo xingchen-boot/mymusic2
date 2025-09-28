@@ -148,9 +148,9 @@
       <!-- 无播放内容提示 -->
       <div v-else class="empty">暂无正在播放的音乐</div>
   
-      <!-- 播放队列面板（带过渡动画） -->
+      <!-- 播放页面播放队列面板 -->
       <transition name="queue-panel">
-        <div v-if="musicStore.showPlayQueue" class="play-queue-panel">
+        <div v-if="musicStore.showPlayQueue" class="play-queue-panel desktop-only">
           <!-- 队列头部 -->
           <div class="queue-header">
             <h3>播放队列({{ musicStore.queueCount }})</h3>
@@ -888,7 +888,7 @@
     }
   }
   
-  /* 播放队列面板样式 */
+  /* 播放页面播放队列面板样式 */
   .play-queue-panel {
     position: fixed;
     bottom: 20px;
@@ -900,17 +900,6 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     z-index: 1000;
     overflow: hidden;
-  }
-  
-  /* 移动端播放队列面板优化 */
-  @media (max-width: 768px) {
-    .play-queue-panel {
-      bottom: 80px;
-      left: 16px;
-      right: 16px;
-      width: auto;
-      max-height: 60vh;
-    }
   }
   
   /* 队列面板动画 */
@@ -1068,6 +1057,13 @@
   .empty-queue p {
     margin: 0;
     font-size: 14px;
+  }
+  
+  /* 移动端隐藏播放页面播放队列面板 */
+  @media (max-width: 768px) {
+    .play-queue-panel.desktop-only {
+      display: none !important;
+    }
   }
   
   /* 无播放内容提示 */
