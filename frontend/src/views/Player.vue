@@ -111,32 +111,35 @@
           </div>
   
           <!-- 歌词显示区 -->
-          <div class="lyrics" v-if="lyricsLines.length">
-            <div 
-              v-for="(line, idx) in lyricsLines" 
-              :key="idx" 
-              :class="['line', { active: idx === activeLineIndex }]"
-            >
-              <div class="lyric-text">{{ line.text }}</div>
+          <div class="lyrics" :class="{ empty: !lyricsLines.length }">
+            <!-- 有歌词时显示歌词列表 -->
+            <div v-if="lyricsLines.length">
               <div 
-                v-if="showTranslation && line.translation" 
-                class="lyric-translation"
+                v-for="(line, idx) in lyricsLines" 
+                :key="idx" 
+                :class="['line', { active: idx === activeLineIndex }]"
               >
-                {{ line.translation }}
+                <div class="lyric-text">{{ line.text }}</div>
+                <div 
+                  v-if="showTranslation && line.translation" 
+                  class="lyric-translation"
+                >
+                  {{ line.translation }}
+                </div>
               </div>
             </div>
-          </div>
-  
-          <!-- 无歌词/加载中状态 -->
-          <div class="lyrics empty" v-else>
-            <div v-if="isLoadingLyrics" class="loading">
-              <div class="loading-spinner">⏳</div>
-              <div class="loading-text">正在加载歌词...</div>
-            </div>
-            <div v-else class="no-lyrics">
-              <div class="no-lyrics-icon">🎵</div>
-              <div class="no-lyrics-text">该歌曲暂无歌词</div>
-              <div class="no-lyrics-tip">请尝试播放其他歌曲</div>
+            
+            <!-- 无歌词/加载中状态 -->
+            <div v-else>
+              <div v-if="isLoadingLyrics" class="loading">
+                <div class="loading-spinner">⏳</div>
+                <div class="loading-text">正在加载歌词...</div>
+              </div>
+              <div v-else class="no-lyrics">
+                <div class="no-lyrics-icon">🎵</div>
+                <div class="no-lyrics-text">该歌曲暂无歌词</div>
+                <div class="no-lyrics-tip">请尝试播放其他歌曲</div>
+              </div>
             </div>
           </div>
         </div>
@@ -295,16 +298,17 @@
    */
   const loadLyrics = async (music: any) => {
     if (!music) return
-  
+
     // 避免重复加载同一歌曲的歌词
     const currentMusicId = music.id || music.mid
     if (lastLoadedMusicId.value === currentMusicId && lyricsLines.value.length > 0) {
       console.log('🎵歌词已缓存，跳过加载:', music.song)
       return
     }
-  
+
     console.log('🎵开始加载歌词:', music.song, music.id, music.mid)
     isLoadingLyrics.value = true
+    // 先清空歌词，但保持容器高度稳定
     lyricsLines.value = []
     activeLineIndex.value = -1
   
@@ -628,6 +632,8 @@
     margin-top: 4px;
     padding: 16px;
     height: 560px;
+    min-height: 560px;
+    max-height: 560px;
     overflow-y: auto;
     background: rgba(6, 10, 25, 0.85);
     border-radius: 14px;
@@ -635,6 +641,8 @@
     box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(2px);
     scroll-behavior: smooth;
+    /* 防止内容溢出导致的布局跳动 */
+    contain: layout;
   }
   
   /* 歌词行样式 */
@@ -670,9 +678,12 @@
   
   /* 无歌词/加载中容器 */
   .lyrics.empty {
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #b6bdc6;
+    /* 确保空状态时也保持固定高度 */
+    min-height: 560px;
   }
   
   /* 加载中样式 */

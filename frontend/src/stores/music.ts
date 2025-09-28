@@ -1558,8 +1558,16 @@ export const useMusicStore = defineStore('music', () => {
 
   /** 切换收藏状态 */
   const toggleFavorite = async () => {
-    if (!userStore.isLoggedIn || !userStore.currentUser || !currentMusic.value) {
-      console.log('❌用户未登录或没有当前播放音乐')
+    if (!userStore.isLoggedIn || !userStore.currentUser) {
+      console.log('❌用户未登录，无法收藏')
+      try {
+        const { ElMessage } = await import('element-plus')
+        ElMessage.warning('请先登录后再收藏')
+      } catch {}
+      return
+    }
+    if (!currentMusic.value) {
+      console.log('❌没有当前播放音乐，无法收藏')
       return
     }
 
