@@ -73,8 +73,8 @@
             </div>
           </div>
   
-          <!-- 操作按钮组（播放、加入队列、下载、移除） -->
-          <div class="item-actions">
+          <!-- 桌面端操作按钮组（播放、加入队列、下载、移除） -->
+          <div class="item-actions desktop-only">
             <!-- 播放/暂停按钮 -->
             <el-button
               type="primary"
@@ -85,7 +85,7 @@
             >
               {{ currentMusic?.id === parseInt(play.musicId) && isPlaying ? '⏸️' : '▶️' }}
             </el-button>
-  
+
             <!-- 加入队列按钮（区分已在队列/未在队列状态） -->
             <el-button
               :type="isMusicInQueue(parseInt(play.musicId)) ? 'success' : 'warning'"
@@ -97,7 +97,7 @@
             >
               {{ isMusicInQueue(parseInt(play.musicId)) ? '🔄' : '➕' }}
             </el-button>
-  
+
             <!-- 下载按钮 -->
             <el-button
               type="success"
@@ -109,7 +109,7 @@
             >
               ⬇️
             </el-button>
-  
+
             <!-- 移除按钮 -->
             <el-button
               type="danger"
@@ -118,6 +118,26 @@
               @click.stop="removeFromRecent(play)"
               style="margin-left: 8px;"
               title="移除"
+            >
+              🗑️
+            </el-button>
+          </div>
+
+          <!-- 移动端操作按钮组（播放、删除） -->
+          <div class="item-actions mobile-only">
+            <el-button
+              type="text"
+              @click="playRecentMusic(play)"
+              class="play-btn"
+              title="播放"
+            >
+              {{ currentMusic?.id === parseInt(play.musicId) && isPlaying ? '⏸️' : '▶️' }}
+            </el-button>
+            <el-button
+              type="text"
+              @click.stop="removeFromRecent(play)"
+              class="remove-btn"
+              title="删除记录"
             >
               🗑️
             </el-button>
@@ -625,6 +645,13 @@
     display: flex;
     gap: 8px;
   }
+
+  /* 桌面端隐藏移动端按钮 */
+  @media (min-width: 769px) {
+    .item-actions.mobile-only {
+      display: none;
+    }
+  }
   
   .item-actions .round-btn {
     width: 40px;
@@ -649,46 +676,97 @@
     .recent {
       padding: 15px;
     }
-  
+
     .recent-header {
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       gap: 15px;
-      align-items: flex-start;
     }
-  
+
     .recent-item {
-      padding: 12px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-  
+
     .item-cover {
-      width: 50px;
-      height: 50px;
-      margin: 0 10px;
-    }
-  
-    .item-info {
+      width: 40px;
+      height: 40px;
       margin-right: 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
     }
-  
+
+    .item-info {
+      flex: 1;
+      margin-right: 8px;
+      min-width: 0;
+    }
+
     .song-title {
       font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin: 0 0 4px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-  
+
     .song-artist {
       font-size: 12px;
+      color: #666;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-  
+
+    /* 移动端隐藏播放进度信息 */
     .play-info {
-      flex-direction: column;
-      gap: 4px;
+      display: none;
     }
-  
-    .item-actions {
-      flex-direction: column;
-      gap: 4px;
+
+    /* 移动端隐藏桌面端按钮 */
+    .item-actions.desktop-only {
+      display: none;
     }
-  
-    .item-actions .round-btn { width: 36px; height: 36px; }
+
+    /* 移动端按钮样式 */
+    .item-actions.mobile-only {
+      display: flex;
+      gap: 0;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .play-btn, .remove-btn {
+      padding: 0;
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      background: none !important;
+      border: none !important;
+      min-width: auto;
+      width: auto;
+      height: auto;
+    }
+
+    .play-btn:hover {
+      color: #409eff;
+      background-color: rgba(64, 158, 255, 0.1);
+    }
+
+    .remove-btn:hover {
+      color: #ff4757;
+      background-color: rgba(255, 71, 87, 0.1);
+    }
   }
   </style>
   

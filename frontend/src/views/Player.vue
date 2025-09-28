@@ -146,6 +146,17 @@
 
         <!-- 移动端专用布局 -->
         <div class="mobile-layout">
+          <!-- 移动端返回按钮 -->
+          <div class="mobile-back-button">
+            <el-button 
+              type="text" 
+              class="back-btn"
+              @click="goBack"
+            >
+              <i class="iconfont icon-arrow-left"></i>
+            </el-button>
+          </div>
+          
           <!-- 封面 -->
           <div class="mobile-cover">
             <div 
@@ -326,14 +337,16 @@
   </template>
   
   <script setup lang="ts">
-  import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
-  import { useMusicStore } from '../stores/music'
-  import { useUserStore } from '../stores/user'
-  import { useMobileGestures, useDoubleTap } from '../composables/useMobileGestures'
+import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useMusicStore } from '../stores/music'
+import { useUserStore } from '../stores/user'
+import { useMobileGestures, useDoubleTap } from '../composables/useMobileGestures'
   
-  // 状态管理实例
-  const musicStore = useMusicStore()
-  const userStore = useUserStore()
+// 状态管理实例
+const musicStore = useMusicStore()
+const userStore = useUserStore()
+const router = useRouter()
   
   // 移动端手势支持
   const { addGestureListeners, removeGestureListeners } = useMobileGestures()
@@ -579,6 +592,11 @@
   const handleDiscDoubleTap = () => {
     togglePlay()
   }
+
+  // 返回上一页
+  const goBack = () => {
+    router.back()
+  }
   
   /**
    * 组件挂载时初始化
@@ -690,6 +708,7 @@
       align-items: center;
       gap: 12px;
       padding: 12px 0 0;
+      position: relative; /* 为返回按钮提供定位上下文 */
     }
   }
 
@@ -707,6 +726,39 @@
   }
 
   /* 移动端布局样式 */
+  .mobile-back-button {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+  }
+
+  .mobile-back-button .back-btn {
+    color: #fff !important;
+    font-size: 24px;
+    padding: 0;
+    background: none;
+    border: none;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-back-button .back-btn .iconfont {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-back-button .back-btn:hover {
+    background: none !important;
+    color: #fff !important;
+  }
+
+  .mobile-back-button .back-btn:hover .iconfont {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  }
+
   .mobile-cover {
     display: flex;
     justify-content: center;

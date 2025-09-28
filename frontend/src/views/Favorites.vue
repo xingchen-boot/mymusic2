@@ -480,16 +480,29 @@
     .favorites {
       padding: 15px;
     }
-  
+
     .favorites-header {
       flex-direction: column;
-      gap: 15px;
+      gap: 8px;
       text-align: center;
+      padding: 12px 16px;
+      margin-bottom: 20px;
     }
-  
+
+    .header-left h1 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .header-left p {
+      font-size: 12px;
+      margin-top: 2px;
+      margin-left: 30px;
+    }
+
     .header-right {
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
   
     .favorite-item {

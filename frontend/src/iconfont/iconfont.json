@@ -1,0 +1,16 @@
+{
+  "id": "5032912",
+  "name": "mymusic",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1161713",
+      "name": "arrow-left",
+      "font_class": "arrow-left",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    }
+  ]
+}

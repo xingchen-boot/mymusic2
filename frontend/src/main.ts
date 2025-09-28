@@ -6,6 +6,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import router from './router'
 import App from './App.vue'
 import './style.css'
+import './iconfont/iconfont.css'
 import { useMusicStore } from './stores/music'
 import { useUserStore } from './stores/user'
 
