@@ -9,7 +9,7 @@
             <div 
               class="disc spinning" 
               :class="{ paused: !isPlaying }" 
-              @click="togglePlay"
+              @click="() => handleTap(handleDiscDoubleTap)"
             >
               <img :src="current.cover" alt="cover" />
               <div class="center-hole"></div>
@@ -217,13 +217,18 @@
   </template>
   
   <script setup lang="ts">
-  import { computed, ref, watch, onMounted } from 'vue'
+  import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
   import { useMusicStore } from '../stores/music'
   import { useUserStore } from '../stores/user'
+  import { useMobileGestures, useDoubleTap } from '../composables/useMobileGestures'
   
   // 状态管理实例
   const musicStore = useMusicStore()
   const userStore = useUserStore()
+  
+  // 移动端手势支持
+  const { addGestureListeners, removeGestureListeners } = useMobileGestures()
+  const { handleTap } = useDoubleTap()
   
   // 计算属性：从store获取核心状态
   const current = computed(() => musicStore.currentMusic)
@@ -400,6 +405,31 @@
   }
   
   /**
+   * 处理滑动手势
+   */
+  const handleSwipe = (event: CustomEvent) => {
+    const { direction, distance, velocity } = event.detail
+    
+    if (direction === 'left') {
+      // 左滑 - 下一首
+      playNext()
+    } else if (direction === 'right') {
+      // 右滑 - 上一首
+      playPrevious()
+    } else if (direction === 'up') {
+      // 上滑 - 显示播放队列
+      musicStore.togglePlayQueue()
+    }
+  }
+  
+  /**
+   * 处理双击手势
+   */
+  const handleDiscDoubleTap = () => {
+    togglePlay()
+  }
+  
+  /**
    * 组件挂载时初始化
    */
   onMounted(async () => {
@@ -410,6 +440,24 @@
     // 初始化用户信息（若未登录）
     if (!userStore.currentUser) {
       await userStore.initUserInfo?.()
+    }
+    
+    // 添加手势监听
+    const playerElement = document.querySelector('.player-page')
+    if (playerElement) {
+      addGestureListeners(playerElement as HTMLElement)
+      playerElement.addEventListener('swipe', handleSwipe as EventListener)
+    }
+  })
+  
+  /**
+   * 组件卸载时清理
+   */
+  onUnmounted(() => {
+    const playerElement = document.querySelector('.player-page')
+    if (playerElement) {
+      removeGestureListeners(playerElement as HTMLElement)
+      playerElement.removeEventListener('swipe', handleSwipe as EventListener)
     }
   })
   </script>
@@ -436,6 +484,16 @@
     display: grid;
     grid-template-columns: 560px 1fr;
     gap: 28px;
+  }
+  
+  /* 移动端垂直布局 */
+  @media (max-width: 768px) {
+    .player-page {
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
   }
   
   /* 左侧区域：唱片、控制按钮 */
@@ -467,6 +525,22 @@
     display: grid;
     place-items: center;
     overflow: hidden;
+  }
+  
+  /* 移动端唱片尺寸调整 */
+  @media (max-width: 768px) {
+    .disc {
+      width: 280px;
+      height: 280px;
+      margin: 0 auto;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .disc {
+      width: 240px;
+      height: 240px;
+    }
   }
   
   /* 唱片封面 */
@@ -564,6 +638,31 @@
     align-items: center;
   }
   
+  /* 移动端控制按钮优化 */
+  @media (max-width: 768px) {
+    .controls-line {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .ctl {
+      font-size: 20px;
+      padding: 12px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .play {
+      width: 56px;
+      height: 56px;
+      font-size: 20px;
+    }
+  }
+  
   /* 音量控制行 */
   .volume-line {
     margin-top: 8px;
@@ -643,6 +742,44 @@
     scroll-behavior: smooth;
     /* 防止内容溢出导致的布局跳动 */
     contain: layout;
+  }
+  
+  /* 移动端歌词区域优化 */
+  @media (max-width: 768px) {
+    .lyrics {
+      height: 400px;
+      min-height: 400px;
+      max-height: 400px;
+      padding: 12px;
+      margin-top: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .lyric-text {
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    
+    .lyric-translation {
+      font-size: 16px;
+      margin-top: 4px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .lyrics {
+      height: 350px;
+      min-height: 350px;
+      max-height: 350px;
+    }
+    
+    .lyric-text {
+      font-size: 16px;
+    }
+    
+    .lyric-translation {
+      font-size: 14px;
+    }
   }
   
   /* 歌词行样式 */
@@ -763,6 +900,17 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     z-index: 1000;
     overflow: hidden;
+  }
+  
+  /* 移动端播放队列面板优化 */
+  @media (max-width: 768px) {
+    .play-queue-panel {
+      bottom: 80px;
+      left: 16px;
+      right: 16px;
+      width: auto;
+      max-height: 60vh;
+    }
   }
   
   /* 队列面板动画 */

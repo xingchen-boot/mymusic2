@@ -1,6 +1,9 @@
 ﻿<template>
     <header class="header">
       <div class="header-content">
+        <!-- 移动端汉堡菜单 -->
+        <MobileNav />
+        
         <!-- Logo -->
         <div class="logo">
           <router-link to="/" class="logo-link">
@@ -11,6 +14,7 @@
   
         <!-- 搜索框 -->
         <div class="search-container">
+          <!-- 桌面端搜索框 -->
           <el-input
             v-model="searchKeyword"
             placeholder="搜索歌曲、歌手、专辑..."
@@ -20,13 +24,16 @@
             @focus="showSuggestions = true"
             @blur="hideSuggestions"
             clearable
-            class="search-input"
+            class="search-input desktop-search"
             ref="searchInputRef"
           >
             <template #suffix>
               <span class="search-icon" @click="handleSearch">🔍</span>
             </template>
           </el-input>
+          
+          <!-- 移动端搜索按钮 -->
+          <MobileSearch />
   
           <!-- 搜索建议下拉框 -->
           <div 
@@ -126,6 +133,8 @@
   import { useRouter } from 'vue-router'
   import { useMusicStore } from '@/stores/music'
   import { useUserStore } from '@/stores/user'
+  import MobileNav from './MobileNav.vue'
+  import MobileSearch from './MobileSearch.vue'
   
   const router = useRouter()
   const musicStore = useMusicStore()
@@ -283,6 +292,31 @@
     padding: 0 20px;
     /* margin: 0 auto; */
     justify-content: space-between;
+  }
+  
+  /* 移动端布局调整 */
+  @media (max-width: 768px) {
+    .header-content {
+      padding: 0 16px;
+    }
+    
+    .logo {
+      margin-right: 16px;
+    }
+    
+    .search-container {
+      flex: 1;
+      max-width: none;
+      margin-right: 16px;
+    }
+    
+    .desktop-search {
+      display: none;
+    }
+    
+    .user-area {
+      flex-shrink: 0;
+    }
   }
   
   .logo {

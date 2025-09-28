@@ -23,11 +23,26 @@
             >
               {{ isLiked ? '❤️' : '🤍' }}
             </el-button>
+            
+            <!-- 移动端播放按钮和队列按钮 -->
+            <div class="mobile-controls">
+              <el-button
+                type="primary"
+                @click="togglePlay"
+                class="mobile-play-btn"
+                circle
+              >
+                {{ isPlaying ? '⏸️' : '▶️' }}
+              </el-button>
+              <el-button type="text" @click="togglePlaylist" class="mobile-queue-btn">
+                📋
+              </el-button>
+            </div>
           </div>
         </div>
   
-        <!-- 播放控制 -->
-        <div class="player-controls">
+        <!-- 桌面端播放控制 -->
+        <div class="player-controls desktop-only">
           <div class="control-buttons">
             <el-button type="text" @click="playPrevious" class="control-btn">
               ⏮️
@@ -44,7 +59,7 @@
               ⏭️
             </el-button>
           </div>
-  
+
           <!-- 进度条 -->
           <div class="progress-section">
             <span class="time">{{ formatTime(currentTime) }}</span>
@@ -57,9 +72,9 @@
             <span class="time">{{ formatTime(duration) }}</span>
           </div>
         </div>
-  
-        <!-- 音量和其他控制 -->
-        <div class="player-extra">
+
+        <!-- 桌面端音量和其他控制 -->
+        <div class="player-extra desktop-only">
           <div class="volume-control">
             <el-button type="text" @click="toggleMute" class="volume-btn">
               {{ isMuted ? '🔇' : '🔊' }}
@@ -71,7 +86,7 @@
               class="volume-slider"
             />
           </div>
-  
+
           <div class="extra-controls">
             <el-button type="text" @click="togglePlayMode" class="mode-btn">
               {{ playModeIcon }}
@@ -81,6 +96,7 @@
             </el-button>
           </div>
         </div>
+
       </div>
   
       <!-- 播放队列面板 -->
@@ -210,9 +226,49 @@
     background: white;
     border-top: 1px solid #e0e0e0;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed;
     bottom: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+  }
+  
+  /* 移动端Footer位置调整 */
+  @media (max-width: 768px) {
+    .footer {
+      bottom: 60px; /* 在导航栏上方60px处 */
+      z-index: 1001; /* 与导航栏同一层级 */
+    }
+  }
+  
+  /* 移动端Footer高度调整 */
+  @media (max-width: 768px) {
+    .footer {
+      height: 60px;
+    }
+    
+    /* 移动端简化控制样式 */
+    .mobile-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .mobile-play-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 12px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+    }
+    
+    .mobile-queue-btn {
+      font-size: 14px;
+      padding: 4px;
+      color: #666;
+      min-width: 28px;
+      min-height: 28px;
+    }
   }
   
   /* 播放器内容容器 */
@@ -226,12 +282,104 @@
     gap: 20px;
   }
   
+  /* 桌面端专用元素 */
+  .desktop-only {
+    display: block;
+  }
+  
+  /* 桌面端隐藏移动端控制 */
+  .mobile-controls {
+    display: none;
+  }
+  
+  /* 移动端播放器布局优化 */
+  @media (max-width: 768px) {
+    .player-content {
+      padding: 0 16px;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    
+    /* 隐藏桌面端专用元素 */
+    .desktop-only {
+      display: none;
+    }
+    
+    /* 移动端布局调整 */
+    .player-info {
+      min-width: 120px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    /* 隐藏桌面端控制 */
+    .player-controls,
+    .player-extra {
+      display: none !important;
+    }
+    
+    /* 显示移动端控制 */
+    .mobile-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* 移动端播放器布局优化 */
+    .player-content {
+      justify-content: space-between;
+    }
+  }
+  
   /* 歌曲信息区域 */
   .player-info {
     display: flex;
     align-items: center;
     min-width: 250px;
     gap: 12px;
+  }
+  
+  /* 移动端歌曲信息优化 */
+  @media (max-width: 768px) {
+    .player-info {
+      min-width: 120px;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .player-cover {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    
+    .player-details {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .song-title {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .artist-name {
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .like-btn {
+      font-size: 16px;
+      padding: 4px;
+      flex-shrink: 0;
+    }
   }
   
   .player-cover {
@@ -267,6 +415,9 @@
   
   .player-actions {
     margin-left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   
   .like-btn {
@@ -286,6 +437,8 @@
     align-items: center;
     gap: 0;
   }
+  
+  /* 移动端播放控制优化 - 已移除，因为移动端不显示player-controls */
   
   .control-buttons {
     display: flex;
@@ -338,6 +491,8 @@
     gap: 15px;
     min-width: 200px;
   }
+  
+  /* 移动端音量控制优化 - 已移除，因为移动端不显示player-extra */
   
   .volume-control {
     display: flex;
@@ -398,6 +553,39 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     overflow: hidden;
+  }
+  
+  /* 移动端播放队列面板优化 */
+  @media (max-width: 768px) {
+    .play-queue-panel {
+      bottom: 80px;
+      left: 16px;
+      right: 16px;
+      width: auto;
+      max-height: 60vh;
+    }
+    
+    .queue-item {
+      padding: 16px;
+    }
+    
+    .queue-cover {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .queue-title {
+      font-size: 13px;
+    }
+    
+    .queue-artist {
+      font-size: 11px;
+    }
+    
+    .queue-actions .el-button {
+      padding: 6px;
+      font-size: 12px;
+    }
   }
   
   /* 队列面板过渡动画 */
@@ -568,28 +756,6 @@
     border: 2px solid white;
   }
   
-  /* 响应式设计 */
-  @media (max-width: 768px) {
-    .player-content {
-      padding: 0 10px;
-      gap: 10px;
-    }
-  
-    .player-info {
-      min-width: 180px;
-    }
-  
-    .player-extra {
-      min-width: 120px;
-    }
-  
-    .volume-slider {
-      width: 60px;
-    }
-  
-    .progress-section {
-      max-width: 200px;
-    }
-  }
+  /* 响应式设计 - 移动端样式已移除，因为player-controls和player-extra在移动端不显示 */
   </style>
   

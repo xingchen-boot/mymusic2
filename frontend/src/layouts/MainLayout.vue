@@ -4,8 +4,8 @@
     <Header />
     
     <div class="content-wrapper">
-      <!-- 侧边栏 -->
-      <Sidebar />
+      <!-- 侧边栏 - 桌面端显示 -->
+      <Sidebar class="desktop-sidebar" />
       
       <!-- 主内容区域 -->
       <div class="content-area">
@@ -15,6 +15,9 @@
     
     <!-- 底部播放器 -->
     <Footer />
+    
+    <!-- 移动端底部导航栏 -->
+    <MobileBottomNav :class="{ 'has-player': musicStore.hasCurrentMusic }" />
     
     <!-- 播放队列面板 -->
     <transition name="queue-panel">
@@ -81,6 +84,7 @@ import Header from '@/components/Header.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import Container from '@/components/Container.vue'
 import Footer from '@/components/Footer.vue'
+import MobileBottomNav from '@/components/MobileBottomNav.vue'
 
 const musicStore = useMusicStore()
 const userStore = useUserStore()
@@ -264,5 +268,17 @@ onMounted(async () => {
 .empty-queue p {
   margin: 0;
   font-size: 14px;
+}
+
+/* 移动端隐藏侧边栏 */
+@media (max-width: 768px) {
+  .desktop-sidebar {
+    display: none;
+  }
+  
+  .content-area {
+    padding: 16px;
+    padding-bottom: 120px; /* 为底部播放器和导航栏留出空间 */
+  }
 }
 </style>

@@ -94,8 +94,34 @@
     padding: 20px;
   }
   
+  /* 移动端主页面优化 */
+  @media (max-width: 768px) {
+    .home {
+      padding: 16px;
+    }
+    
+    .section-title {
+      font-size: 1.25rem;
+    }
+    
+    .view-all {
+      font-size: 13px;
+    }
+  }
+  
   .welcome-section {
     /* margin-bottom: 24px; */
+  }
+  
+  /* 移动端轮播图优化 */
+  @media (max-width: 768px) {
+    .welcome-section {
+      margin-bottom: 16px;
+    }
+    
+    .banner-img {
+      border-radius: 8px;
+    }
   }
 
   .banner-link { display: block; width: 100%; height: 100%; }
@@ -144,6 +170,28 @@
     gap: 20px;
   }
   
+  /* 移动端网格优化 */
+  @media (max-width: 1024px) {
+    .music-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .music-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .music-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  }
+  
   .music-card {
     position: relative;
     background: transparent;
@@ -154,6 +202,21 @@
     overflow: hidden;
     border: none;
     box-shadow: none !important;
+  }
+  
+  /* 移动端音乐卡片优化 */
+  @media (max-width: 768px) {
+    .music-card {
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.3s ease;
+    }
+    
+    .music-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
   }
   
   .music-card:hover { transform: none; box-shadow: none; }
@@ -175,6 +238,23 @@
   .music-info {
     text-align: center;
     margin-top: 8px;
+  }
+  
+  /* 移动端音乐信息优化 */
+  @media (max-width: 768px) {
+    .music-info {
+      padding: 8px;
+      margin-top: 0;
+    }
+    
+    .music-title {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    
+    .music-artist {
+      font-size: 12px;
+    }
   }
   
   .music-title {
