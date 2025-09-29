@@ -269,6 +269,12 @@ justify-content:center;
   body {
     font-size: 14px;
     line-height: 1.5;
+    overflow-x: hidden; /* 防止横向溢出导致左滑出现空白 */
+  }
+
+  html, #app {
+    overflow-x: hidden;
+    width: 100%;
   }
   
   /* 触摸友好的按钮 */

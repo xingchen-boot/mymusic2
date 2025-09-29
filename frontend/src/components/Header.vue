@@ -89,7 +89,7 @@
           </div>
   
           <div v-else class="user-info">
-            <el-dropdown trigger="hover" @command="handleUserCommand">
+            <el-dropdown :trigger="dropdownTrigger" @command="handleUserCommand">
               <div class="user-trigger">
                 <div class="user-avatar">
                   <img 
@@ -133,12 +133,15 @@
   import { useRouter } from 'vue-router'
   import { useMusicStore } from '@/stores/music'
   import { useUserStore } from '@/stores/user'
+  import { getDeviceType } from '@/utils/mobile'
   import MobileNav from './MobileNav.vue'
   import MobileSearch from './MobileSearch.vue'
   
   const router = useRouter()
   const musicStore = useMusicStore()
   const userStore = useUserStore()
+  // 根据设备类型切换下拉触发方式：移动端使用 click，桌面端使用 hover
+  const dropdownTrigger = computed(() => (getDeviceType() === 'mobile' ? 'click' : 'hover'))
   
   // 响应式数据
   const searchKeyword = ref('')
@@ -316,6 +319,11 @@
     
     .user-area {
       flex-shrink: 0;
+    }
+
+    /* 移动端不显示头像右侧的播放队列按钮 */
+    .play-queue-btn {
+      display: none !important;
     }
   }
   

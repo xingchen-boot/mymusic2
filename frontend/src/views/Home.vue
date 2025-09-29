@@ -49,9 +49,9 @@
   <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue'
   import { useMusicStore } from '@/stores/music'
-  import bannerImg1 from '@/img/image.png'
-  import bannerImg2 from '@/img/AWlCeMpJJ2.jpg'
-  import bannerImg3 from '@/img/6f6a026fcaeb5e673c9cef5b28d63cc1ed9be178.jpg'
+  import bannerImg1 from '@/img/img1.webp'
+  import bannerImg2 from '@/img/6f6a026fcaeb5e673c9cef5b28d63cc1ed9be178.jpg'
+  import bannerImg3 from '@/img/AWlCeMpJJ2.jpg'
   
   const musicStore = useMusicStore()
   

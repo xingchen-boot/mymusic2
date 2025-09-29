@@ -88,14 +88,13 @@
         </div>
 
         <!-- 搜索结果 -->
-        <div v-else-if="searchResults.length > 0" class="search-results">
+        <div v-else-if="musicList.length > 0" class="search-results" ref="resultsRef">
           <div class="results-header">
             <h3>搜索结果</h3>
-            <span class="results-count">找到 {{ searchResults.length }} 个结果</span>
           </div>
           <div class="results-list">
             <div
-              v-for="music in searchResults"
+              v-for="music in musicList"
               :key="music.id"
               class="result-item"
               @click="handlePlayMusic(music)"
@@ -116,6 +115,14 @@
               </div>
             </div>
           </div>
+          <!-- 加载中 / 没有更多 提示 -->
+          <div v-if="isLoadingMore" class="loading-more">
+            <div class="loading-spinner">⏳</div>
+            <div>正在加载...</div>
+          </div>
+          <div v-else-if="!hasMoreData" class="no-more">没有更多了</div>
+          <!-- 触底加载观察哨兵 -->
+          <div ref="infiniteSentinel" class="infinite-sentinel"></div>
         </div>
 
         <!-- 空状态 -->
@@ -130,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMusicStore } from '../stores/music'
 
@@ -143,6 +150,9 @@ const showSuggestions = ref(false)
 const searchInputRef = ref<HTMLElement | null>(null)
 const searchResults = ref<any[]>([])
 const isSearching = ref(false)
+const resultsRef = ref<HTMLElement | null>(null)
+const infiniteSentinel = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
 let inputTimer: number | null = null
 
 // 计算属性
@@ -190,6 +200,10 @@ const suggestions = computed(() => {
 
 const currentMusic = computed(() => musicStore.currentMusic)
 const isPlaying = computed(() => musicStore.isPlaying)
+// 使用全局Store的搜索列表与加载更多标记，便于触底加载
+const musicList = computed(() => musicStore.musicList)
+const hasMoreData = computed(() => musicStore.hasMoreData)
+const isLoadingMore = computed(() => musicStore.isLoadingMore)
 
 // 方法
 const openSearch = () => {
@@ -211,22 +225,10 @@ const handleSearch = async () => {
   if (keyword) {
     // 添加到搜索历史
     musicStore.addSearchHistory(keyword)
-    
-    // 执行搜索
+    // 改为调用全局Store的搜索（支持分页与加载更多）
     isSearching.value = true
-    try {
-      const response = await fetch(`/api/music/search?keyword=${encodeURIComponent(keyword)}`)
-      const result = await response.json()
-      if (result && result.code === 200) {
-        searchResults.value = result.data || []
-      }
-    } catch (error) {
-      console.error('搜索失败:', error)
-      searchResults.value = []
-    } finally {
-      isSearching.value = false
-    }
-    
+    await musicStore.searchMusic(keyword)
+    isSearching.value = false
     showSuggestions.value = false
   }
 }
@@ -259,8 +261,91 @@ const clearHistory = () => {
 
 const handlePlayMusic = (music: any) => {
   musicStore.playMusic(music)
-  closeSearch()
+  // 保持搜索页打开，便于继续选择，不再自动关闭
 }
+
+// 触底加载更多
+const handleScroll = () => {
+  const el = resultsRef.value
+  if (!el || !hasMoreData.value || isLoadingMore.value) return
+  // 提前量：200px，未到底部就开始加载，体验更顺滑
+  const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 200
+  if (nearBottom) {
+    musicStore.loadMoreMusic()
+  }
+}
+
+// 打开弹窗时绑定滚动监听，关闭时移除
+watch(isSearchOpen, (open) => {
+  nextTick(() => {
+    if (open && resultsRef.value) {
+      resultsRef.value.addEventListener('scroll', handleScroll, { passive: true } as any)
+    } else if (!open && resultsRef.value) {
+      resultsRef.value.removeEventListener('scroll', handleScroll)
+    }
+    // 重新绑定观察器
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+    if (open && infiniteSentinel.value) {
+      observer = new IntersectionObserver((entries) => {
+        const entry = entries[0]
+        if (entry.isIntersecting && hasMoreData.value && !isLoadingMore.value) {
+          musicStore.loadMoreMusic()
+        }
+      }, { root: resultsRef.value as any, rootMargin: '0px 0px 200px 0px', threshold: 0.01 })
+      observer.observe(infiniteSentinel.value)
+    }
+  })
+})
+
+onMounted(() => {
+  if (resultsRef.value) {
+    resultsRef.value.addEventListener('scroll', handleScroll, { passive: true } as any)
+  }
+  // 初始化IntersectionObserver
+  nextTick(() => {
+    if (infiniteSentinel.value) {
+      observer = new IntersectionObserver((entries) => {
+        const entry = entries[0]
+        if (entry.isIntersecting && hasMoreData.value && !isLoadingMore.value) {
+          musicStore.loadMoreMusic()
+        }
+      }, { root: resultsRef.value as any, rootMargin: '0px 0px 200px 0px', threshold: 0.01 })
+      observer.observe(infiniteSentinel.value)
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (resultsRef.value) {
+    resultsRef.value.removeEventListener('scroll', handleScroll)
+  }
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
+})
+
+// 结果列表变化时，确保观察器绑定到新的哨兵元素
+watch(() => musicList.value.length, () => {
+  nextTick(() => {
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+    if (infiniteSentinel.value) {
+      observer = new IntersectionObserver((entries) => {
+        const entry = entries[0]
+        if (entry.isIntersecting && hasMoreData.value && !isLoadingMore.value) {
+          musicStore.loadMoreMusic()
+        }
+      }, { root: resultsRef.value as any, rootMargin: '0px 0px 200px 0px', threshold: 0.01 })
+      observer.observe(infiniteSentinel.value)
+    }
+  })
+})
 </script>
 
 <style scoped>
